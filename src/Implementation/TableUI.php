@@ -61,6 +61,14 @@ class TableUI implements TableUIInterface {
 	 * @var TableExportFormat[]
 	 */
 	protected $export_formats = [];
+	/**
+	 * @var string[]
+	 */
+	protected $multiple_actions = [];
+	/**
+	 * @var bool
+	 */
+	protected $select_all = false;
 
 
 	/**
@@ -264,6 +272,48 @@ class TableUI implements TableUIInterface {
 		$clone = clone $this;
 
 		$clone->export_formats = $export_formats;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getMultipleActions(): array {
+		return $this->multiple_actions;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withMultipleActions(array $multiple_actions): TableUIInterface {
+		$clone = clone $this;
+
+		$clone->multiple_actions = $multiple_actions;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @return bool
+	 */
+	public function getSelectAll(): bool {
+		return $this->select_all;
+	}
+
+
+	/**
+	 * @param bool $select_all
+	 *
+	 * @return self
+	 */
+	public function withSelectAll(bool $select_all = false): TableUIInterface {
+		$clone = clone $this;
+
+		$clone->select_all = $select_all;
 
 		return $clone;
 	}
