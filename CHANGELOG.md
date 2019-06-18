@@ -1,4 +1,4 @@
 # Changelog
 
-## [1.0.0]
-- First version
+## [0.1.0]
+- First base version

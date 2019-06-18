@@ -1,15 +1,28 @@
 ILIAS 6.0 Table UI
 
-# Installation
-1.Add it as a submodule
+### Usage
 
-Start at your ILIAS root directory
-
-```bash
-git submodule add -b develop git@git.studer-raimann.ch:ILIAS/Libraries/TableUI.git src/Services/TableUI
+#### Composer
+First add the following to your `composer.json` file:
+```json
+"require": {
+  "srag/tableui": ">=0.1.0"
+},
 ```
+And run a `composer install`.
 
-2.Add composer autoload to `Services/Init/classes/class.ilInitialisation.php` below `require_once("libs/composer/vendor/autoload.php");`
-```php
-require_once __DIR__. "/../../../src/Services/TableUI/vendor/autoload.php";
-```
+If you deliver your plugin, the plugin has it's own copy of this library and the user doesn't need to install the library.
+
+Tip: Because of multiple autoloaders of plugins, it could be, that different versions of this library exists and suddenly your plugin use an older or a newer version of an other plugin!
+
+So I recommand to use [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger) in your plugin.
+
+### Requirements
+* ILIAS 6.0
+* PHP >=7.2
+
+### Adjustment suggestions
+* Adjustment suggestions by pull requests
+* Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/LTABLEUI
+* Bug reports under https://jira.studer-raimann.ch/projects/LTABLEUI
+* For external users you can report it at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LTABLEUI

@@ -1,10 +1,9 @@
 {
-  "name": "srag/ilias/services/tableui",
+  "name": "srag/tableui",
   "description": "ILIAS 6.0 Table UI",
-  "type": "project",
+  "type": "library",
   "keywords": [
     "ILIAS",
-    "Services",
     "Table",
     "UI"
   ],
@@ -19,24 +18,20 @@
     }
   ],
   "support": {
-    "email": "support-custom1@studer-raimann.ch"
+    "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LTABLEUI"
   },
   "require": {
-    "php": ">=7.0",
-    "srag/dic": ">=0.1.0",
-    "srag/librariesnamespacechanger": ">=0.1.0"
+    "php": ">=7.2",
+    "srag/dic": ">=0.1.0"
   },
   "autoload": {
     "psr-4": {
-      "ILIAS\\Services\\TableUI\\": "src/"
+      "srag\\TableUI\\": "src/"
     }
   },
   "config": {
     "classmap-authoritative": true,
     "optimize-autoloader": true,
     "sort-packages": true
-  },
-  "scripts": {
-    "pre-autoload-dump": "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces"
   }
 }
