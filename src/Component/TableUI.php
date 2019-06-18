@@ -150,4 +150,32 @@ interface TableUI extends Component, Pluginable {
 	 * @return self
 	 */
 	public function withExportFormats(array $export_formats): self;
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getMultipleActions(): array;
+
+
+	/**
+	 * @param string[] $multiple_actions
+	 *
+	 * @return self
+	 */
+	public function withMultipleActions(array $multiple_actions): self;
+
+
+	/**
+	 * @return bool
+	 */
+	public function getSelectAll(): bool;
+
+
+	/**
+	 * @param bool $select_all
+	 *
+	 * @return self
+	 */
+	public function withSelectAll(bool $select_all = false): self;
 }
