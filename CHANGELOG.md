@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.2.1]
+- Fix renderer
+
 ## [0.2.0]
 - First component implementation
 

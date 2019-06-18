@@ -11,13 +11,13 @@ use srag\DIC\DICTrait;
 use srag\TableUI\Component\TableUI as TableUIInterface;
 
 /**
- * Class Render
+ * Class Renderer
  *
  * @package srag\TableUI\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class Render extends AbstractComponentRenderer {
+class Renderer extends AbstractComponentRenderer {
 
 	use DICTrait;
 
@@ -54,7 +54,7 @@ class Render extends AbstractComponentRenderer {
 
 		self::dic()->mainTemplate()->addJavaScript($dir . "/js/tableui.min.js");
 
-		$tpl = new ilTemplateWrapper(self::dic()->mainTemplate(), new ilTemplate(__DIR__ . "/../templates/tpl.piechart.html", true, true));
+		$tpl = new ilTemplateWrapper(self::dic()->mainTemplate(), new ilTemplate(__DIR__ . "/../../templates/tableui.html", true, true));
 
 		return self::output()->getHTML($tpl);
 	}
