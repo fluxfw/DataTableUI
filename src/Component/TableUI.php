@@ -90,7 +90,7 @@ interface TableUI extends Component {
 	/**
 	 * @return bool
 	 */
-	public function getFetchDataNeedsFilterFirstSet(): bool;
+	public function isFetchDataNeedsFilterFirstSet(): bool;
 
 
 	/**
@@ -188,7 +188,7 @@ interface TableUI extends Component {
 	/**
 	 * @return bool
 	 */
-	public function getSelectAll(): bool;
+	public function isSelectAll(): bool;
 
 
 	/**

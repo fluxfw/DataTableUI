@@ -54,8 +54,11 @@ class TableColumn implements TableColumnInterface {
 	 */
 	public function __construct(string $key, string $title, TableColumnFormater $column_formater, TableExportFormater $export_formater) {
 		$this->key = $key;
+
 		$this->title = $title;
+
 		$this->column_formater = $column_formater;
+
 		$this->export_formater = $export_formater;
 	}
 
@@ -143,7 +146,7 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getDefault(): bool {
+	public function isDefault(): bool {
 		return $this->default;
 	}
 
@@ -163,7 +166,7 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSortable(): bool {
+	public function isSortable(): bool {
 		return $this->sortable;
 	}
 
@@ -183,7 +186,7 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getDragable(): bool {
+	public function isDragable(): bool {
 		return $this->dragable;
 	}
 
@@ -203,7 +206,7 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSelectable(): bool {
+	public function isSelectable(): bool {
 		return $this->selectable;
 	}
 

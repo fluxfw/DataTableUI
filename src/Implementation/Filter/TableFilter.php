@@ -14,6 +14,14 @@ use srag\TableUI\Component\Filter\TableFilter as TableFilterInterface;
 class TableFilter implements TableFilterInterface {
 
 	/**
+	 * @var string
+	 */
+	protected $table_id = "";
+	/**
+	 * @var int
+	 */
+	protected $user_id = 0;
+	/**
 	 * @var mixed[]
 	 */
 	protected $field_values = [];
@@ -22,28 +30,74 @@ class TableFilter implements TableFilterInterface {
 	 */
 	protected $sort_field = "";
 	/**
-	 * @var string
-	 */
-	protected $sort_field_direction = "";
-	/**
 	 * @var int
 	 */
-	protected $limit_start = 0;
-	/**
-	 * @var int
-	 */
-	protected $limit_end = 0;
+	protected $sort_field_direction = 0;
 	/**
 	 * @var string[]
 	 */
 	protected $selected_columns = [];
+	/**
+	 * @var bool
+	 */
+	protected $filter_set = false;
+	/**
+	 * @var int
+	 */
+	protected $rows_count = self::DEFAULT_ROWS_COUNT;
+	/**
+	 * @var int
+	 */
+	protected $current_page = 1;
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
+	public function __construct(string $table_id, int $user_id) {
+		$this->table_id = $table_id;
 
+		$this->user_id = $user_id;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getTableId(): string {
+		return $this->table_id;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withTableId(string $table_id): TableFilterInterface {
+		$clone = clone $this;
+
+		$clone->table_id = $table_id;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getUserId(): int {
+		return $this->user_id;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withUserId(int $user_id): TableFilterInterface {
+		$clone = clone $this;
+
+		$clone->user_id = $user_id;
+
+		return $clone;
 	}
 
 
@@ -98,7 +152,7 @@ class TableFilter implements TableFilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSortFieldDirection(): string {
+	public function getSortFieldDirection(): int {
 		return $this->sort_field_direction;
 	}
 
@@ -106,50 +160,10 @@ class TableFilter implements TableFilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withSortFieldDirection(string $sort_field_direction): TableFilterInterface {
+	public function withSortFieldDirection(int $sort_field_direction): TableFilterInterface {
 		$clone = clone $this;
 
 		$clone->sort_field_direction = $sort_field_direction;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getLimitStart(): int {
-		return $this->limit_start;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withLimitStart(int $limit_start): TableFilterInterface {
-		$clone = clone $this;
-
-		$clone->limit_start = $limit_start;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getLimitEnd(): int {
-		return $this->limit_end;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withLimitEnd(int $limit_end): TableFilterInterface {
-		$clone = clone $this;
-
-		$clone->limit_end = $limit_end;
 
 		return $clone;
 	}
@@ -172,5 +186,89 @@ class TableFilter implements TableFilterInterface {
 		$clone->selected_columns = $selected_columns;
 
 		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isFilterSet(): bool {
+		return $this->filter_set;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withFilterSet(bool $filter_set = false): TableFilterInterface {
+		$clone = clone $this;
+
+		$clone->filter_set = $filter_set;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getRowsCount(): int {
+		return $this->rows_count;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withRowsCount(int $rows_count = self::DEFAULT_ROWS_COUNT): TableFilterInterface {
+		$clone = clone $this;
+
+		$clone->rows_count = $rows_count;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getCurrentPage(): int {
+		return $this->current_page;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withCurrentPage(int $current_page = 1): TableFilterInterface {
+		$clone = clone $this;
+
+		$clone->current_page = $current_page;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getTotalPages(int $max_count): int {
+		return ceil($max_count / $this->getRowsCount());
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getLimitStart(): int {
+		return (($this->getCurrentPage() - 1) * $this->getRowsCount());
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getLimitEnd(): int {
+		return ($this->getCurrentPage() * $this->getRowsCount());
 	}
 }

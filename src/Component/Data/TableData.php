@@ -48,4 +48,10 @@ interface TableData {
 	 * @return self
 	 */
 	public function withMaxCount(int $max_count): self;
+
+
+	/**
+	 * @return int
+	 */
+	public function getDataCount(): int;
 }
