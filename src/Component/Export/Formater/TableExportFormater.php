@@ -2,7 +2,9 @@
 
 namespace srag\TableUI\Component\Export\Formater;
 
+use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Row\TableRowData;
+use srag\TableUI\Component\Export\TableExportFormat;
 
 /**
  * Interface TableExportFormater
@@ -14,9 +16,20 @@ use srag\TableUI\Component\Data\Row\TableRowData;
 interface TableExportFormater {
 
 	/**
-	 * @param TableRowData $row
+	 * @param TableExportFormat $export_format
+	 * @param TableColumn       $column
 	 *
 	 * @return string
 	 */
-	public function format(TableRowData $row, string $export_format): string;
+	public function formatHeader(TableExportFormat $export_format, TableColumn $column): string;
+
+
+	/**
+	 * @param TableExportFormat $export_format
+	 * @param TableColumn       $column
+	 * @param TableRowData      $row
+	 *
+	 * @return string
+	 */
+	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row): string;
 }

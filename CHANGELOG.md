@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.2.3]
+- Improvment formatter
+
 ## [0.2.2]
 - Multi actions, select all methods
 
