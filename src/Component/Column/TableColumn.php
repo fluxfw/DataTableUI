@@ -15,6 +15,17 @@ use srag\TableUI\Component\Export\Formater\TableExportFormater;
 interface TableColumn {
 
 	/**
+	 * TableColumn constructor
+	 *
+	 * @param string              $key
+	 * @param string              $title
+	 * @param TableColumnFormater $column_formater
+	 * @param TableExportFormater $export_formater
+	 */
+	public function __construct(string $key, string $title, TableColumnFormater $column_formater, TableExportFormater $export_formater);
+
+
+	/**
 	 * @return string
 	 */
 	public function getKey(): string;
@@ -45,7 +56,7 @@ interface TableColumn {
 	/**
 	 * @return TableColumnFormater
 	 */
-	public function getFormatValue(): TableColumnFormater;
+	public function getColumnformater(): TableColumnFormater;
 
 
 	/**
@@ -59,7 +70,7 @@ interface TableColumn {
 	/**
 	 * @return TableExportFormater
 	 */
-	public function getFormatExportValue(): TableExportFormater;
+	public function getExportFormater(): TableExportFormater;
 
 
 	/**

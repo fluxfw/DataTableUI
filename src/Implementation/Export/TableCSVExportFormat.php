@@ -14,7 +14,7 @@ use srag\TableUI\Component\Export\TableExportFormat;
 class TableCSVExportFormat implements TableExportFormat {
 
 	/**
-	 * TableCSVExportFormat constructor
+	 * @inheritDoc
 	 */
 	public function __construct() {
 

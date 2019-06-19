@@ -4,7 +4,6 @@ namespace srag\TableUI\Implementation;
 
 use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use srag\DIC\Plugin\PluginInterface;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
 use srag\TableUI\Component\Export\TableExportFormat;
@@ -21,10 +20,6 @@ use srag\TableUI\Component\TableUI as TableUIInterface;
 class TableUI implements TableUIInterface {
 
 	use ComponentHelper;
-	/**
-	 * @var PluginInterface|null
-	 */
-	protected $plugin = null;
 	/**
 	 * @var string
 	 */
@@ -72,7 +67,7 @@ class TableUI implements TableUIInterface {
 
 
 	/**
-	 * TableUI constructor
+	 * @inheritDoc
 	 */
 	public function __construct() {
 
@@ -116,24 +111,6 @@ class TableUI implements TableUIInterface {
 		$clone->action = $action;
 
 		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getPlugin(): PluginInterface {
-		return $this->plugin;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withPlugin(PluginInterface $plugin): TableUIInterface {
-		$this->plugin = $plugin;
-
-		return $this;
 	}
 
 

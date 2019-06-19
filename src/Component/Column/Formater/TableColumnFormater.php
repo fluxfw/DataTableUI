@@ -15,6 +15,12 @@ use srag\TableUI\Component\Data\Row\TableRowData;
 interface TableColumnFormater {
 
 	/**
+	 * TableColumnFormater constructor
+	 */
+	public function __construct();
+
+
+	/**
 	 * @param TableColumn $column
 	 *
 	 * @return string

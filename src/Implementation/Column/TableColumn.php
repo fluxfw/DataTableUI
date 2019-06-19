@@ -26,11 +26,11 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @var TableColumnFormater
 	 */
-	protected $format_value;
+	protected $column_formater;
 	/**
 	 * @var TableExportFormater
 	 */
-	protected $format_export_value;
+	protected $export_formater;
 	/**
 	 * @var bool
 	 */
@@ -50,9 +50,13 @@ class TableColumn implements TableColumnInterface {
 
 
 	/**
-	 * TableColumn constructor
+	 * @inheritDoc
 	 */
-	public function __construct() {
+	public function __construct(string $key, string $title, TableColumnFormater $column_formater, TableExportFormater $export_formater) {
+		$this->key = $key;
+		$this->title = $title;
+		$this->column_formater = $column_formater;
+		$this->export_formater = $export_formater;
 	}
 
 
@@ -99,8 +103,8 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getFormatValue(): TableColumnFormater {
-		return $this->format_value;
+	public function getColumnformater(): TableColumnFormater {
+		return $this->column_formater;
 	}
 
 
@@ -110,7 +114,7 @@ class TableColumn implements TableColumnInterface {
 	public function withFormatValue(TableColumnFormater $format_value): TableColumnInterface {
 		$clone = clone $this;
 
-		$clone->format_value = $format_value;
+		$clone->column_formater = $format_value;
 
 		return $clone;
 	}
@@ -119,8 +123,8 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getFormatExportValue(): TableExportFormater {
-		return $this->format_export_value;
+	public function getExportFormater(): TableExportFormater {
+		return $this->export_formater;
 	}
 
 
@@ -130,7 +134,7 @@ class TableColumn implements TableColumnInterface {
 	public function withFormatExportValue(TableExportFormater $format_export_value): TableColumnInterface {
 		$clone = clone $this;
 
-		$clone->format_export_value = $format_export_value;
+		$clone->export_formater = $format_export_value;
 
 		return $clone;
 	}

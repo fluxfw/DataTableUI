@@ -25,10 +25,11 @@ class TableData implements TableDataInterface {
 
 
 	/**
-	 * TableData constructor
+	 * @inheritDoc
 	 */
-	public function __construct() {
-
+	public function __construct(array $data, int $max_count) {
+		$this->data = $data;
+		$this->max_count = $max_count;
 	}
 
 

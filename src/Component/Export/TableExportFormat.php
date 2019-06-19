@@ -26,6 +26,12 @@ interface TableExportFormat {
 
 
 	/**
+	 * TableExportFormat constructor
+	 */
+	public function __construct();
+
+
+	/**
 	 * @return int
 	 */
 	public function getId(): int;

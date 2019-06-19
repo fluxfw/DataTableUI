@@ -16,7 +16,7 @@ use srag\TableUI\Component\Data\Row\TableRowData;
 class SimpleGetterTableColumnFormater implements TableColumnFormater {
 
 	/**
-	 * SimpleGetterTableColumnFormater constructor
+	 * @inheritDoc
 	 */
 	public function __construct() {
 
@@ -35,12 +35,12 @@ class SimpleGetterTableColumnFormater implements TableColumnFormater {
 	 * @inheritDoc
 	 */
 	public function formatRow(TableColumn $column, TableRowData $row): string {
-		if (method_exists($column, $method = "get" . $this->strToCamelCase($column->getKey()))) {
-			return strval($column->{$method}());
+		if (method_exists($row->getOriginalData(), $method = "get" . $this->strToCamelCase($column->getKey()))) {
+			return strval($row->getOriginalData()->{$method}());
 		}
 
-		if (method_exists($column, $method = "is" . $this->strToCamelCase($column->getKey()))) {
-			return strval($column->{$method}());
+		if (method_exists($row->getOriginalData(), $method = "is" . $this->strToCamelCase($column->getKey()))) {
+			return strval($row->getOriginalData()->{$method}());
 		}
 
 		return "";

@@ -20,10 +20,10 @@ class TableRowData implements TableRowDataInterface {
 
 
 	/**
-	 * TableRowData constructor
+	 * @inheritDoc
 	 */
-	public function __construct() {
-
+	public function __construct(object $original_data) {
+		$this->original_data = $original_data;
 	}
 
 

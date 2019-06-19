@@ -12,6 +12,14 @@ namespace srag\TableUI\Component\Data\Row;
 interface TableRowData {
 
 	/**
+	 * TableRowData constructor
+	 *
+	 * @param object $original_data
+	 */
+	public function __construct(object $original_data);
+
+
+	/**
 	 * @return object
 	 */
 	public function getOriginalData(): object;

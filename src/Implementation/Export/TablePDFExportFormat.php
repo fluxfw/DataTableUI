@@ -14,7 +14,7 @@ use srag\TableUI\Component\Export\TableExportFormat;
 class TablePDFExportFormat implements TableExportFormat {
 
 	/**
-	 * TablePDFExportFormat constructor
+	 * @inheritDoc
 	 */
 	public function __construct() {
 
