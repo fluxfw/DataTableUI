@@ -75,10 +75,15 @@ class TableUI implements TableUIInterface {
 	 */
 	public function __construct(string $id, string $action_url, string $action_cmd, string $title, array $columns, TableDataFetcher $data_fetcher) {
 		$this->id = $id;
+
 		$this->action_url = $action_url;
+
 		$this->action_cmd = $action_cmd;
+
 		$this->title = $title;
+
 		$this->columns = $columns;
+
 		$this->data_fetcher = $data_fetcher;
 	}
 
@@ -166,7 +171,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getFetchDataNeedsFilterFirstSet(): bool {
+	public function isFetchDataNeedsFilterFirstSet(): bool {
 		return $this->fetch_data_needs_filter_first_set;
 	}
 
@@ -306,7 +311,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @return bool
 	 */
-	public function getSelectAll(): bool {
+	public function isSelectAll(): bool {
 		return $this->select_all;
 	}
 

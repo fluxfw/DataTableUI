@@ -84,7 +84,7 @@ interface TableColumn {
 	/**
 	 * @return bool
 	 */
-	public function getDefault(): bool;
+	public function isDefault(): bool;
 
 
 	/**
@@ -98,7 +98,7 @@ interface TableColumn {
 	/**
 	 * @return bool
 	 */
-	public function getSortable(): bool;
+	public function isSortable(): bool;
 
 
 	/**
@@ -112,7 +112,7 @@ interface TableColumn {
 	/**
 	 * @return bool
 	 */
-	public function getDragable(): bool;
+	public function isDragable(): bool;
 
 
 	/**
@@ -126,7 +126,7 @@ interface TableColumn {
 	/**
 	 * @return bool
 	 */
-	public function getSelectable(): bool;
+	public function isSelectable(): bool;
 
 
 	/**

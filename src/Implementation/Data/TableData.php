@@ -29,6 +29,7 @@ class TableData implements TableDataInterface {
 	 */
 	public function __construct(array $data, int $max_count) {
 		$this->data = $data;
+
 		$this->max_count = $max_count;
 	}
 
@@ -70,5 +71,13 @@ class TableData implements TableDataInterface {
 		$clone->max_count = $max_count;
 
 		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getDataCount(): int {
+		return count($this->data);
 	}
 }

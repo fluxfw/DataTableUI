@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.3.0]
+- First renderer implementation
+
 ## [0.2.5]
 - Extends constructors
 
