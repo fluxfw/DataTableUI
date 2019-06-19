@@ -2,6 +2,7 @@
 
 namespace srag\TableUI\Component\Column\Formater;
 
+use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Row\TableRowData;
 
 /**
@@ -14,9 +15,18 @@ use srag\TableUI\Component\Data\Row\TableRowData;
 interface TableColumnFormater {
 
 	/**
+	 * @param TableColumn $column
+	 *
+	 * @return string
+	 */
+	public function formatHeader(TableColumn $column): string;
+
+
+	/**
+	 * @param TableColumn  $column
 	 * @param TableRowData $row
 	 *
 	 * @return string
 	 */
-	public function format(TableRowData $row): string;
+	public function formatRow(TableColumn $column, TableRowData $row): string;
 }

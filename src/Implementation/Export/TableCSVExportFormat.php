@@ -24,8 +24,16 @@ class TableCSVExportFormat implements TableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
+	public function getId(): int {
+		return self::EXPORT_FORMAT_CSV;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getTitle(): string {
-		// TODO: Implement getTitle() method.
+		return "CSV";
 	}
 
 

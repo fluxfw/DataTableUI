@@ -24,8 +24,16 @@ class TablePDFExportFormat implements TableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
+	public function getId(): int {
+		return self::EXPORT_FORMAT_PDF;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
 	public function getTitle(): string {
-		// TODO: Implement getTitle() method.
+		return "PDF";
 	}
 
 
