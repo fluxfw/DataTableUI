@@ -28,7 +28,7 @@ class TableFilterStorage implements TableFilterStorageInterface {
 	public function __construct() {
 		// TODO: Not use ilTablePropertiesStorage and reimplement it - Currently just a fast solution to save the table filter
 		$this->properties_storage = new ilTablePropertiesStorage();
-		$this->properties_storage->properties = array_reduce(TableFilter::VARS, function (array $properties, string $property): array {
+		$this->properties_storage->properties = array_reduce(TableFilterInterface::VARS, function (array $properties, string $property): array {
 			$properties[$property] = [ "storage" => "db" ];
 
 			return $properties;
@@ -42,7 +42,7 @@ class TableFilterStorage implements TableFilterStorageInterface {
 	public function read(string $table_id, int $user_id): TableFilterInterface {
 		$filter = new TableFilter($table_id, $user_id);
 
-		foreach (TableFilter::VARS as $property) {
+		foreach (TableFilterInterface::VARS as $property) {
 			$value = $this->properties_storage->getProperty($filter->getTableId(), $filter->getUserId(), $property);
 			if (!empty($value)) {
 				if (method_exists($filter, $method = "with" . $this->strToCamelCase($property))) {
@@ -59,7 +59,7 @@ class TableFilterStorage implements TableFilterStorageInterface {
 	 * @inheritDoc
 	 */
 	public function store(TableFilterInterface $filter): void {
-		foreach (TableFilter::VARS as $property) {
+		foreach (TableFilterInterface::VARS as $property) {
 			$value = "";
 			if (method_exists($filter, $method = "get" . $this->strToCamelCase($property))) {
 				$value = $filter->{$method}();
