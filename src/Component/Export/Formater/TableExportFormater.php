@@ -16,6 +16,12 @@ use srag\TableUI\Component\Export\TableExportFormat;
 interface TableExportFormater {
 
 	/**
+	 * TableExportFormater constructor
+	 */
+	public function __construct();
+
+
+	/**
 	 * @param TableExportFormat $export_format
 	 * @param TableColumn       $column
 	 *

@@ -15,6 +15,12 @@ use srag\TableUI\Component\Filter\TableFilter;
 interface TableDataFetcher {
 
 	/**
+	 * TableDataFetcher constructor
+	 */
+	public function __construct();
+
+
+	/**
 	 * @param TableFilter $filter
 	 *
 	 * @return TableData

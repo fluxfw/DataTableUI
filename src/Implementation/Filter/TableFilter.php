@@ -40,7 +40,7 @@ class TableFilter implements TableFilterInterface {
 
 
 	/**
-	 * TableFilter constructor
+	 * @inheritDoc
 	 */
 	public function __construct() {
 

@@ -4,8 +4,6 @@ namespace srag\TableUI\Component;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\Input;
-use srag\DIC\Plugin\Pluginable;
-use srag\DIC\Plugin\PluginInterface;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
 use srag\TableUI\Component\Export\TableExportFormat;
@@ -18,7 +16,13 @@ use srag\TableUI\Component\Filter\TableFilter;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface TableUI extends Component, Pluginable {
+interface TableUI extends Component {
+
+	/**
+	 * TableUI constructor
+	 */
+	public function __construct();
+
 
 	/**
 	 * @return string
@@ -46,12 +50,6 @@ interface TableUI extends Component, Pluginable {
 	 * @return self
 	 */
 	public function withAction(string $action): self;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withPlugin(PluginInterface $plugin): self;
 
 
 	/**

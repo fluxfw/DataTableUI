@@ -14,6 +14,15 @@ use srag\TableUI\Component\Data\Row\TableRowData;
 interface TableData {
 
 	/**
+	 * TableData constructor
+	 *
+	 * @param TableRowData[] $data
+	 * @param int            $max_count
+	 */
+	public function __construct(array $data, int $max_count);
+
+
+	/**
 	 * @return TableRowData[]
 	 */
 	public function getData(): array;

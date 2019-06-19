@@ -22,6 +22,12 @@ interface TableFilter {
 
 
 	/**
+	 * TableFilter constructor
+	 */
+	public function __construct();
+
+
+	/**
 	 * @param string $key
 	 *
 	 * @return int
