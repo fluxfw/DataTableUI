@@ -56,15 +56,15 @@ interface TableColumn {
 	/**
 	 * @return TableColumnFormater
 	 */
-	public function getColumnformater(): TableColumnFormater;
+	public function getColumnFormater(): TableColumnFormater;
 
 
 	/**
-	 * @param TableColumnFormater $format_value
+	 * @param TableColumnFormater $column_formater
 	 *
 	 * @return self
 	 */
-	public function withFormatValue(TableColumnFormater $format_value): self;
+	public function withColumnFormater(TableColumnFormater $column_formater): self;
 
 
 	/**
@@ -74,11 +74,11 @@ interface TableColumn {
 
 
 	/**
-	 * @param TableExportFormater $format_export_value
+	 * @param TableExportFormater $export_formater
 	 *
 	 * @return self
 	 */
-	public function withFormatExportValue(TableExportFormater $format_export_value): self;
+	public function withExportFormater(TableExportFormater $export_formater): self;
 
 
 	/**
