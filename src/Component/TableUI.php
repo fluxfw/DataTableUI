@@ -20,8 +20,15 @@ interface TableUI extends Component {
 
 	/**
 	 * TableUI constructor
+	 *
+	 * @param string           $id
+	 * @param string           $action_url
+	 * @param string           $action_cmd
+	 * @param string           $title
+	 * @param TableColumn[]    $columns
+	 * @param TableDataFetcher $data_fetcher
 	 */
-	public function __construct();
+	public function __construct(string $id, string $action_url, string $action_cmd, string $title, array $columns, TableDataFetcher $data_fetcher);
 
 
 	/**
@@ -41,15 +48,29 @@ interface TableUI extends Component {
 	/**
 	 * @return string
 	 */
-	public function getAction(): string;
+	public function getActionUrl(): string;
 
 
 	/**
-	 * @param string $action
+	 * @param string $action_url
 	 *
 	 * @return self
 	 */
-	public function withAction(string $action): self;
+	public function withActionUrl(string $action_url): self;
+
+
+	/**
+	 * @return string
+	 */
+	public function getActionCmd(): string;
+
+
+	/**
+	 * @param string $action_cmd
+	 *
+	 * @return self
+	 */
+	public function withActionCmd(string $action_cmd): self;
 
 
 	/**

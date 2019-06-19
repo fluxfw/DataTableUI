@@ -103,7 +103,7 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getColumnformater(): TableColumnFormater {
+	public function getColumnFormater(): TableColumnFormater {
 		return $this->column_formater;
 	}
 
@@ -111,10 +111,10 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFormatValue(TableColumnFormater $format_value): TableColumnInterface {
+	public function withColumnFormater(TableColumnFormater $column_formater): TableColumnInterface {
 		$clone = clone $this;
 
-		$clone->column_formater = $format_value;
+		$clone->column_formater = $column_formater;
 
 		return $clone;
 	}
@@ -131,10 +131,10 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFormatExportValue(TableExportFormater $format_export_value): TableColumnInterface {
+	public function withExportFormater(TableExportFormater $export_formater): TableColumnInterface {
 		$clone = clone $this;
 
-		$clone->export_formater = $format_export_value;
+		$clone->export_formater = $export_formater;
 
 		return $clone;
 	}

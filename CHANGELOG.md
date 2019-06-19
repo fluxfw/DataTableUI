@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.2.5]
+- Extends constructors
+
 ## [0.2.4]
 - Extends constructors
 

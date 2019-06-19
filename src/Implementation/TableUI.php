@@ -27,7 +27,11 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @var string
 	 */
-	protected $action = "";
+	protected $action_url = "";
+	/**
+	 * @var string
+	 */
+	protected $action_cmd = "";
 	/**
 	 * @var string
 	 */
@@ -69,8 +73,13 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
-
+	public function __construct(string $id, string $action_url, string $action_cmd, string $title, array $columns, TableDataFetcher $data_fetcher) {
+		$this->id = $id;
+		$this->action_url = $action_url;
+		$this->action_cmd = $action_cmd;
+		$this->title = $title;
+		$this->columns = $columns;
+		$this->data_fetcher = $data_fetcher;
 	}
 
 
@@ -97,18 +106,38 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getAction(): string {
-		return $this->action;
+	public function getActionUrl(): string {
+		return $this->action_url;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withAction(string $action): TableUIInterface {
+	public function withActionUrl(string $action_url): TableUIInterface {
 		$clone = clone $this;
 
-		$clone->action = $action;
+		$clone->action_url = $action_url;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getActionCmd(): string {
+		return $this->action_cmd;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withActionCmd(string $action_cmd): TableUIInterface {
+		$clone = clone $this;
+
+		$clone->action_cmd = $action_cmd;
 
 		return $clone;
 	}
