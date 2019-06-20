@@ -2,6 +2,8 @@
 
 namespace srag\TableUI\Implementation\Column;
 
+use ILIAS\UI\Component\Component;
+use srag\DIC\DICTrait;
 use srag\TableUI\Component\Column\Formater\TableColumnFormater;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Row\TableRowData;
@@ -14,6 +16,9 @@ use srag\TableUI\Component\Data\Row\TableRowData;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class SimplePropertyTableColumnFormater implements TableColumnFormater {
+
+	use DICTrait;
+
 
 	/**
 	 * @inheritDoc
@@ -35,6 +40,12 @@ class SimplePropertyTableColumnFormater implements TableColumnFormater {
 	 * @inheritDoc
 	 */
 	public function formatRow(TableColumn $column, TableRowData $row): string {
-		return strval($row->getOriginalData()->{$column->getKey()});
+		$value = $row->getOriginalData()->{$column->getKey()};
+
+		if ($value instanceof Component) {
+			return self::output()->getHTML($value);
+		} else {
+			return strval($value);
+		}
 	}
 }

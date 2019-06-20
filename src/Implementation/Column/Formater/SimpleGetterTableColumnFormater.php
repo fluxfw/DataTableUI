@@ -2,6 +2,8 @@
 
 namespace srag\TableUI\Implementation\Column;
 
+use ILIAS\UI\Component\Component;
+use srag\DIC\DICTrait;
 use srag\TableUI\Component\Column\Formater\TableColumnFormater;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Row\TableRowData;
@@ -14,6 +16,9 @@ use srag\TableUI\Component\Data\Row\TableRowData;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class SimpleGetterTableColumnFormater implements TableColumnFormater {
+
+	use DICTrait;
+
 
 	/**
 	 * @inheritDoc
@@ -35,15 +40,20 @@ class SimpleGetterTableColumnFormater implements TableColumnFormater {
 	 * @inheritDoc
 	 */
 	public function formatRow(TableColumn $column, TableRowData $row): string {
+		$value = "";
 		if (method_exists($row->getOriginalData(), $method = "get" . $this->strToCamelCase($column->getKey()))) {
-			return strval($row->getOriginalData()->{$method}());
+			return $value = $row->getOriginalData()->{$method}();
 		}
 
 		if (method_exists($row->getOriginalData(), $method = "is" . $this->strToCamelCase($column->getKey()))) {
-			return strval($row->getOriginalData()->{$method}());
+			return $value = $row->getOriginalData()->{$method}();
 		}
 
-		return "";
+		if ($value instanceof Component) {
+			return self::output()->getHTML($value);
+		} else {
+			return strval($value);
+		}
 	}
 
 

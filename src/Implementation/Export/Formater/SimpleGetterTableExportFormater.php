@@ -28,10 +28,15 @@ class SimpleGetterTableExportFormater implements TableExportFormater {
 	 * @inheritDoc
 	 */
 	public function formatHeader(TableExportFormat $export_format, TableColumn $column): string {
+		$value = "";
+
 		switch ($export_format->getId()) {
 			default:
-				return $column->getTitle();
+				$value = $column->getTitle();
+				break;
 		}
+
+		return strval($value);
 	}
 
 
@@ -39,18 +44,21 @@ class SimpleGetterTableExportFormater implements TableExportFormater {
 	 * @inheritDoc
 	 */
 	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row): string {
+		$value = "";
+
 		switch ($export_format->getId()) {
 			default:
 				if (method_exists($row->getOriginalData(), $method = "get" . $this->strToCamelCase($column->getKey()))) {
-					return strval($row->getOriginalData()->{$method}());
+					$value = strval($row->getOriginalData()->{$method}());
 				}
 
 				if (method_exists($row->getOriginalData(), $method = "is" . $this->strToCamelCase($column->getKey()))) {
-					return strval($row->getOriginalData()->{$method}());
+					$value = strval($row->getOriginalData()->{$method}());
 				}
-
-				return "";
+				break;
 		}
+
+		return strval($value);
 	}
 
 
