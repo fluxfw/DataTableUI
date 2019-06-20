@@ -28,10 +28,15 @@ class SimplePropertyTableExportFormater implements TableExportFormater {
 	 * @inheritDoc
 	 */
 	public function formatHeader(TableExportFormat $export_format, TableColumn $column): string {
+		$value = "";
+
 		switch ($export_format->getId()) {
 			default:
-				return $column->getTitle();
+				$value = $column->getTitle();
+				break;
 		}
+
+		return strval($value);
 	}
 
 
@@ -39,9 +44,14 @@ class SimplePropertyTableExportFormater implements TableExportFormater {
 	 * @inheritDoc
 	 */
 	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row): string {
+		$value = "";
+
 		switch ($export_format->getId()) {
 			default:
-				return strval($row->getOriginalData()->{$column->getKey()});
+				$value = strval($row->getOriginalData()->{$column->getKey()});
+				break;
 		}
+
+		return strval($value);
 	}
 }

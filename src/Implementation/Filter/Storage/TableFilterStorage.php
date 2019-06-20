@@ -8,7 +8,6 @@ use srag\TableUI\Component\Filter\Storage\TableFilterStorage as TableFilterStora
 use srag\TableUI\Component\Filter\TableFilter as TableFilterInterface;
 use srag\TableUI\Implementation\Filter\Sort\TableFilterSortField;
 use srag\TableUI\Implementation\Filter\TableFilter;
-use stdClass;
 
 /**
  * Class TableFilterStorage
