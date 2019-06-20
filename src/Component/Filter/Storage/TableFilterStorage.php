@@ -14,6 +14,62 @@ use srag\TableUI\Component\Filter\TableFilter as TableFilterInterface;
 interface TableFilterStorage {
 
 	/**
+	 * @var string
+	 */
+	const VAR_SORT_FIELDS = "sort_fields";
+	/**
+	 * @var string
+	 */
+	const VAR_SORT_FIELD = "sort_field";
+	/**
+	 * @var string
+	 */
+	const VAR_REMOVE_SORT_FIELD = "remove_sort_field";
+	/**
+	 * @var string
+	 */
+	const VAR_SORT_FIELD_DIRECTION = "sort_field_direction";
+	/**
+	 * @var string
+	 */
+	const VAR_ROWS_COUNT = "rows_count";
+	/**
+	 * @var string
+	 */
+	const VAR_CURRENT_PAGE = "current_page";
+	/**
+	 * @var string
+	 */
+	const VAR_FIELD_VALUES = "field_values";
+	/**
+	 * @var string
+	 */
+	const VAR_RESET_FILTER = "reset_filter";
+	/**
+	 * @var string
+	 */
+	const VAR_SELECTED_COLUMNS = "selected_columns";
+	/**
+	 * @var string
+	 */
+	const VAR_SELECT_COLUMN = "select_column";
+	/**
+	 * @var string
+	 */
+	const VAR_DESELECT_COLUMN = "deselect_column";
+	/**
+	 * @var string[]
+	 */
+	const VARS = [
+		self::VAR_SORT_FIELDS,
+		self::VAR_ROWS_COUNT,
+		self::VAR_CURRENT_PAGE,
+		self::VAR_FIELD_VALUES,
+		self::VAR_SELECTED_COLUMNS
+	];
+
+
+	/**
 	 * TableFilterStorage constructor
 	 */
 	public function __construct();

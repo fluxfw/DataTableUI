@@ -43,7 +43,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @var int
 	 */
-	protected $filter_position = TableFilter::FILTER_TOP;
+	protected $filter_position = TableFilter::FILTER_POSITION_TOP;
 	/**
 	 * @var TableColumn[]
 	 */
@@ -199,7 +199,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFilterPosition(int $filter_position = TableFilter::FILTER_TOP): TableUIInterface {
+	public function withFilterPosition(int $filter_position = TableFilter::FILTER_POSITION_TOP): TableUIInterface {
 		$clone = clone $this;
 
 		$clone->filter_position = $filter_position;
