@@ -44,10 +44,6 @@ interface TableFilterStorage {
 	/**
 	 * @var string
 	 */
-	const VAR_RESET_FILTER = "reset_filter";
-	/**
-	 * @var string
-	 */
 	const VAR_SELECTED_COLUMNS = "selected_columns";
 	/**
 	 * @var string

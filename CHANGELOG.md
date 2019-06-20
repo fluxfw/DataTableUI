@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.4.1]
+- Use new FilterContainer
+
 ## [0.4.0]
 - Implement multiple sort fields
 - Implement filter fields

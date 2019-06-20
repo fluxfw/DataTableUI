@@ -3,7 +3,7 @@
 namespace srag\TableUI\Implementation;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Container\Form\Standard;
+use ILIAS\UI\Component\Input\Container\Filter\Standard;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ilTemplateWrapper;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -105,18 +105,24 @@ class Renderer extends AbstractComponentRenderer {
 
 				if ($sort_field !== null) {
 					if ($sort_field->getSortFieldDirection() === TableFilterSortFieldInterface::SORT_DIRECTION_DOWN) {
-						$sort_button = $this->createPostLink($component, [ $sort_button, self::dic()->ui()->factory()->glyph()->sortDescending() ], [
+						$sort_button = $this->createPostLink($component, [
+							$sort_button,
+							self::dic()->ui()->factory()->symbol()->glyph()->sortDescending()
+						], [
 							TableFilterStorageInterface::VAR_SORT_FIELD => $column->getKey(),
 							TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION => TableFilterSortFieldInterface::SORT_DIRECTION_UP
 						]);
 					} else {
-						$sort_button = $this->createPostLink($component, [ $sort_button, self::dic()->ui()->factory()->glyph()->sortAscending() ], [
+						$sort_button = $this->createPostLink($component, [
+							$sort_button,
+							self::dic()->ui()->factory()->symbol()->glyph()->sortAscending()
+						], [
 							TableFilterStorageInterface::VAR_SORT_FIELD => $column->getKey(),
 							TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION => TableFilterSortFieldInterface::SORT_DIRECTION_DOWN
 						]);
 					}
 
-					$remove_sort_button = $this->createPostLink($component, self::dic()->ui()->factory()->glyph()->remove(), [
+					$remove_sort_button = $this->createPostLink($component, self::dic()->ui()->factory()->symbol()->glyph()->remove(), [
 						TableFilterStorageInterface::VAR_REMOVE_SORT_FIELD => $column->getKey()
 					]);
 				} else {
@@ -170,19 +176,10 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function initFilterForm(TableUIInterface $component, TableFilter $filter): void {
 		if ($this->filter_form === null) {
-			$filter_fields_ = $component->getFilterFields();
+			$filter_fields = $component->getFilterFields();
 
-			if (!empty($filter->getFieldValues())) {
-				foreach ($filter_fields_ as $key => &$field) {
-					try {
-						$field = $field->withValue($filter->getFieldValue($key));
-					} catch (Throwable $ex) {
-
-					}
-				}
-			}
-
-			$this->filter_form = self::dic()->ui()->factory()->input()->container()->form()->standard($component->getActionUrl(), $filter_fields_);
+			$this->filter_form = self::dic()->uiService()->filter()
+				->standard($component->getId(), $component->getActionUrl(), $filter_fields, array_fill(0, count($filter_fields), false), true, true);
 		}
 	}
 
@@ -218,11 +215,6 @@ class Renderer extends AbstractComponentRenderer {
 				$filter = $filter->withCurrentPage($current_page);
 			}
 
-			$reset_filter = boolval(filter_input(INPUT_POST, TableFilterStorageInterface::VAR_RESET_FILTER));
-			if ($reset_filter) {
-				$filter = $filter->withFieldValues([]);
-			}
-
 			$select_column = strval(filter_input(INPUT_POST, TableFilterStorageInterface::VAR_SELECT_COLUMN));
 			if (!empty($select_column)) {
 				$filter = $filter->selectColumn($select_column);
@@ -233,18 +225,14 @@ class Renderer extends AbstractComponentRenderer {
 				$filter = $filter->deselectColumn($deselect_column);
 			}
 
-			$this->initFilterForm($component, $filter);
-			try {
-				$this->filter_form = $this->filter_form->withRequest(self::dic()->http()->request());
-
-				$field_values = $this->filter_form->getData();
-
-				$filter = $filter->withFieldValues($field_values);
-			} catch (Throwable $ex) {
-
-			}
-
 			$filter = $filter->withFilterSet(true);
+		}
+
+		$this->initFilterForm($component, $filter);
+		try {
+			$filter = $filter->withFieldValues(self::dic()->uiService()->filter()->getData($this->filter_form));
+		} catch (Throwable $ex) {
+
 		}
 
 		return $filter;
@@ -331,13 +319,7 @@ class Renderer extends AbstractComponentRenderer {
 	protected function handleFilterForm(ilTemplateWrapper $tpl, TableUIInterface $component, TableFilter $filter): void {
 		$this->initFilterForm($component, $filter);
 
-		$filter_form = self::output()->getHTML([
-			"Filter: ",
-			$this->filter_form,
-			$this->createPostLink($component, "Reset filter", [
-				TableFilterStorageInterface::VAR_RESET_FILTER => true
-			])
-		]);
+		$filter_form = self::output()->getHTML($this->filter_form);
 
 		switch ($component->getFilterPosition()) {
 			case TableFilter::FILTER_POSTION_BOTTOM:
@@ -405,7 +387,7 @@ class Renderer extends AbstractComponentRenderer {
 			"Columns: ",
 			implode("", array_map(function (TableColumn $column) use ($component, $filter): string {
 				if (in_array($column->getKey(), $filter->getSelectedColumns())) {
-					return $this->createPostLink($component, [ $column->getTitle(), self::dic()->ui()->factory()->glyph()->remove() ], [
+					return $this->createPostLink($component, [ $column->getTitle(), self::dic()->ui()->factory()->symbol()->glyph()->remove() ], [
 						TableFilterStorageInterface::VAR_DESELECT_COLUMN => $column->getKey()
 					]);
 				} else {
