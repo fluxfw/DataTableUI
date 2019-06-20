@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0]
+- Implement multiple sort fields
+- Implement filter fields
+- Implement selectable columns
+- Other improvments
+
 ## [0.3.0]
 - First renderer implementation
 

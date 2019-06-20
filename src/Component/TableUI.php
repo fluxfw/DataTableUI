@@ -112,7 +112,7 @@ interface TableUI extends Component {
 	 *
 	 * @return self
 	 */
-	public function withFilterPosition(int $filter_position = TableFilter::FILTER_TOP): self;
+	public function withFilterPosition(int $filter_position = TableFilter::FILTER_POSITION_TOP): self;
 
 
 	/**

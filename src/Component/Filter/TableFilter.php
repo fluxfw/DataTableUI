@@ -2,6 +2,8 @@
 
 namespace srag\TableUI\Component\Filter;
 
+use srag\TableUI\Component\Filter\Sort\TableFilterSortField;
+
 /**
  * Interface TableFilter
  *
@@ -14,19 +16,11 @@ interface TableFilter {
 	/**
 	 * @var int
 	 */
-	const FILTER_TOP = 1;
+	const FILTER_POSITION_TOP = 1;
 	/**
 	 * @var int
 	 */
-	const FILTER_BOTTOM = 2;
-	/**
-	 * @var int
-	 */
-	const SORT_DIRECTION_UP = 1;
-	/**
-	 * @var int
-	 */
-	const SORT_DIRECTION_DOWN = 2;
+	const FILTER_POSTION_BOTTOM = 2;
 	/**
 	 * @var int
 	 */
@@ -46,31 +40,6 @@ interface TableFilter {
 		200,
 		400,
 		800
-	];
-	/**
-	 * @var string
-	 */
-	const VAR_SORT_FIELD = "sort_field";
-	/**
-	 * @var string
-	 */
-	const VAR_SORT_FIELD_DIRECTION = "sort_field_direction";
-	/**
-	 * @var string
-	 */
-	const VAR_ROWS_COUNT = "rows_count";
-	/**
-	 * @var string
-	 */
-	const VAR_CURRENT_PAGE = "current_page";
-	/**
-	 * @var string[]
-	 */
-	const VARS = [
-		self::VAR_SORT_FIELD,
-		self::VAR_SORT_FIELD_DIRECTION,
-		self::VAR_ROWS_COUNT,
-		self::VAR_CURRENT_PAGE
 	];
 
 
@@ -112,19 +81,19 @@ interface TableFilter {
 
 
 	/**
-	 * @param string $key
+	 * @param mixed[] $key
 	 *
-	 * @return int
+	 * @return array
 	 */
-	public function getFieldValueAsInteger(string $key): int;
+	public function getFieldValues(): array;
 
 
 	/**
 	 * @param string $key
 	 *
-	 * @return string
+	 * @return mixed
 	 */
-	public function getFieldValueAsString(string $key): string;
+	public function getFieldValue(string $key);
 
 
 	/**
@@ -136,9 +105,33 @@ interface TableFilter {
 
 
 	/**
-	 * @return string
+	 * @return TableFilterSortField[]
 	 */
-	public function getSortField(): string;
+	public function getSortFields(): array;
+
+
+	/**
+	 * @param string $sort_field
+	 *
+	 * @return TableFilterSortField|null
+	 */
+	public function getSortField(string $sort_field): ?TableFilterSortField;
+
+
+	/**
+	 * @param TableFilterSortField[] $sort_fields
+	 *
+	 * @return self
+	 */
+	public function withSortFields(array $sort_fields): self;
+
+
+	/**
+	 * @param TableFilterSortField $sort_field
+	 *
+	 * @return self
+	 */
+	public function addSortField(TableFilterSortField $sort_field): self;
 
 
 	/**
@@ -146,21 +139,7 @@ interface TableFilter {
 	 *
 	 * @return self
 	 */
-	public function withSortField(string $sort_field): self;
-
-
-	/**
-	 * @return int
-	 */
-	public function getSortFieldDirection(): int;
-
-
-	/**
-	 * @param string $sort_field_direction
-	 *
-	 * @return self
-	 */
-	public function withSortFieldDirection(int $sort_field_direction): self;
+	public function removeSortField(string $sort_field): self;
 
 
 	/**
@@ -175,6 +154,22 @@ interface TableFilter {
 	 * @return self
 	 */
 	public function withSelectedColumns(array $selected_columns): self;
+
+
+	/**
+	 * @param string $selected_column
+	 *
+	 * @return self
+	 */
+	public function selectColumn(string $selected_column): self;
+
+
+	/**
+	 * @param string $selected_column
+	 *
+	 * @return self
+	 */
+	public function deselectColumn(string $selected_column): self;
 
 
 	/**

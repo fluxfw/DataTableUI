@@ -4,6 +4,7 @@ namespace srag\TableUI\Component\Column;
 
 use srag\TableUI\Component\Column\Formater\TableColumnFormater;
 use srag\TableUI\Component\Export\Formater\TableExportFormater;
+use srag\TableUI\Component\Filter\Sort\TableFilterSortField;
 
 /**
  * Interface TableColumn
@@ -84,20 +85,6 @@ interface TableColumn {
 	/**
 	 * @return bool
 	 */
-	public function isDefault(): bool;
-
-
-	/**
-	 * @param bool $default
-	 *
-	 * @return self
-	 */
-	public function withDefault(bool $default = true): self;
-
-
-	/**
-	 * @return bool
-	 */
 	public function isSortable(): bool;
 
 
@@ -112,15 +99,29 @@ interface TableColumn {
 	/**
 	 * @return bool
 	 */
-	public function isDragable(): bool;
+	public function isDefaultSort(): bool;
 
 
 	/**
-	 * @param bool $dragable
+	 * @param bool $default_sort
 	 *
 	 * @return self
 	 */
-	public function withDragable(bool $dragable = false): self;
+	public function withDefaultSort(bool $default_sort = false): self;
+
+
+	/**
+	 * @return int
+	 */
+	public function getDefaultSortDirection(): int;
+
+
+	/**
+	 * @param int $default_sort_direction
+	 *
+	 * @return self
+	 */
+	public function withDefaultSortDirection(int $default_sort_direction = TableFilterSortField::SORT_DIRECTION_UP): self;
 
 
 	/**
@@ -135,4 +136,32 @@ interface TableColumn {
 	 * @return self
 	 */
 	public function withSelectable(bool $selectable = true): self;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isDefaultSelected(): bool;
+
+
+	/**
+	 * @param bool $default_selected
+	 *
+	 * @return self
+	 */
+	public function withDefaultSelected(bool $default_selected = true): self;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isDragable(): bool;
+
+
+	/**
+	 * @param bool $dragable
+	 *
+	 * @return self
+	 */
+	public function withDragable(bool $dragable = false): self;
 }

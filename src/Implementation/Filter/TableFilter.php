@@ -2,6 +2,7 @@
 
 namespace srag\TableUI\Implementation\Filter;
 
+use srag\TableUI\Component\Filter\Sort\TableFilterSortField;
 use srag\TableUI\Component\Filter\TableFilter as TableFilterInterface;
 
 /**
@@ -26,13 +27,9 @@ class TableFilter implements TableFilterInterface {
 	 */
 	protected $field_values = [];
 	/**
-	 * @var string
+	 * @var TableFilterSortField[]
 	 */
-	protected $sort_field = "";
-	/**
-	 * @var int
-	 */
-	protected $sort_field_direction = 0;
+	protected $sort_fields = [];
 	/**
 	 * @var string[]
 	 */
@@ -104,16 +101,16 @@ class TableFilter implements TableFilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getFieldValueAsInteger(string $key): int {
-		return intval($this->field_values[$key]);
+	public function getFieldValues(): array {
+		return $this->field_values;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getFieldValueAsString(string $key): string {
-		return strval($this->field_values[$key]);
+	public function getFieldValue(string $key) {
+		return $this->field_values[$key] ?? null;
 	}
 
 
@@ -132,18 +129,34 @@ class TableFilter implements TableFilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSortField(): string {
-		return $this->sort_field;
+	public function getSortFields(): array {
+		return $this->sort_fields;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withSortField(string $sort_field): TableFilterInterface {
+	public function getSortField(string $sort_field): ?TableFilterSortField {
+		$sort_field = current(array_filter($this->sort_fields, function (TableFilterSortField $sort_field_) use ($sort_field): bool {
+			return ($sort_field_->getSortField() === $sort_field);
+		}));
+
+		if ($sort_field !== false) {
+			return $sort_field;
+		} else {
+			return null;
+		}
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withSortFields(array $sort_fields): TableFilterInterface {
 		$clone = clone $this;
 
-		$clone->sort_field = $sort_field;
+		$clone->sort_fields = $sort_fields;
 
 		return $clone;
 	}
@@ -152,18 +165,36 @@ class TableFilter implements TableFilterInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getSortFieldDirection(): int {
-		return $this->sort_field_direction;
+	public function addSortField(TableFilterSortField $sort_field): TableFilterInterface {
+		$clone = clone $this;
+
+		if ($this->getSortField($sort_field->getSortField()) !== null) {
+			$clone->sort_fields = array_reduce($clone->sort_fields, function (array $sort_fields, TableFilterSortField $sort_field_) use ($sort_field): array {
+				if ($sort_field_->getSortField() === $sort_field->getSortField()) {
+					$sort_field_ = $sort_field;
+				}
+
+				$sort_fields[] = $sort_field_;
+
+				return $sort_fields;
+			}, []);
+		} else {
+			$clone->sort_fields[] = $sort_field;
+		}
+
+		return $clone;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withSortFieldDirection(int $sort_field_direction): TableFilterInterface {
+	public function removeSortField(string $sort_field): TableFilterInterface {
 		$clone = clone $this;
 
-		$clone->sort_field_direction = $sort_field_direction;
+		$clone->sort_fields = array_values(array_filter($clone->sort_fields, function (TableFilterSortField $sort_field_) use ($sort_field): bool {
+			return ($sort_field_->getSortField() !== $sort_field);
+		}));
 
 		return $clone;
 	}
@@ -184,6 +215,34 @@ class TableFilter implements TableFilterInterface {
 		$clone = clone $this;
 
 		$clone->selected_columns = $selected_columns;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function selectColumn(string $selected_column): TableFilterInterface {
+		$clone = clone $this;
+
+		if (!in_array($selected_column, $clone->selected_columns)) {
+			$clone->selected_columns[] = $selected_column;
+		}
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function deselectColumn(string $selected_column): TableFilterInterface {
+		$clone = clone $this;
+
+		$clone->selected_columns = array_values(array_filter($clone->selected_columns, function (string $selected_column_) use ($selected_column): bool {
+			return ($selected_column_ !== $selected_column);
+		}));
 
 		return $clone;
 	}
