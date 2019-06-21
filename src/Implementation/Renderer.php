@@ -132,9 +132,9 @@ class Renderer extends AbstractComponentRenderer {
 					}
 
 					$remove_sort_button = self::dic()->ui()->factory()->button()->shy(self::output()->getHTML(self::dic()->ui()->factory()->symbol()
-						->glyph()
-						->back()), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_REMOVE_SORT_FIELD
-						. "=" . $column->getKey()));
+						->glyph()->back() // TODO: other icon for remove sort
+					), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_REMOVE_SORT_FIELD . "="
+						. $column->getKey()));
 				} else {
 					$sort_button = self::dic()->ui()->factory()->button()
 						->shy($sort_button, ilUtil::appendUrlParameterString(ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_SORT_FIELD
