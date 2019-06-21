@@ -6,6 +6,7 @@ use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Row\TableRowData;
 use srag\TableUI\Component\Export\Formater\TableExportFormater;
 use srag\TableUI\Component\Export\TableExportFormat;
+use Throwable;
 
 /**
  * Class SimpleGetterTableExportFormater
@@ -48,12 +49,16 @@ class SimpleGetterTableExportFormater implements TableExportFormater {
 
 		switch ($export_format->getId()) {
 			default:
-				if (method_exists($row->getOriginalData(), $method = "get" . $this->strToCamelCase($column->getKey()))) {
-					$value = strval($row->getOriginalData()->{$method}());
-				}
+				try {
+					if (method_exists($row->getOriginalData(), $method = "get" . $this->strToCamelCase($column->getKey()))) {
+						$value = strval($row->getOriginalData()->{$method}());
+					}
 
-				if (method_exists($row->getOriginalData(), $method = "is" . $this->strToCamelCase($column->getKey()))) {
-					$value = strval($row->getOriginalData()->{$method}());
+					if (method_exists($row->getOriginalData(), $method = "is" . $this->strToCamelCase($column->getKey()))) {
+						$value = strval($row->getOriginalData()->{$method}());
+					}
+				} catch (Throwable $ex) {
+					$value = "";
 				}
 				break;
 		}

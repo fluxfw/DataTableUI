@@ -2,4 +2,24 @@
   .post_link_form {
 	display: inline-block;
   }
+
+  // Actions
+  .panel-body {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+
+	> * {
+	  margin: 0 5px;
+
+	  &:first-child + * {
+		margin-left: auto;
+	  }
+	}
+  }
+
+  // Fix icon in dropdown
+  .glyph {
+	display: inline-block !important;
+  }
 }

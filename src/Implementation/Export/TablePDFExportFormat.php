@@ -2,6 +2,7 @@
 
 namespace srag\TableUI\Implementation\Export;
 
+use ILIAS\UI\NotImplementedException;
 use srag\TableUI\Component\Export\TableExportFormat;
 
 /**
@@ -40,7 +41,7 @@ class TablePDFExportFormat implements TableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function export(): void {
-		// TODO: Implement export() method.
+	public function export(array $columns, array $rows): void {
+		throw new NotImplementedException("PDF export not implemented yet!");
 	}
 }
