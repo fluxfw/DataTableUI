@@ -2,7 +2,7 @@
 
 namespace srag\TableUI\Implementation;
 
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
@@ -31,10 +31,6 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @var string
 	 */
-	protected $action_cmd = "";
-	/**
-	 * @var string
-	 */
 	protected $title = "";
 	/**
 	 * @var bool
@@ -53,7 +49,7 @@ class TableUI implements TableUIInterface {
 	 */
 	protected $data_fetcher;
 	/**
-	 * @var Input[]
+	 * @var FilterInput[]
 	 */
 	protected $filter_fields = [];
 	/**
@@ -73,12 +69,10 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(string $id, string $action_url, string $action_cmd, string $title, array $columns, TableDataFetcher $data_fetcher) {
+	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher) {
 		$this->id = $id;
 
 		$this->action_url = $action_url;
-
-		$this->action_cmd = $action_cmd;
 
 		$this->title = $title;
 
@@ -123,26 +117,6 @@ class TableUI implements TableUIInterface {
 		$clone = clone $this;
 
 		$clone->action_url = $action_url;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getActionCmd(): string {
-		return $this->action_cmd;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withActionCmd(string $action_cmd): TableUIInterface {
-		$clone = clone $this;
-
-		$clone->action_cmd = $action_cmd;
 
 		return $clone;
 	}

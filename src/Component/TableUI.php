@@ -3,7 +3,7 @@
 namespace srag\TableUI\Component;
 
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Input\Field\FilterInput;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
 use srag\TableUI\Component\Export\TableExportFormat;
@@ -23,12 +23,11 @@ interface TableUI extends Component {
 	 *
 	 * @param string           $id
 	 * @param string           $action_url
-	 * @param string           $action_cmd
 	 * @param string           $title
 	 * @param TableColumn[]    $columns
 	 * @param TableDataFetcher $data_fetcher
 	 */
-	public function __construct(string $id, string $action_url, string $action_cmd, string $title, array $columns, TableDataFetcher $data_fetcher);
+	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher);
 
 
 	/**
@@ -57,20 +56,6 @@ interface TableUI extends Component {
 	 * @return self
 	 */
 	public function withActionUrl(string $action_url): self;
-
-
-	/**
-	 * @return string
-	 */
-	public function getActionCmd(): string;
-
-
-	/**
-	 * @param string $action_cmd
-	 *
-	 * @return self
-	 */
-	public function withActionCmd(string $action_cmd): self;
 
 
 	/**
@@ -144,13 +129,13 @@ interface TableUI extends Component {
 
 
 	/**
-	 * @return Input[]
+	 * @return FilterInput[]
 	 */
 	public function getFilterFields(): array;
 
 
 	/**
-	 * @param Input[] $filter_fields
+	 * @param FilterInput[] $filter_fields
 	 *
 	 * @return self
 	 */

@@ -19,14 +19,13 @@ trait TableUITrait {
 	/**
 	 * @param string           $id
 	 * @param string           $action_url
-	 * @param string           $action_cmd
 	 * @param string           $title
 	 * @param TableColumn[]    $columns
 	 * @param TableDataFetcher $data_fetcher
 	 *
 	 * @return TableUIInterface
 	 */
-	protected static function tableui(string $id, string $action_url, string $action_cmd, string $title, array $columns, TableDataFetcher $data_fetcher): TableUIInterface {
-		return new TableUI($id, $action_url, $action_cmd, $title, $columns, $data_fetcher);
+	protected static function tableui(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher): TableUIInterface {
+		return new TableUI($id, $action_url, $title, $columns, $data_fetcher);
 	}
 }
