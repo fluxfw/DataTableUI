@@ -8,6 +8,8 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ilTemplateWrapper;
 use ILIAS\UI\Renderer as RendererInterface;
 use ilTemplate;
+use ilUIFilterRequestAdapter;
+use ilUIFilterService;
 use srag\DIC\DICTrait;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\TableData as TableDataInterface;
@@ -230,7 +232,18 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->initFilterForm($component, $filter);
 		try {
-			$filter = $filter->withFieldValues(self::dic()->uiService()->filter()->getData($this->filter_form));
+			$data = self::dic()->uiService()->filter()->getData($this->filter_form);
+
+			// TODO: Bug? On reset filter and on normal table load, the data is no array. But it should only empty the filter, on reset, not on normal load
+			if (!is_array($data)) {
+				if (filter_input(INPUT_GET, ilUIFilterRequestAdapter::CMD_PARAMETER) === ilUIFilterService::CMD_RESET) {
+					$data = [];
+				}
+			}
+
+			if (is_array($data)) {
+				$filter = $filter->withFieldValues($data);
+			}
 		} catch (Throwable $ex) {
 
 		}
@@ -431,8 +444,6 @@ class Renderer extends AbstractComponentRenderer {
 		$tpl = new ilTemplateWrapper(self::dic()->mainTemplate(), new ilTemplate(__DIR__ . "/../../templates/post_link.html", true, true));
 
 		$tpl->setVariable("ACTION_URL", $component->getActionUrl());
-
-		$tpl->setVariable("CMD", $component->getActionCmd());
 
 		$tpl->setVariable("LABEL", self::output()->getHTML($label));
 

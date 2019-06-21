@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.4.2]
+- Some improvments
+
 ## [0.4.1]
 - Use new FilterContainer
 
