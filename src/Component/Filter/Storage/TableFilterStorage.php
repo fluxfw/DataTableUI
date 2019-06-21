@@ -54,6 +54,10 @@ interface TableFilterStorage {
 	 */
 	const VAR_DESELECT_COLUMN = "deselect_column";
 	/**
+	 * @var string
+	 */
+	const VAR_EXPORT_FORMAT_ID = "export_format_id";
+	/**
 	 * @var string[]
 	 */
 	const VARS = [

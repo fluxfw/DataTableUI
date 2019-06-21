@@ -2,17 +2,20 @@
 
 namespace srag\TableUI\Implementation;
 
+use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Input\Container\Filter\Standard;
+use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterStandard;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ilTemplateWrapper;
 use ILIAS\UI\Renderer as RendererInterface;
 use ilTemplate;
 use ilUIFilterRequestAdapter;
 use ilUIFilterService;
+use ilUtil;
 use srag\DIC\DICTrait;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\TableData as TableDataInterface;
+use srag\TableUI\Component\Export\TableExportFormat;
 use srag\TableUI\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
 use srag\TableUI\Component\Filter\Storage\TableFilterStorage as TableFilterStorageInterface;
 use srag\TableUI\Component\Filter\TableFilter;
@@ -33,7 +36,7 @@ class Renderer extends AbstractComponentRenderer {
 
 	use DICTrait;
 	/**
-	 * @var Standard|null
+	 * @var FilterStandard|null
 	 */
 	protected $filter_form = null;
 
@@ -77,6 +80,8 @@ class Renderer extends AbstractComponentRenderer {
 
 		$data = $this->handleFetchData($component, $filter);
 
+		$this->handleExport($component, $columns, $data);
+
 		$dir = __DIR__;
 		$dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1) . "/../..";
 
@@ -92,50 +97,53 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->handleFilterForm($tpl, $component, $filter);
 
-		$this->handlePagesSelector($tpl, $component, $filter, $data);
-
-		$this->handleRowsPerPageSelector($tpl, $component, $filter);
-
-		$this->handleColumnsSelector($tpl, $component, $filter);
+		$this->handleActionsPanel($tpl, $component, $filter, $data);
 
 		$tpl->setCurrentBlock("header");
 		foreach ($columns as $column) {
+			$deselect_button = "";
 			$sort_button = $column->getColumnFormater()->formatHeader($column);
 			$remove_sort_button = "";
+
+			if ($column->isSelectable()) {
+				$deselect_button = self::dic()->ui()->factory()->button()->shy(self::output()->getHTML(self::dic()->ui()->factory()->symbol()->glyph()
+					->remove()), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_DESELECT_COLUMN . "="
+					. $column->getKey()));
+			}
+
 			if ($column->isSortable()) {
 				$sort_field = $filter->getSortField($column->getKey());
 
 				if ($sort_field !== null) {
 					if ($sort_field->getSortFieldDirection() === TableFilterSortFieldInterface::SORT_DIRECTION_DOWN) {
-						$sort_button = $this->createPostLink($component, [
+						$sort_button = self::dic()->ui()->factory()->button()->shy(self::output()->getHTML([
 							$sort_button,
 							self::dic()->ui()->factory()->symbol()->glyph()->sortDescending()
-						], [
-							TableFilterStorageInterface::VAR_SORT_FIELD => $column->getKey(),
-							TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION => TableFilterSortFieldInterface::SORT_DIRECTION_UP
-						]);
+						]), ilUtil::appendUrlParameterString(ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_SORT_FIELD
+							. "=" . $column->getKey()), TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION . "="
+							. TableFilterSortFieldInterface::SORT_DIRECTION_UP));
 					} else {
-						$sort_button = $this->createPostLink($component, [
+						$sort_button = self::dic()->ui()->factory()->button()->shy(self::output()->getHTML([
 							$sort_button,
 							self::dic()->ui()->factory()->symbol()->glyph()->sortAscending()
-						], [
-							TableFilterStorageInterface::VAR_SORT_FIELD => $column->getKey(),
-							TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION => TableFilterSortFieldInterface::SORT_DIRECTION_DOWN
-						]);
+						]), ilUtil::appendUrlParameterString(ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_SORT_FIELD
+							. "=" . $column->getKey()), TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION . "="
+							. TableFilterSortFieldInterface::SORT_DIRECTION_DOWN));
 					}
 
-					$remove_sort_button = $this->createPostLink($component, self::dic()->ui()->factory()->symbol()->glyph()->remove(), [
-						TableFilterStorageInterface::VAR_REMOVE_SORT_FIELD => $column->getKey()
-					]);
+					$remove_sort_button = self::dic()->ui()->factory()->button()->shy(self::output()->getHTML(self::dic()->ui()->factory()->symbol()
+						->glyph()
+						->back()), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_REMOVE_SORT_FIELD
+						. "=" . $column->getKey()));
 				} else {
-					$sort_button = $this->createPostLink($component, $sort_button, [
-						TableFilterStorageInterface::VAR_SORT_FIELD => $column->getKey(),
-						TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION => TableFilterSortFieldInterface::SORT_DIRECTION_UP
-					]);
+					$sort_button = self::dic()->ui()->factory()->button()
+						->shy($sort_button, ilUtil::appendUrlParameterString(ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_SORT_FIELD
+							. "=" . $column->getKey()), TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION . "="
+							. TableFilterSortFieldInterface::SORT_DIRECTION_UP));
 				}
 			}
 
-			$tpl->setVariable("HEADER", self::output()->getHTML([ $sort_button, $remove_sort_button ]));
+			$tpl->setVariable("HEADER", self::output()->getHTML([ $deselect_button, $sort_button, $remove_sort_button ]));
 
 			$tpl->parseCurrentBlock();
 		}
@@ -193,39 +201,46 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return TableFilter
 	 */
 	protected function handleFilterInput(TableUIInterface $component, TableFilter $filter): TableFilter {
-		if (strtoupper(filter_input(INPUT_SERVER, "REQUEST_METHOD")) === "POST") {
+		//if (strtoupper(filter_input(INPUT_SERVER, "REQUEST_METHOD")) === "POST") {
 
-			$sort_field = strval(filter_input(INPUT_POST, TableFilterStorageInterface::VAR_SORT_FIELD));
-			$sort_field_direction = intval(filter_input(INPUT_POST, TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION));
-			if (!empty($sort_field) && !empty($sort_field_direction)) {
-				$filter = $filter->addSortField(new  TableFilterSortField($sort_field, $sort_field_direction));
-			}
+		$sort_field = strval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_SORT_FIELD));
+		$sort_field_direction = intval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION));
+		if (!empty($sort_field) && !empty($sort_field_direction)) {
+			$filter = $filter->addSortField(new  TableFilterSortField($sort_field, $sort_field_direction));
 
-			$remove_sort_field = strval(filter_input(INPUT_POST, TableFilterStorageInterface::VAR_REMOVE_SORT_FIELD));
-			if (!empty($remove_sort_field)) {
-				$filter = $filter->removeSortField($remove_sort_field);
-			}
+			$filter = $filter->withFilterSet(true);
+		}
 
-			$rows_count = intval(filter_input(INPUT_POST, TableFilterStorageInterface::VAR_ROWS_COUNT));
-			if (!empty($rows_count)) {
-				$filter = $filter->withRowsCount($rows_count);
-				$filter = $filter->withCurrentPage(); // Reset current page on row change
-			}
+		$remove_sort_field = strval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_REMOVE_SORT_FIELD));
+		if (!empty($remove_sort_field)) {
+			$filter = $filter->removeSortField($remove_sort_field);
 
-			$current_page = intval(filter_input(INPUT_POST, TableFilterStorageInterface::VAR_CURRENT_PAGE));
-			if (!empty($current_page)) {
-				$filter = $filter->withCurrentPage($current_page);
-			}
+			$filter = $filter->withFilterSet(true);
+		}
 
-			$select_column = strval(filter_input(INPUT_POST, TableFilterStorageInterface::VAR_SELECT_COLUMN));
-			if (!empty($select_column)) {
-				$filter = $filter->selectColumn($select_column);
-			}
+		$rows_count = intval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_ROWS_COUNT));
+		if (!empty($rows_count)) {
+			$filter = $filter->withRowsCount($rows_count);
+			$filter = $filter->withCurrentPage(); // Reset current page on row change
+		}
 
-			$deselect_column = strval(filter_input(INPUT_POST, TableFilterStorageInterface::VAR_DESELECT_COLUMN));
-			if (!empty($deselect_column)) {
-				$filter = $filter->deselectColumn($deselect_column);
-			}
+		$current_page = intval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_CURRENT_PAGE));
+		if (!empty($current_page)) {
+			$filter = $filter->withCurrentPage($current_page);
+
+			$filter = $filter->withFilterSet(true);
+		}
+
+		$select_column = strval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_SELECT_COLUMN));
+		if (!empty($select_column)) {
+			$filter = $filter->selectColumn($select_column);
+
+			$filter = $filter->withFilterSet(true);
+		}
+
+		$deselect_column = strval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_DESELECT_COLUMN));
+		if (!empty($deselect_column)) {
+			$filter = $filter->deselectColumn($deselect_column);
 
 			$filter = $filter->withFilterSet(true);
 		}
@@ -243,6 +258,8 @@ class Renderer extends AbstractComponentRenderer {
 
 			if (is_array($data)) {
 				$filter = $filter->withFieldValues($data);
+
+				$filter = $filter->withFilterSet(true);
 			}
 		} catch (Throwable $ex) {
 
@@ -353,65 +370,92 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param TableFilter        $filter
 	 * @param TableDataInterface $data
 	 */
-	protected function handlePagesSelector(ilTemplateWrapper $tpl, TableUIInterface $component, TableFilter $filter, TableDataInterface $data): void {
-		$tpl->setVariable("PAGES_SELECTOR", self::output()->getHTML([
-			"Pages: ",
-			implode("", array_map(function (int $page) use ($component, $filter): string {
-				if ($filter->getCurrentPage() === $page) {
-					return strval($page);
-				} else {
-					return $this->createPostLink($component, strval($page), [
-						TableFilterStorageInterface::VAR_CURRENT_PAGE => $page
-					]);
-				}
-			}, range(1, $filter->getTotalPages($data->getMaxCount()))))
-		]));
+	protected function handleActionsPanel(ilTemplateWrapper $tpl, TableUIInterface $component, TableFilter $filter, TableDataInterface $data): void {
+		$tpl->setVariable("ACTIONS", self::output()->getHTML(self::dic()->ui()->factory()->panel()->standard("", [
+			$this->getPagesSelector($component, $filter, $data),
+			$this->getColumnsSelector($component, $filter),
+			$this->getRowsPerPageSelector($component, $filter),
+			$this->getExportsSelector($component)
+		])));
 	}
 
 
 	/**
-	 * @param ilTemplateWrapper $tpl
-	 * @param TableUIInterface  $component
-	 * @param TableFilter       $filter
+	 * @param TableUIInterface   $component
+	 * @param TableFilter        $filter
+	 * @param TableDataInterface $data
+	 *
+	 * @return Component
 	 */
-	protected function handleRowsPerPageSelector(ilTemplateWrapper $tpl, TableUIInterface $component, TableFilter $filter): void {
-		$tpl->setVariable("ROWS_PER_PAGE_SELECTOR", self::output()->getHTML([
-			"Rows per page: ",
-			implode("", array_map(function (int $count) use ($component, $filter): string {
-				if ($filter->getRowsCount() === $count) {
-					return strval($count);
-				} else {
-					return $this->createPostLink($component, strval($count), [
-						TableFilterStorageInterface::VAR_ROWS_COUNT => $count
-					]);
-				}
-			}, TableFilter::ROWS_COUNT))
-		]));
+	protected function getPagesSelector(TableUIInterface $component, TableFilter $filter, TableDataInterface $data): Component {
+		return self::dic()->ui()->factory()->dropdown()->standard(array_map(function (int $page) use ($component, $filter): Component {
+			if ($filter->getCurrentPage() === $page) {
+				return self::dic()->ui()->factory()->legacy(self::output()->getHTML([
+					self::dic()->ui()->factory()->symbol()->glyph()->apply(),
+					strval($page)
+				]));
+			} else {
+				return self::dic()->ui()->factory()->button()
+					->shy(strval($page), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_CURRENT_PAGE
+						. "=" . $page));
+			}
+		}, range(1, $filter->getTotalPages($data->getMaxCount()))))
+			->withLabel("Pages ({$filter->getCurrentPage()} of {$filter->getTotalPages($data->getMaxCount())})");
 	}
 
 
 	/**
-	 * @param ilTemplateWrapper $tpl
-	 * @param TableUIInterface  $component
-	 * @param TableFilter       $filter
+	 * @param TableUIInterface $component
+	 * @param TableFilter      $filter
+	 *
+	 * @return Component
 	 */
-	protected function handleColumnsSelector(ilTemplateWrapper $tpl, TableUIInterface $component, TableFilter $filter): void {
-		$tpl->setVariable("COLUMNS_SELECTOR", self::output()->getHTML([
-			"Columns: ",
-			implode("", array_map(function (TableColumn $column) use ($component, $filter): string {
-				if (in_array($column->getKey(), $filter->getSelectedColumns())) {
-					return $this->createPostLink($component, [ $column->getTitle(), self::dic()->ui()->factory()->symbol()->glyph()->remove() ], [
-						TableFilterStorageInterface::VAR_DESELECT_COLUMN => $column->getKey()
-					]);
-				} else {
-					return $this->createPostLink($component, $column->getTitle(), [
-						TableFilterStorageInterface::VAR_SELECT_COLUMN => $column->getKey()
-					]);
-				}
-			}, array_filter($component->getColumns(), function (TableColumn $column): bool {
-				return $column->isSelectable();
-			})))
-		]));
+	protected function getColumnsSelector(TableUIInterface $component, TableFilter $filter): Component {
+		return self::dic()->ui()->factory()->dropdown()->standard(array_map(function (TableColumn $column) use ($component, $filter): Shy {
+			return self::dic()->ui()->factory()->button()->shy(self::output()->getHTML([
+				self::dic()->ui()->factory()->symbol()->glyph()->add(),
+				$column->getTitle()
+			]), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_SELECT_COLUMN . "="
+				. $column->getKey()));
+		}, array_filter($component->getColumns(), function (TableColumn $column) use ($filter): bool {
+			return ($column->isSelectable() && !in_array($column->getKey(), $filter->getSelectedColumns()));
+		})))->withLabel("Add columns");
+	}
+
+
+	/**
+	 * @param TableUIInterface $component
+	 * @param TableFilter      $filter
+	 *
+	 * @return Component
+	 */
+	protected function getRowsPerPageSelector(TableUIInterface $component, TableFilter $filter): Component {
+		return self::dic()->ui()->factory()->dropdown()->standard(array_map(function (int $count) use ($component, $filter): Component {
+			if ($filter->getRowsCount() === $count) {
+				return self::dic()->ui()->factory()->legacy(self::output()->getHTML([
+					self::dic()->ui()->factory()->symbol()->glyph()->apply(),
+					strval($count)
+				]));
+			} else {
+				return self::dic()->ui()->factory()->button()
+					->shy(strval($count), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_ROWS_COUNT
+						. "=" . $count));
+			}
+		}, TableFilter::ROWS_COUNT))->withLabel("Rows per page ({$filter->getRowsCount()})");
+	}
+
+
+	/**
+	 * @param TableUIInterface $component
+	 *
+	 * @return Component
+	 */
+	protected function getExportsSelector(TableUIInterface $component): Component {
+		return self::dic()->ui()->factory()->dropdown()->standard(array_map(function (TableExportFormat $export_format) use ($component): Shy {
+			return self::dic()->ui()->factory()->button()
+				->shy($export_format->getTitle(), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_EXPORT_FORMAT_ID
+					. "=" . $export_format->getId()));
+		}, $component->getExportFormats()))->withLabel("Export");
 	}
 
 
@@ -434,28 +478,37 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * @param TableUIInterface $component
-	 * @param mixed            $label
-	 * @param array            $fields
-	 *
-	 * @return string
+	 * @param TableUIInterface   $component
+	 * @param TableColumn[]      $columns
+	 * @param TableDataInterface $data
 	 */
-	protected function createPostLink(TableUIInterface $component, $label, array $fields): string {
-		$tpl = new ilTemplateWrapper(self::dic()->mainTemplate(), new ilTemplate(__DIR__ . "/../../templates/post_link.html", true, true));
+	protected function handleExport(TableUIInterface $component, array $columns, TableDataInterface $data): void {
+		$export_format_id = intval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_EXPORT_FORMAT_ID));
 
-		$tpl->setVariable("ACTION_URL", $component->getActionUrl());
+		if (!empty($export_format_id)) {
 
-		$tpl->setVariable("LABEL", self::output()->getHTML($label));
+			$export_format = current(array_filter($component->getExportFormats(), function (TableExportFormat $export_format) use ($export_format_id): bool {
+				return ($export_format->getId() === $export_format_id);
+			}));
 
-		$tpl->setCurrentBlock("field");
-		foreach ($fields as $key => $value) {
-			$tpl->setVariable("NAME", $key);
+			if ($export_format !== null) {
 
-			$tpl->setVariable("VALUE", $value);
+				$columns_ = [];
+				foreach ($columns as $column) {
+					$columns_[] = $column->getExportFormater()->formatHeader($export_format, $column);
+				}
 
-			$tpl->parseCurrentBlock();
+				$rows_ = [];
+				foreach ($data->getData() as $row) {
+					$row_ = [];
+					foreach ($columns as $column) {
+						$row_[] = $column->getExportFormater()->formatRow($export_format, $column, $row);
+					}
+					$rows_[] = $row_;
+				}
+
+				$export_format->export($columns_, $rows_);
+			}
 		}
-
-		return self::output()->getHTML($tpl);
 	}
 }

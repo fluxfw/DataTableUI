@@ -6,6 +6,7 @@ use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Row\TableRowData;
 use srag\TableUI\Component\Export\Formater\TableExportFormater;
 use srag\TableUI\Component\Export\TableExportFormat;
+use Throwable;
 
 /**
  * Class SimplePropertyTableExportFormater
@@ -48,7 +49,11 @@ class SimplePropertyTableExportFormater implements TableExportFormater {
 
 		switch ($export_format->getId()) {
 			default:
-				$value = strval($row->getOriginalData()->{$column->getKey()});
+				try {
+					$value = strval($row->getOriginalData()->{$column->getKey()});
+				} catch (Throwable $ex) {
+					$value = "";
+				}
 				break;
 		}
 
