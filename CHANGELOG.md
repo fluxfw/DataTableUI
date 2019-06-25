@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.5.1]
+- Factory
+
 ## [0.5.0]
 - Optimized ui
 - Basic export implementation

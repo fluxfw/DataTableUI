@@ -14,15 +14,13 @@ use ilUIFilterService;
 use ilUtil;
 use srag\DIC\DICTrait;
 use srag\TableUI\Component\Column\TableColumn;
-use srag\TableUI\Component\Data\TableData as TableDataInterface;
+use srag\TableUI\Component\Data\TableData;
 use srag\TableUI\Component\Export\TableExportFormat;
-use srag\TableUI\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
+use srag\TableUI\Component\Filter\Sort\TableFilterSortField;
 use srag\TableUI\Component\Filter\Storage\TableFilterStorage as TableFilterStorageInterface;
 use srag\TableUI\Component\Filter\TableFilter;
 use srag\TableUI\Component\TableUI as TableUIInterface;
-use srag\TableUI\Implementation\Data\TableData;
-use srag\TableUI\Implementation\Filter\Sort\TableFilterSortField;
-use srag\TableUI\Implementation\Filter\Storage\TableFilterStorage;
+use srag\TableUI\Utils\TableUITrait;
 use Throwable;
 
 /**
@@ -35,6 +33,7 @@ use Throwable;
 class Renderer extends AbstractComponentRenderer {
 
 	use DICTrait;
+	use TableUITrait;
 	/**
 	 * @var FilterStandard|null
 	 */
@@ -66,7 +65,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderStandard(TableUIInterface $component, RendererInterface $default_renderer): string {
-		$filter_storage = new TableFilterStorage();
+		$filter_storage = self::tableui()->filterStorage();
 
 		$filter = $filter_storage->read($component->getId(), self::dic()->user()->getId());
 
@@ -115,20 +114,20 @@ class Renderer extends AbstractComponentRenderer {
 				$sort_field = $filter->getSortField($column->getKey());
 
 				if ($sort_field !== null) {
-					if ($sort_field->getSortFieldDirection() === TableFilterSortFieldInterface::SORT_DIRECTION_DOWN) {
+					if ($sort_field->getSortFieldDirection() === TableFilterSortField::SORT_DIRECTION_DOWN) {
 						$sort_button = self::dic()->ui()->factory()->button()->shy(self::output()->getHTML([
 							$sort_button,
 							self::dic()->ui()->factory()->symbol()->glyph()->sortDescending()
 						]), ilUtil::appendUrlParameterString(ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_SORT_FIELD
 							. "=" . $column->getKey()), TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION . "="
-							. TableFilterSortFieldInterface::SORT_DIRECTION_UP));
+							. TableFilterSortField::SORT_DIRECTION_UP));
 					} else {
 						$sort_button = self::dic()->ui()->factory()->button()->shy(self::output()->getHTML([
 							$sort_button,
 							self::dic()->ui()->factory()->symbol()->glyph()->sortAscending()
 						]), ilUtil::appendUrlParameterString(ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_SORT_FIELD
 							. "=" . $column->getKey()), TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION . "="
-							. TableFilterSortFieldInterface::SORT_DIRECTION_DOWN));
+							. TableFilterSortField::SORT_DIRECTION_DOWN));
 					}
 
 					$remove_sort_button = self::dic()->ui()->factory()->button()->shy(self::output()->getHTML(self::dic()->ui()->factory()->symbol()
@@ -139,7 +138,7 @@ class Renderer extends AbstractComponentRenderer {
 					$sort_button = self::dic()->ui()->factory()->button()
 						->shy($sort_button, ilUtil::appendUrlParameterString(ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorageInterface::VAR_SORT_FIELD
 							. "=" . $column->getKey()), TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION . "="
-							. TableFilterSortFieldInterface::SORT_DIRECTION_UP));
+							. TableFilterSortField::SORT_DIRECTION_UP));
 				}
 			}
 
@@ -206,7 +205,7 @@ class Renderer extends AbstractComponentRenderer {
 		$sort_field = strval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_SORT_FIELD));
 		$sort_field_direction = intval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_SORT_FIELD_DIRECTION));
 		if (!empty($sort_field) && !empty($sort_field_direction)) {
-			$filter = $filter->addSortField(new  TableFilterSortField($sort_field, $sort_field_direction));
+			$filter = $filter->addSortField(self::tableui()->filterSortField($sort_field, $sort_field_direction));
 
 			$filter = $filter->withFilterSet(true);
 		}
@@ -277,8 +276,8 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function handleDefaultSort(TableUIInterface $component, TableFilter $filter): TableFilter {
 		if (!$filter->isFilterSet() && empty($filter->getSortFields())) {
-			$filter = $filter->withSortFields(array_map(function (TableColumn $column): TableFilterSortFieldInterface {
-				return new TableFilterSortField($column->getKey(), $column->getDefaultSortDirection());
+			$filter = $filter->withSortFields(array_map(function (TableColumn $column): TableFilterSortField {
+				return self::tableui()->filterSortField($column->getKey(), $column->getDefaultSortDirection());
 			}, array_filter($component->getColumns(), function (TableColumn $column): bool {
 				return $column->isDefaultSort();
 			})));
@@ -328,13 +327,13 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param TableUIInterface $component
 	 * @param TableFilter      $filter
 	 *
-	 * @return TableDataInterface
+	 * @return TableData
 	 */
-	protected function handleFetchData(TableUIInterface $component, TableFilter $filter): TableDataInterface {
+	protected function handleFetchData(TableUIInterface $component, TableFilter $filter): TableData {
 		if (!$component->isFetchDataNeedsFilterFirstSet() || $filter->isFilterSet()) {
 			$data = $component->getDataFetcher()->fetchData($filter);
 		} else {
-			$data = new TableData([], 0);
+			$data = self::tableui()->data([], 0);
 		}
 
 		return $data;
@@ -365,12 +364,12 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * @param ilTemplateWrapper  $tpl
-	 * @param TableUIInterface   $component
-	 * @param TableFilter        $filter
-	 * @param TableDataInterface $data
+	 * @param ilTemplateWrapper $tpl
+	 * @param TableUIInterface  $component
+	 * @param TableFilter       $filter
+	 * @param TableData         $data
 	 */
-	protected function handleActionsPanel(ilTemplateWrapper $tpl, TableUIInterface $component, TableFilter $filter, TableDataInterface $data): void {
+	protected function handleActionsPanel(ilTemplateWrapper $tpl, TableUIInterface $component, TableFilter $filter, TableData $data): void {
 		$tpl->setVariable("ACTIONS", self::output()->getHTML(self::dic()->ui()->factory()->panel()->standard("", [
 			$this->getPagesSelector($component, $filter, $data),
 			$this->getColumnsSelector($component, $filter),
@@ -381,13 +380,13 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * @param TableUIInterface   $component
-	 * @param TableFilter        $filter
-	 * @param TableDataInterface $data
+	 * @param TableUIInterface $component
+	 * @param TableFilter      $filter
+	 * @param TableData        $data
 	 *
 	 * @return Component
 	 */
-	protected function getPagesSelector(TableUIInterface $component, TableFilter $filter, TableDataInterface $data): Component {
+	protected function getPagesSelector(TableUIInterface $component, TableFilter $filter, TableData $data): Component {
 		return self::dic()->ui()->factory()->dropdown()->standard(array_map(function (int $page) use ($component, $filter): Component {
 			if ($filter->getCurrentPage() === $page) {
 				return self::dic()->ui()->factory()->legacy(self::output()->getHTML([
@@ -460,11 +459,11 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * @param ilTemplateWrapper  $tpl
-	 * @param TableFilter        $filter
-	 * @param TableDataInterface $data
+	 * @param ilTemplateWrapper $tpl
+	 * @param TableFilter       $filter
+	 * @param TableData         $data
 	 */
-	protected function handleDisplayCount(ilTemplateWrapper $tpl, TableFilter $filter, TableDataInterface $data): void {
+	protected function handleDisplayCount(ilTemplateWrapper $tpl, TableFilter $filter, TableData $data): void {
 		$tpl->setVariable("COUNT", self::output()->getHTML([
 			"(",
 			strval($filter->getLimitStart() + 1),
@@ -478,11 +477,11 @@ class Renderer extends AbstractComponentRenderer {
 
 
 	/**
-	 * @param TableUIInterface   $component
-	 * @param TableColumn[]      $columns
-	 * @param TableDataInterface $data
+	 * @param TableUIInterface $component
+	 * @param TableColumn[]    $columns
+	 * @param TableData        $data
 	 */
-	protected function handleExport(TableUIInterface $component, array $columns, TableDataInterface $data): void {
+	protected function handleExport(TableUIInterface $component, array $columns, TableData $data): void {
 		$export_format_id = intval(filter_input(INPUT_GET, TableFilterStorageInterface::VAR_EXPORT_FORMAT_ID));
 
 		if (!empty($export_format_id)) {
