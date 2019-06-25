@@ -42,6 +42,7 @@ class TablePDFExportFormat implements TableExportFormat {
 	 * @inheritDoc
 	 */
 	public function export(array $columns, array $rows): void {
+		// TODO:
 		throw new NotImplementedException("PDF export not implemented yet!");
 	}
 }

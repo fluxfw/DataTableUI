@@ -7,19 +7,24 @@ use ILIAS\UI\Component\Input\Field\FilterInput;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
 use srag\TableUI\Component\Export\TableExportFormat;
+use srag\TableUI\Component\Filter\Storage\TableFilterStorage;
 use srag\TableUI\Component\Filter\TableFilter;
 
 /**
- * Interface TableUI
+ * Interface Table
  *
  * @package srag\TableUI\Component
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface TableUI extends Component {
+interface Table extends Component {
+
+	const ACTION_GET_VAR = "row_id";
+	const MULTIPLE_SELECT_POST_VAR = "selected_row_ids";
+
 
 	/**
-	 * TableUI constructor
+	 * Table constructor
 	 *
 	 * @param string           $id
 	 * @param string           $action_url
@@ -171,15 +176,15 @@ interface TableUI extends Component {
 
 
 	/**
-	 * @return bool
+	 * @return TableFilterStorage|null
 	 */
-	public function isSelectAll(): bool;
+	public function getFilterStorage(): ?TableFilterStorage;
 
 
 	/**
-	 * @param bool $select_all
+	 * @param TableFilterStorage|null $filter_storage
 	 *
 	 * @return self
 	 */
-	public function withSelectAll(bool $select_all = false): self;
+	public function withFilterStorage(?TableFilterStorage $filter_storage): self;
 }

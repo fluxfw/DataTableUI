@@ -18,12 +18,12 @@ interface TableColumn {
 	/**
 	 * TableColumn constructor
 	 *
-	 * @param string              $key
-	 * @param string              $title
-	 * @param TableColumnFormater $column_formater
-	 * @param TableExportFormater $export_formater
+	 * @param string                   $key
+	 * @param string                   $title
+	 * @param TableColumnFormater      $column_formater
+	 * @param TableExportFormater|null $export_formater
 	 */
-	public function __construct(string $key, string $title, TableColumnFormater $column_formater, TableExportFormater $export_formater);
+	public function __construct(string $key, string $title, TableColumnFormater $column_formater, ?TableExportFormater $export_formater = null);
 
 
 	/**
@@ -69,17 +69,17 @@ interface TableColumn {
 
 
 	/**
-	 * @return TableExportFormater
+	 * @return TableExportFormater|null
 	 */
-	public function getExportFormater(): TableExportFormater;
+	public function getExportFormater(): ?TableExportFormater;
 
 
 	/**
-	 * @param TableExportFormater $export_formater
+	 * @param TableExportFormater|null $export_formater
 	 *
 	 * @return self
 	 */
-	public function withExportFormater(TableExportFormater $export_formater): self;
+	public function withExportFormater(?TableExportFormater $export_formater = null): self;
 
 
 	/**

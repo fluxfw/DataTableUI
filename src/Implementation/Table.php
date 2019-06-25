@@ -7,17 +7,18 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
 use srag\TableUI\Component\Export\TableExportFormat;
+use srag\TableUI\Component\Filter\Storage\TableFilterStorage;
 use srag\TableUI\Component\Filter\TableFilter;
-use srag\TableUI\Component\TableUI as TableUIInterface;
+use srag\TableUI\Component\Table as TableInterface;
 
 /**
- * Class TableUI
+ * Class Table
  *
  * @package srag\TableUI\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class TableUI implements TableUIInterface {
+class Table implements TableInterface {
 
 	use ComponentHelper;
 	/**
@@ -61,9 +62,9 @@ class TableUI implements TableUIInterface {
 	 */
 	protected $multiple_actions = [];
 	/**
-	 * @var bool
+	 * @var TableFilterStorage|null
 	 */
-	protected $select_all = false;
+	protected $filter_storage = null;
 
 
 	/**
@@ -93,7 +94,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withId(string $id): TableUIInterface {
+	public function withId(string $id): TableInterface {
 		$clone = clone $this;
 
 		$clone->id = $id;
@@ -113,7 +114,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withActionUrl(string $action_url): TableUIInterface {
+	public function withActionUrl(string $action_url): TableInterface {
 		$clone = clone $this;
 
 		$clone->action_url = $action_url;
@@ -133,7 +134,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withTitle(string $title): TableUIInterface {
+	public function withTitle(string $title): TableInterface {
 		$clone = clone $this;
 
 		$clone->title = $title;
@@ -153,7 +154,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFetchDataNeedsFilterFirstSet(bool $fetch_data_needs_filter_first_set = false): TableUIInterface {
+	public function withFetchDataNeedsFilterFirstSet(bool $fetch_data_needs_filter_first_set = false): TableInterface {
 		$clone = clone $this;
 
 		$clone->fetch_data_needs_filter_first_set = $fetch_data_needs_filter_first_set;
@@ -173,7 +174,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFilterPosition(int $filter_position = TableFilter::FILTER_POSITION_TOP): TableUIInterface {
+	public function withFilterPosition(int $filter_position = TableFilter::FILTER_POSITION_TOP): TableInterface {
 		$clone = clone $this;
 
 		$clone->filter_position = $filter_position;
@@ -193,7 +194,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withColumns(array $columns): TableUIInterface {
+	public function withColumns(array $columns): TableInterface {
 		$clone = clone $this;
 
 		$clone->columns = $columns;
@@ -213,7 +214,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFetchData(TableDataFetcher $data_fetcher): TableUIInterface {
+	public function withFetchData(TableDataFetcher $data_fetcher): TableInterface {
 		$clone = clone $this;
 
 		$clone->data_fetcher = $data_fetcher;
@@ -233,7 +234,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFilterFields(array $filter_fields): TableUIInterface {
+	public function withFilterFields(array $filter_fields): TableInterface {
 		$clone = clone $this;
 
 		$clone->filter_fields = $filter_fields;
@@ -253,7 +254,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withExportFormats(array $export_formats): TableUIInterface {
+	public function withExportFormats(array $export_formats): TableInterface {
 		$clone = clone $this;
 
 		$clone->export_formats = $export_formats;
@@ -273,7 +274,7 @@ class TableUI implements TableUIInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withMultipleActions(array $multiple_actions): TableUIInterface {
+	public function withMultipleActions(array $multiple_actions): TableInterface {
 		$clone = clone $this;
 
 		$clone->multiple_actions = $multiple_actions;
@@ -283,22 +284,20 @@ class TableUI implements TableUIInterface {
 
 
 	/**
-	 * @return bool
+	 * @inheritDoc
 	 */
-	public function isSelectAll(): bool {
-		return $this->select_all;
+	public function getFilterStorage(): ?TableFilterStorage {
+		return $this->filter_storage;
 	}
 
 
 	/**
-	 * @param bool $select_all
-	 *
-	 * @return self
+	 * @inheritDoc
 	 */
-	public function withSelectAll(bool $select_all = false): TableUIInterface {
+	public function withFilterStorage(?TableFilterStorage $filter_storage): TableInterface {
 		$clone = clone $this;
 
-		$clone->select_all = $select_all;
+		$clone->filter_storage = $filter_storage;
 
 		return $clone;
 	}

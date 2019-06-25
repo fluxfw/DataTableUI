@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.6.0]
+- Basic multiple actions implementation
+
 ## [0.5.1]
 - Factory
 

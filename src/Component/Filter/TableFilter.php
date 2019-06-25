@@ -20,7 +20,7 @@ interface TableFilter {
 	/**
 	 * @var int
 	 */
-	const FILTER_POSTION_BOTTOM = 2;
+	const FILTER_POSITION_BOTTOM = 2;
 	/**
 	 * @var int
 	 */
