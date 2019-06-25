@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\TableUI\Implementation\Column;
+namespace srag\TableUI\Example\Column\Formater;
 
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Row\TableRowData;
@@ -11,7 +11,7 @@ use Throwable;
 /**
  * Class SimplePropertyTableExportFormater
  *
- * @package srag\TableUI\Implementation\Column
+ * @package srag\TableUI\Example\Column\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

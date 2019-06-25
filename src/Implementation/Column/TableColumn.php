@@ -29,9 +29,9 @@ class TableColumn implements TableColumnInterface {
 	 */
 	protected $column_formater;
 	/**
-	 * @var TableExportFormater
+	 * @var TableExportFormater|null
 	 */
-	protected $export_formater;
+	protected $export_formater = null;
 	/**
 	 * @var bool
 	 */
@@ -61,7 +61,7 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(string $key, string $title, TableColumnFormater $column_formater, TableExportFormater $export_formater) {
+	public function __construct(string $key, string $title, TableColumnFormater $column_formater, ?TableExportFormater $export_formater = null) {
 		$this->key = $key;
 
 		$this->title = $title;
@@ -135,7 +135,7 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getExportFormater(): TableExportFormater {
+	public function getExportFormater(): ?TableExportFormater {
 		return $this->export_formater;
 	}
 
@@ -143,7 +143,7 @@ class TableColumn implements TableColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withExportFormater(TableExportFormater $export_formater): TableColumnInterface {
+	public function withExportFormater(?TableExportFormater $export_formater = null): TableColumnInterface {
 		$clone = clone $this;
 
 		$clone->export_formater = $export_formater;

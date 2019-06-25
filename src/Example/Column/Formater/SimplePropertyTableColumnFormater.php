@@ -1,9 +1,7 @@
 <?php
 
-namespace srag\TableUI\Implementation\Column;
+namespace srag\TableUI\Example\Column\Formater;
 
-use ILIAS\UI\Component\Component;
-use srag\DIC\DICTrait;
 use srag\TableUI\Component\Column\Formater\TableColumnFormater;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\Row\TableRowData;
@@ -11,14 +9,11 @@ use srag\TableUI\Component\Data\Row\TableRowData;
 /**
  * Class SimplePropertyTableColumnFormater
  *
- * @package srag\TableUI\Implementation\Column
+ * @package srag\TableUI\Example\Column\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class SimplePropertyTableColumnFormater implements TableColumnFormater {
-
-	use DICTrait;
-
 
 	/**
 	 * @inheritDoc
@@ -42,10 +37,6 @@ class SimplePropertyTableColumnFormater implements TableColumnFormater {
 	public function formatRow(TableColumn $column, TableRowData $row): string {
 		$value = $row->getOriginalData()->{$column->getKey()};
 
-		if ($value instanceof Component) {
-			return self::output()->getHTML($value);
-		} else {
-			return strval($value);
-		}
+		return strval($value);
 	}
 }

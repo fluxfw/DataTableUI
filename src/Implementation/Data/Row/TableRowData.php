@@ -14,6 +14,10 @@ use srag\TableUI\Component\Data\Row\TableRowData as TableRowDataInterface;
 class TableRowData implements TableRowDataInterface {
 
 	/**
+	 * @var string
+	 */
+	protected $row_id = "";
+	/**
 	 * @var object
 	 */
 	protected $original_data;
@@ -22,8 +26,29 @@ class TableRowData implements TableRowDataInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(object $original_data) {
+	public function __construct(string $row_id, object $original_data) {
+		$this->row_id = $row_id;
 		$this->original_data = $original_data;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getRowId(): string {
+		return $this->row_id;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withRowId(string $row_id): TableRowDataInterface {
+		$clone = clone $this;
+
+		$clone->row_id = $row_id;
+
+		return $clone;
 	}
 
 

@@ -42,6 +42,7 @@ class TableExcelExportFormat implements TableExportFormat {
 	 * @inheritDoc
 	 */
 	public function export(array $columns, array $rows): void {
+		// TODO:
 		throw new NotImplementedException("Excel export not implemented yet!");
 	}
 }
