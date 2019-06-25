@@ -2,7 +2,7 @@
 
 namespace srag\TableUI\Component\Filter\Storage;
 
-use srag\TableUI\Component\Filter\TableFilter as TableFilterInterface;
+use srag\TableUI\Component\Filter\TableFilter;
 
 /**
  * Interface TableFilterStorage
@@ -79,13 +79,13 @@ interface TableFilterStorage {
 	 * @param string $table_id
 	 * @param int    $user_id
 	 *
-	 * @return TableFilterInterface
+	 * @return TableFilter
 	 */
-	public function read(string $table_id, int $user_id): TableFilterInterface;
+	public function read(string $table_id, int $user_id): TableFilter;
 
 
 	/**
-	 * @param TableFilterInterface $filter
+	 * @param TableFilter $filter
 	 */
-	public function store(TableFilterInterface $filter): void;
+	public function store(TableFilter $filter): void;
 }

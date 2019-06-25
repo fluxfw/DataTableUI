@@ -3,11 +3,10 @@
 namespace srag\TableUI\Implementation\Filter\Storage;
 
 use ilTablePropertiesStorage;
-use srag\TableUI\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
+use srag\TableUI\Component\Filter\Sort\TableFilterSortField;
 use srag\TableUI\Component\Filter\Storage\TableFilterStorage as TableFilterStorageInterface;
-use srag\TableUI\Component\Filter\TableFilter as TableFilterInterface;
-use srag\TableUI\Implementation\Filter\Sort\TableFilterSortField;
-use srag\TableUI\Implementation\Filter\TableFilter;
+use srag\TableUI\Component\Filter\TableFilter;
+use srag\TableUI\Utils\TableUITrait;
 
 /**
  * Class TableFilterStorage
@@ -18,6 +17,7 @@ use srag\TableUI\Implementation\Filter\TableFilter;
  */
 class TableFilterStorage implements TableFilterStorageInterface {
 
+	use TableUITrait;
 	/**
 	 * @var ilTablePropertiesStorage
 	 */
@@ -41,8 +41,8 @@ class TableFilterStorage implements TableFilterStorageInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function read(string $table_id, int $user_id): TableFilterInterface {
-		$filter = new TableFilter($table_id, $user_id);
+	public function read(string $table_id, int $user_id): TableFilter {
+		$filter = self::tableui()->filter($table_id, $user_id);
 
 		foreach (self::VARS as $property) {
 			$value = json_decode($this->properties_storage->getProperty($filter->getTableId(), $filter->getUserId(), $property), true);
@@ -50,8 +50,8 @@ class TableFilterStorage implements TableFilterStorageInterface {
 			if (!empty($value)) {
 				switch ($property) {
 					case self::VAR_SORT_FIELDS:
-						$filter = $filter->withSortFields(array_map(function (array $sort_field): TableFilterSortFieldInterface {
-							return new TableFilterSortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
+						$filter = $filter->withSortFields(array_map(function (array $sort_field): TableFilterSortField {
+							return self::tableui()->filterSortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
 						}, $value));
 						break;
 
@@ -70,7 +70,7 @@ class TableFilterStorage implements TableFilterStorageInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function store(TableFilterInterface $filter): void {
+	public function store(TableFilter $filter): void {
 		foreach (self::VARS as $property) {
 			$value = "";
 			if (method_exists($filter, $method = "get" . $this->strToCamelCase($property))) {
