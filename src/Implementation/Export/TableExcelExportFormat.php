@@ -2,7 +2,7 @@
 
 namespace srag\TableUI\Implementation\Export;
 
-use ILIAS\UI\NotImplementedException;
+use ilExcel;
 use srag\TableUI\Component\Export\TableExportFormat;
 
 /**
@@ -41,8 +41,27 @@ class TableExcelExportFormat implements TableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function export(array $columns, array $rows): void {
-		// TODO:
-		throw new NotImplementedException("Excel export not implemented yet!");
+	public function export(array $columns, array $rows, string $title): void {
+		$excel = new ilExcel();
+
+		$excel->addSheet($title);
+
+		$current_row = 1;
+		$current_col = 0;
+
+		foreach ($columns as $current_col => $column) {
+			$excel->setCell($current_row, $current_col, $column);
+		}
+		$excel->setBold("A" . $current_row . ":" . $excel->getColumnCoord($current_col) . $current_row);
+		$current_row ++;
+
+		foreach ($rows as $row) {
+			foreach ($row as $current_col => $column) {
+				$excel->setCell($current_row, $current_col, $column);
+			}
+			$current_row ++;
+		}
+
+		$excel->sendToClient($title);
 	}
 }

@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.7.0]
+- Implement CSV and excel export
+
 ## [0.6.1]
 - Restruct factory
 
