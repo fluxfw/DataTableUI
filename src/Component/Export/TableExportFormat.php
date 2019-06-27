@@ -46,6 +46,8 @@ interface TableExportFormat {
 	/**
 	 * @param string[] $columns
 	 * @param array    $rows
+	 *
+	 * @return string
 	 */
-	public function export(array $columns, array $rows): void;
+	public function export(array $columns, array $rows, string $title): void;
 }

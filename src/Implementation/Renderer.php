@@ -412,7 +412,7 @@ class Renderer extends AbstractComponentRenderer {
 			$rows_[] = $row_;
 		}
 
-		$export_format->export($columns_, $rows_);
+		$export_format->export($columns_, $rows_, $component->getTitle());
 	}
 
 
