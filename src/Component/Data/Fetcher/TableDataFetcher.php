@@ -3,6 +3,7 @@
 namespace srag\TableUI\Component\Data\Fetcher;
 
 use srag\TableUI\Component\Data\TableData;
+use srag\TableUI\Component\Factory\Factory;
 use srag\TableUI\Component\Filter\TableFilter;
 
 /**
@@ -16,8 +17,10 @@ interface TableDataFetcher {
 
 	/**
 	 * TableDataFetcher constructor
+	 *
+	 * @param Factory $factory
 	 */
-	public function __construct();
+	public function __construct(Factory $factory);
 
 
 	/**

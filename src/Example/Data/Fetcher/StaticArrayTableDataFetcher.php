@@ -5,9 +5,9 @@ namespace srag\TableUI\Example\Data\Fetcher;
 use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
 use srag\TableUI\Component\Data\Row\TableRowData;
 use srag\TableUI\Component\Data\TableData;
+use srag\TableUI\Component\Factory\Factory;
 use srag\TableUI\Component\Filter\Sort\TableFilterSortField;
 use srag\TableUI\Component\Filter\TableFilter;
-use srag\TableUI\Utils\TableUITrait;
 use stdClass;
 
 /**
@@ -19,7 +19,10 @@ use stdClass;
  */
 class StaticArrayTableDataFetcher implements TableDataFetcher {
 
-	use TableUITrait;
+	/**
+	 * @var Factory
+	 */
+	protected $factory;
 	/**
 	 * @var stdClass[]
 	 */
@@ -29,8 +32,8 @@ class StaticArrayTableDataFetcher implements TableDataFetcher {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
-
+	public function __construct(Factory $factory) {
+		$this->factory = $factory;
 	}
 
 
@@ -119,9 +122,9 @@ class StaticArrayTableDataFetcher implements TableDataFetcher {
 		$data = array_slice($data, $filter->getLimitStart(), $filter->getLimitEnd());
 
 		$data = array_map(function (stdClass $row): TableRowData {
-			return self::tableui()->rowData($row->column1, $row);
+			return $this->factory->rowData($row->column1, $row);
 		}, $data);
 
-		return self::tableui()->data($data, $max_count);
+		return $this->factory->data($data, $max_count);
 	}
 }

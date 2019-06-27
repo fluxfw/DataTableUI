@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.6.1]
+- Restruct factory
+
 ## [0.6.0]
 - Basic multiple actions implementation
 

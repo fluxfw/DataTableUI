@@ -2,6 +2,7 @@
 
 namespace srag\TableUI\Component\Filter\Storage;
 
+use srag\TableUI\Component\Factory\Factory;
 use srag\TableUI\Component\Filter\TableFilter;
 
 /**
@@ -71,8 +72,10 @@ interface TableFilterStorage {
 
 	/**
 	 * TableFilterStorage constructor
+	 *
+	 * @param Factory $factory
 	 */
-	public function __construct();
+	public function __construct(Factory $factory);
 
 
 	/**

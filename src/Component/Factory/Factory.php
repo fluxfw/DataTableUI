@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\TableUI\Component;
+namespace srag\TableUI\Component\Factory;
 
 use srag\TableUI\Component\Column\Formater\TableColumnFormater;
 use srag\TableUI\Component\Column\TableColumn;
@@ -12,11 +12,12 @@ use srag\TableUI\Component\Export\TableExportFormat;
 use srag\TableUI\Component\Filter\Sort\TableFilterSortField;
 use srag\TableUI\Component\Filter\Storage\TableFilterStorage;
 use srag\TableUI\Component\Filter\TableFilter;
+use srag\TableUI\Component\Table;
 
 /**
  * Interface Factory
  *
- * @package srag\TableUI\Component
+ * @package srag\TableUI\Component\Factory
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

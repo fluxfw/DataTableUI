@@ -17,6 +17,7 @@ use srag\DIC\DICTrait;
 use srag\TableUI\Component\Column\TableColumn;
 use srag\TableUI\Component\Data\TableData;
 use srag\TableUI\Component\Export\TableExportFormat;
+use srag\TableUI\Component\Factory\Factory;
 use srag\TableUI\Component\Filter\Sort\TableFilterSortField;
 use srag\TableUI\Component\Filter\Storage\TableFilterStorage;
 use srag\TableUI\Component\Filter\TableFilter;
@@ -66,22 +67,25 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderStandard(Table $component, RendererInterface $renderer): string {
+		// TODO: Later from `$this->getUIFactory()`
+		$factory = self::tableui();
+
 		$filter_storage = $component->getFilterStorage();
 		if ($filter_storage === null) {
-			$filter_storage = self::tableui()->filterStorage();
+			$filter_storage = $factory->filterStorage();
 		}
 
 		$filter = $filter_storage->read($component->getId(), self::dic()->user()->getId());
 
-		$filter = $this->handleFilterInput($component, $filter);
+		$filter = $this->handleFilterInput($component, $filter, $factory);
 
-		$filter = $this->handleDefaultSort($component, $filter);
+		$filter = $this->handleDefaultSort($component, $filter, $factory);
 
 		$filter = $this->handleDefaultSelectedColumns($component, $filter);
 
 		$columns = $this->getColumns($component, $filter);
 
-		$data = $this->handleFetchData($component, $filter);
+		$data = $this->handleFetchData($component, $filter, $factory);
 
 		$this->handleExport($component, $columns, $data);
 
@@ -335,13 +339,14 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @param Table       $component
 	 * @param TableFilter $filter
+	 * @param Factory     $factory
 	 *
 	 * @return TableFilter
 	 */
-	protected function handleDefaultSort(Table $component, TableFilter $filter): TableFilter {
+	protected function handleDefaultSort(Table $component, TableFilter $filter, Factory $factory): TableFilter {
 		if (!$filter->isFilterSet() && empty($filter->getSortFields())) {
-			$filter = $filter->withSortFields(array_map(function (TableColumn $column): TableFilterSortField {
-				return self::tableui()->filterSortField($column->getKey(), $column->getDefaultSortDirection());
+			$filter = $filter->withSortFields(array_map(function (TableColumn $column) use ($factory): TableFilterSortField {
+				return $factory->filterSortField($column->getKey(), $column->getDefaultSortDirection());
 			}, array_filter($component->getColumns(), function (TableColumn $column): bool {
 				return ($column->isSortable() && $column->isDefaultSort());
 			})));
@@ -414,14 +419,15 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @param Table       $component
 	 * @param TableFilter $filter
+	 * @param Factory     $factory
 	 *
 	 * @return TableData
 	 */
-	protected function handleFetchData(Table $component, TableFilter $filter): TableData {
+	protected function handleFetchData(Table $component, TableFilter $filter, Factory $factory): TableData {
 		if (!$component->isFetchDataNeedsFilterFirstSet() || $filter->isFilterSet()) {
 			$data = $component->getDataFetcher()->fetchData($filter);
 		} else {
-			$data = self::tableui()->data([], 0);
+			$data = $factory->data([], 0);
 		}
 
 		return $data;
@@ -459,16 +465,17 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @param Table       $component
 	 * @param TableFilter $filter
+	 * @param Factory     $factory
 	 *
 	 * @return TableFilter
 	 */
-	protected function handleFilterInput(Table $component, TableFilter $filter): TableFilter {
+	protected function handleFilterInput(Table $component, TableFilter $filter, Factory $factory): TableFilter {
 		//if (strtoupper(filter_input(INPUT_SERVER, "REQUEST_METHOD")) === "POST") {
 
 		$sort_field = strval(filter_input(INPUT_GET, TableFilterStorage::VAR_SORT_FIELD));
 		$sort_field_direction = intval(filter_input(INPUT_GET, TableFilterStorage::VAR_SORT_FIELD_DIRECTION));
 		if (!empty($sort_field) && !empty($sort_field_direction)) {
-			$filter = $filter->addSortField(self::tableui()->filterSortField($sort_field, $sort_field_direction));
+			$filter = $filter->addSortField($factory->filterSortField($sort_field, $sort_field_direction));
 
 			$filter = $filter->withFilterSet(true);
 		}

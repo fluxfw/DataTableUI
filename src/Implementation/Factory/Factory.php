@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\TableUI\Implementation;
+namespace srag\TableUI\Implementation\Factory;
 
 use srag\TableUI\Component\Column\Formater\TableColumnFormater;
 use srag\TableUI\Component\Column\TableColumn as TableColumnInterface;
@@ -9,7 +9,7 @@ use srag\TableUI\Component\Data\Row\TableRowData as TableRowDataInterface;
 use srag\TableUI\Component\Data\TableData as TableDataInterface;
 use srag\TableUI\Component\Export\Formater\TableExportFormater;
 use srag\TableUI\Component\Export\TableExportFormat;
-use srag\TableUI\Component\Factory as FactoryInterface;
+use srag\TableUI\Component\Factory\Factory as FactoryInterface;
 use srag\TableUI\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
 use srag\TableUI\Component\Filter\Storage\TableFilterStorage as TableFilterStorageInterface;
 use srag\TableUI\Component\Filter\TableFilter as TableFilterInterface;
@@ -25,11 +25,12 @@ use srag\TableUI\Implementation\Export\TablePDFExportFormat;
 use srag\TableUI\Implementation\Filter\Sort\TableFilterSortField;
 use srag\TableUI\Implementation\Filter\Storage\TableFilterStorage;
 use srag\TableUI\Implementation\Filter\TableFilter;
+use srag\TableUI\Implementation\Table;
 
 /**
  * Class Factory
  *
- * @package srag\TableUI\Implementation
+ * @package srag\TableUI\Implementation\Factory
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -96,7 +97,7 @@ class Factory implements FactoryInterface {
 	 * @inheritDoc
 	 */
 	public function filterStorage(): TableFilterStorageInterface {
-		return new TableFilterStorage();
+		return new TableFilterStorage($this);
 	}
 
 

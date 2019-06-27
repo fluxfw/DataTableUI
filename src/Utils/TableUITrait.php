@@ -2,8 +2,8 @@
 
 namespace srag\TableUI\Utils;
 
-use srag\TableUI\Component\Factory as FactoryInterface;
-use srag\TableUI\Implementation\Factory;
+use srag\TableUI\Component\Factory\Factory as FactoryInterface;
+use srag\TableUI\Implementation\Factory\Factory;
 
 /**
  * Trait TableUITrait
