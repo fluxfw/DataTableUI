@@ -1,14 +1,16 @@
 <?php
 
-namespace srag\TableUI\Component\Column\Formater;
+namespace ILIAS\UI\DataTable\Component\Column\Formater;
 
-use srag\TableUI\Component\Column\TableColumn;
-use srag\TableUI\Component\Data\Row\TableRowData;
+use ILIAS\DI\Container;
+use ILIAS\UI\DataTable\Component\Column\TableColumn;
+use ILIAS\UI\DataTable\Component\Data\Row\TableRowData;
+use ILIAS\UI\Renderer;
 
 /**
  * Interface TableColumnFormater
  *
- * @package srag\TableUI\Component\Column\Formater
+ * @package ILIAS\UI\DataTable\Component\Column\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -22,17 +24,21 @@ interface TableColumnFormater {
 
 	/**
 	 * @param TableColumn $column
+	 * @param Renderer    $renderer
+	 * @param Container   $dic
 	 *
 	 * @return string
 	 */
-	public function formatHeader(TableColumn $column): string;
+	public function formatHeader(TableColumn $column, Renderer $renderer, Container $dic): string;
 
 
 	/**
 	 * @param TableColumn  $column
 	 * @param TableRowData $row
+	 * @param Renderer     $renderer
+	 * @param Container    $dic
 	 *
 	 * @return string
 	 */
-	public function formatRow(TableColumn $column, TableRowData $row): string;
+	public function formatRow(TableColumn $column, TableRowData $row, Renderer $renderer, Container $dic): string;
 }

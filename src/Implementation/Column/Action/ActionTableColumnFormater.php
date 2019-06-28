@@ -1,27 +1,25 @@
 <?php
 
-namespace srag\TableUI\Implementation\Column\Action;
+namespace ILIAS\UI\DataTable\Implementation\Column\Action;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\DataTable\Component\Column\Action\ActionTableColumn;
+use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
+use ILIAS\UI\DataTable\Component\Column\TableColumn;
+use ILIAS\UI\DataTable\Component\Data\Row\TableRowData;
+use ILIAS\UI\DataTable\Component\DataTable;
+use ILIAS\UI\Renderer;
 use ilUtil;
-use srag\DIC\DICTrait;
-use srag\TableUI\Component\Column\Action\ActionTableColumn;
-use srag\TableUI\Component\Column\Formater\TableColumnFormater;
-use srag\TableUI\Component\Column\TableColumn;
-use srag\TableUI\Component\Data\Row\TableRowData;
-use srag\TableUI\Component\Table;
 
 /**
  * Class ActionTableColumnFormater
  *
- * @package srag\TableUI\Implementation\Column\Action
+ * @package ILIAS\UI\DataTable\Implementation\Column\Action
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ActionTableColumnFormater implements TableColumnFormater {
-
-	use DICTrait;
-
 
 	/**
 	 * @inheritDoc
@@ -34,7 +32,7 @@ class ActionTableColumnFormater implements TableColumnFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatHeader(TableColumn $column): string {
+	public function formatHeader(TableColumn $column, Renderer $renderer, Container $dic): string {
 		return $column->getTitle();
 	}
 
@@ -44,10 +42,10 @@ class ActionTableColumnFormater implements TableColumnFormater {
 	 *
 	 * @param ActionTableColumn $column
 	 */
-	public function formatRow(TableColumn $column, TableRowData $row): string {
-		return self::dic()->ui()->renderer()->render(self::dic()->ui()->factory()->dropdown()
-			->standard(array_map(function (string $title, string $action) use ($row): Shy {
-				return self::dic()->ui()->factory()->button()->shy($title, ilUtil::appendUrlParameterString($action, Table::ACTION_GET_VAR . "="
+	public function formatRow(TableColumn $column, TableRowData $row, Renderer $renderer, Container $dic): string {
+		return $renderer->render($dic->ui()->factory()->dropdown()
+			->standard(array_map(function (string $title, string $action) use ($row, $dic): Shy {
+				return $dic->ui()->factory()->button()->shy($title, ilUtil::appendUrlParameterString($action, DataTable::ACTION_GET_VAR . "="
 					. $row->getRowId()));
 			}, array_keys($column->getActions()), $column->getActions()))->withLabel($column->getTitle()));
 	}

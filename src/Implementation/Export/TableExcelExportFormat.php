@@ -1,14 +1,16 @@
 <?php
 
-namespace srag\TableUI\Implementation\Export;
+namespace ILIAS\UI\DataTable\Implementation\Export;
 
 use ilExcel;
-use srag\TableUI\Component\Export\TableExportFormat;
+use ILIAS\DI\Container;
+use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
+use ILIAS\UI\Renderer;
 
 /**
  * Class TableExcelExportFormat
  *
- * @package srag\TableUI\Implementation\Export
+ * @package ILIAS\UI\DataTable\Implementation\Export
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -41,7 +43,7 @@ class TableExcelExportFormat implements TableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function export(array $columns, array $rows, string $title): void {
+	public function export(array $columns, array $rows, string $title, Renderer $renderer, Container $dic): void {
 		$excel = new ilExcel();
 
 		$excel->addSheet($title);

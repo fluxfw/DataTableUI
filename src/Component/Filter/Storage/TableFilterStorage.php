@@ -1,14 +1,14 @@
 <?php
 
-namespace srag\TableUI\Component\Filter\Storage;
+namespace ILIAS\UI\DataTable\Component\Filter\Storage;
 
-use srag\TableUI\Component\Factory\Factory;
-use srag\TableUI\Component\Filter\TableFilter;
+use ILIAS\UI\DataTable\Component\Factory\Factory;
+use ILIAS\UI\DataTable\Component\Filter\TableFilter;
 
 /**
  * Interface TableFilterStorage
  *
- * @package srag\TableUI\Component\Filter\Storage
+ * @package ILIAS\UI\DataTable\Component\Filter\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

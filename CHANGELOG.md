@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.8.0]
+- No default FilterStorage
+- Reduce direct dic usage
+- Change to ILIAS namespace and DataTable
+
 ## [0.7.0]
 - Implement CSV and excel export
 

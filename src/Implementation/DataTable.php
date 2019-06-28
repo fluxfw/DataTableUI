@@ -1,24 +1,24 @@
 <?php
 
-namespace srag\TableUI\Implementation;
+namespace ILIAS\UI\DataTable\Implementation;
 
 use ILIAS\UI\Component\Input\Field\FilterInput;
+use ILIAS\UI\DataTable\Component\Column\TableColumn;
+use ILIAS\UI\DataTable\Component\Data\Fetcher\TableDataFetcher;
+use ILIAS\UI\DataTable\Component\DataTable as DataTableInterface;
+use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
+use ILIAS\UI\DataTable\Component\Filter\Storage\TableFilterStorage;
+use ILIAS\UI\DataTable\Component\Filter\TableFilter;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use srag\TableUI\Component\Column\TableColumn;
-use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
-use srag\TableUI\Component\Export\TableExportFormat;
-use srag\TableUI\Component\Filter\Storage\TableFilterStorage;
-use srag\TableUI\Component\Filter\TableFilter;
-use srag\TableUI\Component\Table as TableInterface;
 
 /**
- * Class Table
+ * Class DataTable
  *
- * @package srag\TableUI\Implementation
+ * @package ILIAS\UI\DataTable\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class Table implements TableInterface {
+class DataTable implements DataTableInterface {
 
 	use ComponentHelper;
 	/**
@@ -62,15 +62,15 @@ class Table implements TableInterface {
 	 */
 	protected $multiple_actions = [];
 	/**
-	 * @var TableFilterStorage|null
+	 * @var TableFilterStorage
 	 */
-	protected $filter_storage = null;
+	protected $filter_storage;
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher) {
+	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage) {
 		$this->id = $id;
 
 		$this->action_url = $action_url;
@@ -80,6 +80,8 @@ class Table implements TableInterface {
 		$this->columns = $columns;
 
 		$this->data_fetcher = $data_fetcher;
+
+		$this->filter_storage = $filter_storage;
 	}
 
 
@@ -94,7 +96,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withId(string $id): TableInterface {
+	public function withId(string $id): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->id = $id;
@@ -114,7 +116,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withActionUrl(string $action_url): TableInterface {
+	public function withActionUrl(string $action_url): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->action_url = $action_url;
@@ -134,7 +136,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withTitle(string $title): TableInterface {
+	public function withTitle(string $title): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->title = $title;
@@ -154,7 +156,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFetchDataNeedsFilterFirstSet(bool $fetch_data_needs_filter_first_set = false): TableInterface {
+	public function withFetchDataNeedsFilterFirstSet(bool $fetch_data_needs_filter_first_set = false): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->fetch_data_needs_filter_first_set = $fetch_data_needs_filter_first_set;
@@ -174,7 +176,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFilterPosition(int $filter_position = TableFilter::FILTER_POSITION_TOP): TableInterface {
+	public function withFilterPosition(int $filter_position = TableFilter::FILTER_POSITION_TOP): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->filter_position = $filter_position;
@@ -194,7 +196,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withColumns(array $columns): TableInterface {
+	public function withColumns(array $columns): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->columns = $columns;
@@ -214,7 +216,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFetchData(TableDataFetcher $data_fetcher): TableInterface {
+	public function withFetchData(TableDataFetcher $data_fetcher): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->data_fetcher = $data_fetcher;
@@ -234,7 +236,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFilterFields(array $filter_fields): TableInterface {
+	public function withFilterFields(array $filter_fields): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->filter_fields = $filter_fields;
@@ -254,7 +256,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withExportFormats(array $export_formats): TableInterface {
+	public function withExportFormats(array $export_formats): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->export_formats = $export_formats;
@@ -274,7 +276,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withMultipleActions(array $multiple_actions): TableInterface {
+	public function withMultipleActions(array $multiple_actions): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->multiple_actions = $multiple_actions;
@@ -286,7 +288,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getFilterStorage(): ?TableFilterStorage {
+	public function getFilterStorage(): TableFilterStorage {
 		return $this->filter_storage;
 	}
 
@@ -294,7 +296,7 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withFilterStorage(?TableFilterStorage $filter_storage): TableInterface {
+	public function withFilterStorage(TableFilterStorage $filter_storage): DataTableInterface {
 		$clone = clone $this;
 
 		$clone->filter_storage = $filter_storage;

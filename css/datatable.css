@@ -1,0 +1,1 @@
+.datatable .panel-body{display:flex;flex-direction:row;flex-wrap:wrap}.datatable .panel-body>*{margin:0 5px}.datatable .panel-body>:first-child+*{margin-left:auto}.datatable .glyph{display:inline-block!important}

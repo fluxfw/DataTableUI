@@ -1,14 +1,14 @@
 <?php
 
-namespace srag\TableUI\Utils;
+namespace ILIAS\UI\DataTable\Utils;
 
-use srag\TableUI\Component\Factory\Factory as FactoryInterface;
-use srag\TableUI\Implementation\Factory\Factory;
+use ILIAS\UI\DataTable\Component\Factory\Factory as FactoryInterface;
+use ILIAS\UI\DataTable\Implementation\Factory\Factory;
 
 /**
  * Trait TableUITrait
  *
- * @package srag\TableUI\Utils
+ * @package ILIAS\UI\DataTable\Utils
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -17,7 +17,7 @@ trait TableUITrait {
 	/**
 	 * @return FactoryInterface
 	 */
-	protected static function tableui(): FactoryInterface {
+	protected static function datatable(): FactoryInterface {
 		return new Factory();
 	}
 }

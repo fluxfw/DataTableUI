@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\TableUI\Component\Data\Fetcher;
+namespace ILIAS\UI\DataTable\Component\Data\Fetcher;
 
-use srag\TableUI\Component\Data\TableData;
-use srag\TableUI\Component\Factory\Factory;
-use srag\TableUI\Component\Filter\TableFilter;
+use ILIAS\UI\DataTable\Component\Data\TableData;
+use ILIAS\UI\DataTable\Component\Factory\Factory;
+use ILIAS\UI\DataTable\Component\Filter\TableFilter;
 
 /**
  * Interface TableDataFetcher
  *
- * @package srag\TableUI\Component\Data\Fetcher
+ * @package ILIAS\UI\DataTable\Component\Data\Fetcher
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

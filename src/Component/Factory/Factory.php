@@ -1,23 +1,22 @@
 <?php
 
-namespace srag\TableUI\Component\Factory;
+namespace ILIAS\UI\DataTable\Component\Factory;
 
-use srag\TableUI\Component\Column\Formater\TableColumnFormater;
-use srag\TableUI\Component\Column\TableColumn;
-use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
-use srag\TableUI\Component\Data\Row\TableRowData;
-use srag\TableUI\Component\Data\TableData;
-use srag\TableUI\Component\Export\Formater\TableExportFormater;
-use srag\TableUI\Component\Export\TableExportFormat;
-use srag\TableUI\Component\Filter\Sort\TableFilterSortField;
-use srag\TableUI\Component\Filter\Storage\TableFilterStorage;
-use srag\TableUI\Component\Filter\TableFilter;
-use srag\TableUI\Component\Table;
+use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
+use ILIAS\UI\DataTable\Component\Column\TableColumn;
+use ILIAS\UI\DataTable\Component\Data\Fetcher\TableDataFetcher;
+use ILIAS\UI\DataTable\Component\Data\Row\TableRowData;
+use ILIAS\UI\DataTable\Component\Data\TableData;
+use ILIAS\UI\DataTable\Component\DataTable;
+use ILIAS\UI\DataTable\Component\Export\Formater\TableExportFormater;
+use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
+use ILIAS\UI\DataTable\Component\Filter\Sort\TableFilterSortField;
+use ILIAS\UI\DataTable\Component\Filter\TableFilter;
 
 /**
  * Interface Factory
  *
- * @package srag\TableUI\Component\Factory
+ * @package ILIAS\UI\DataTable\Component\Factory
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -36,9 +35,9 @@ interface Factory {
 	 * @param TableColumn[]    $columns
 	 * @param TableDataFetcher $data_fetcher
 	 *
-	 * @return Table
+	 * @return DataTable
 	 */
-	public function table(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher): Table;
+	public function table(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher): DataTable;
 
 
 	/**
@@ -87,12 +86,6 @@ interface Factory {
 	 * @return TableFilterSortField
 	 */
 	public function filterSortField(string $sort_field, int $sort_field_direction): TableFilterSortField;
-
-
-	/**
-	 * @return TableFilterStorage
-	 */
-	public function filterStorage(): TableFilterStorage;
 
 
 	/**

@@ -1,16 +1,16 @@
 <?php
 
-namespace srag\TableUI\Implementation\Column;
+namespace ILIAS\UI\DataTable\Implementation\Column;
 
-use srag\TableUI\Component\Column\Formater\TableColumnFormater;
-use srag\TableUI\Component\Column\TableColumn as TableColumnInterface;
-use srag\TableUI\Component\Export\Formater\TableExportFormater;
-use srag\TableUI\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
+use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
+use ILIAS\UI\DataTable\Component\Column\TableColumn as TableColumnInterface;
+use ILIAS\UI\DataTable\Component\Export\Formater\TableExportFormater;
+use ILIAS\UI\DataTable\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
 
 /**
  * Class TableColumn
  *
- * @package srag\TableUI\Implementation\Column
+ * @package ILIAS\UI\DataTable\Implementation\Column
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
