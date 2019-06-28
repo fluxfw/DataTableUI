@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.8.1]
+- Improvments
+
 ## [0.8.0]
 - No default FilterStorage
 - Reduce direct dic usage

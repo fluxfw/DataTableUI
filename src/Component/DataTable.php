@@ -1,19 +1,20 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Component;
+namespace ILIAS\UI\Component\Table\Data;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\FilterInput;
-use ILIAS\UI\DataTable\Component\Column\TableColumn;
-use ILIAS\UI\DataTable\Component\Data\Fetcher\TableDataFetcher;
-use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
-use ILIAS\UI\DataTable\Component\Filter\Storage\TableFilterStorage;
-use ILIAS\UI\DataTable\Component\Filter\TableFilter;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn;
+use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
+use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
+use ILIAS\UI\Component\Table\Data\Factory\Factory;
+use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
+use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 
 /**
  * Interface DataTable
  *
- * @package ILIAS\UI\DataTable\Component
+ * @package ILIAS\UI\Component\Table\Data
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -32,8 +33,9 @@ interface DataTable extends Component {
 	 * @param TableColumn[]      $columns
 	 * @param TableDataFetcher   $data_fetcher
 	 * @param TableFilterStorage $filter_storage
+	 * @param Factory            $factory
 	 */
-	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage);
+	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage, Factory $factory);
 
 
 	/**
@@ -188,4 +190,10 @@ interface DataTable extends Component {
 	 * @return self
 	 */
 	public function withFilterStorage(TableFilterStorage $filter_storage): self;
+
+
+	/**
+	 * @return Factory
+	 */
+	public function getFactory(): Factory;
 }

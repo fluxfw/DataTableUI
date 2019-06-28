@@ -1,20 +1,21 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Implementation;
+namespace ILIAS\UI\Implementation\Table\Data;
 
 use ILIAS\UI\Component\Input\Field\FilterInput;
-use ILIAS\UI\DataTable\Component\Column\TableColumn;
-use ILIAS\UI\DataTable\Component\Data\Fetcher\TableDataFetcher;
-use ILIAS\UI\DataTable\Component\DataTable as DataTableInterface;
-use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
-use ILIAS\UI\DataTable\Component\Filter\Storage\TableFilterStorage;
-use ILIAS\UI\DataTable\Component\Filter\TableFilter;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn;
+use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
+use ILIAS\UI\Component\Table\Data\DataTable as DataTableInterface;
+use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
+use ILIAS\UI\Component\Table\Data\Factory\Factory;
+use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
+use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 
 /**
  * Class DataTable
  *
- * @package ILIAS\UI\DataTable\Implementation
+ * @package ILIAS\UI\Implementation\Table\Data
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -65,12 +66,16 @@ class DataTable implements DataTableInterface {
 	 * @var TableFilterStorage
 	 */
 	protected $filter_storage;
+	/**
+	 * @var Factory
+	 */
+	protected $factory;
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage) {
+	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage, Factory $factory) {
 		$this->id = $id;
 
 		$this->action_url = $action_url;
@@ -82,6 +87,8 @@ class DataTable implements DataTableInterface {
 		$this->data_fetcher = $data_fetcher;
 
 		$this->filter_storage = $filter_storage;
+
+		$this->factory = $factory;
 	}
 
 
@@ -302,5 +309,13 @@ class DataTable implements DataTableInterface {
 		$clone->filter_storage = $filter_storage;
 
 		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getFactory(): Factory {
+		return $this->factory;
 	}
 }

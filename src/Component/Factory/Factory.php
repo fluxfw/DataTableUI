@@ -1,22 +1,23 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Component\Factory;
+namespace ILIAS\UI\Component\Table\Data\Factory;
 
-use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
-use ILIAS\UI\DataTable\Component\Column\TableColumn;
-use ILIAS\UI\DataTable\Component\Data\Fetcher\TableDataFetcher;
-use ILIAS\UI\DataTable\Component\Data\Row\TableRowData;
-use ILIAS\UI\DataTable\Component\Data\TableData;
-use ILIAS\UI\DataTable\Component\DataTable;
-use ILIAS\UI\DataTable\Component\Export\Formater\TableExportFormater;
-use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
-use ILIAS\UI\DataTable\Component\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\DataTable\Component\Filter\TableFilter;
+use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn;
+use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
+use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
+use ILIAS\UI\Component\Table\Data\Data\TableData;
+use ILIAS\UI\Component\Table\Data\DataTable;
+use ILIAS\UI\Component\Table\Data\Export\Formater\TableExportFormater;
+use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
+use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
+use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 
 /**
  * Interface Factory
  *
- * @package ILIAS\UI\DataTable\Component\Factory
+ * @package ILIAS\UI\Component\Table\Data\Factory
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -29,15 +30,16 @@ interface Factory {
 
 
 	/**
-	 * @param string           $id
-	 * @param string           $action_url
-	 * @param string           $title
-	 * @param TableColumn[]    $columns
-	 * @param TableDataFetcher $data_fetcher
+	 * @param string             $id
+	 * @param string             $action_url
+	 * @param string             $title
+	 * @param TableColumn[]      $columns
+	 * @param TableDataFetcher   $data_fetcher
+	 * @param TableFilterStorage $filter_storage
 	 *
 	 * @return DataTable
 	 */
-	public function table(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher): DataTable;
+	public function table(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage): DataTable;
 
 
 	/**

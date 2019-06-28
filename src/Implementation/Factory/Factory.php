@@ -1,34 +1,35 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Implementation\Factory;
+namespace ILIAS\UI\Implementation\Table\Data\Factory;
 
-use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
-use ILIAS\UI\DataTable\Component\Column\TableColumn as TableColumnInterface;
-use ILIAS\UI\DataTable\Component\Data\Fetcher\TableDataFetcher;
-use ILIAS\UI\DataTable\Component\Data\Row\TableRowData as TableRowDataInterface;
-use ILIAS\UI\DataTable\Component\Data\TableData as TableDataInterface;
-use ILIAS\UI\DataTable\Component\DataTable as DataTableInterface;
-use ILIAS\UI\DataTable\Component\Export\Formater\TableExportFormater;
-use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
-use ILIAS\UI\DataTable\Component\Factory\Factory as FactoryInterface;
-use ILIAS\UI\DataTable\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
-use ILIAS\UI\DataTable\Component\Filter\TableFilter as TableFilterInterface;
-use ILIAS\UI\DataTable\Implementation\Column\Action\ActionTableColumn;
-use ILIAS\UI\DataTable\Implementation\Column\Action\ActionTableColumnFormater;
-use ILIAS\UI\DataTable\Implementation\Column\TableColumn;
-use ILIAS\UI\DataTable\Implementation\Data\Row\TableRowData;
-use ILIAS\UI\DataTable\Implementation\Data\TableData;
-use ILIAS\UI\DataTable\Implementation\DataTable;
-use ILIAS\UI\DataTable\Implementation\Export\TableCSVExportFormat;
-use ILIAS\UI\DataTable\Implementation\Export\TableExcelExportFormat;
-use ILIAS\UI\DataTable\Implementation\Export\TablePDFExportFormat;
-use ILIAS\UI\DataTable\Implementation\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\DataTable\Implementation\Filter\TableFilter;
+use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn as TableColumnInterface;
+use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
+use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData as TableRowDataInterface;
+use ILIAS\UI\Component\Table\Data\Data\TableData as TableDataInterface;
+use ILIAS\UI\Component\Table\Data\DataTable as DataTableInterface;
+use ILIAS\UI\Component\Table\Data\Export\Formater\TableExportFormater;
+use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
+use ILIAS\UI\Component\Table\Data\Factory\Factory as FactoryInterface;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
+use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
+use ILIAS\UI\Component\Table\Data\Filter\TableFilter as TableFilterInterface;
+use ILIAS\UI\Implementation\Table\Data\Column\Action\ActionTableColumn;
+use ILIAS\UI\Implementation\Table\Data\Column\Action\ActionTableColumnFormater;
+use ILIAS\UI\Implementation\Table\Data\Column\TableColumn;
+use ILIAS\UI\Implementation\Table\Data\Data\Row\TableRowData;
+use ILIAS\UI\Implementation\Table\Data\Data\TableData;
+use ILIAS\UI\Implementation\Table\Data\DataTable;
+use ILIAS\UI\Implementation\Table\Data\Export\TableCSVExportFormat;
+use ILIAS\UI\Implementation\Table\Data\Export\TableExcelExportFormat;
+use ILIAS\UI\Implementation\Table\Data\Export\TablePDFExportFormat;
+use ILIAS\UI\Implementation\Table\Data\Filter\Sort\TableFilterSortField;
+use ILIAS\UI\Implementation\Table\Data\Filter\TableFilter;
 
 /**
  * Class Factory
  *
- * @package ILIAS\UI\DataTable\Implementation\Factory
+ * @package ILIAS\UI\Implementation\Table\Data\Factory
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -45,8 +46,8 @@ class Factory implements FactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function table(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher): DataTableInterface {
-		return new DataTable($id, $action_url, $title, $columns, $data_fetcher);
+	public function table(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage): DataTableInterface {
+		return new DataTable($id, $action_url, $title, $columns, $data_fetcher, $filter_storage, $this);
 	}
 
 
