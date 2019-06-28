@@ -23,6 +23,7 @@ interface TableDataFetcher {
 
 	/**
 	 * @param TableFilter $filter
+	 * @param Factory $factory
 	 *
 	 * @return TableData
 	 */
