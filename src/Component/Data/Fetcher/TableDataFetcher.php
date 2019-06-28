@@ -17,10 +17,8 @@ interface TableDataFetcher {
 
 	/**
 	 * TableDataFetcher constructor
-	 *
-	 * @param Factory $factory
 	 */
-	public function __construct(Factory $factory);
+	public function __construct();
 
 
 	/**
@@ -28,5 +26,5 @@ interface TableDataFetcher {
 	 *
 	 * @return TableData
 	 */
-	public function fetchData(TableFilter $filter): TableData;
+	public function fetchData(TableFilter $filter, Factory $factory): TableData;
 }

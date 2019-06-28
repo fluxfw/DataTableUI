@@ -20,10 +20,6 @@ use stdClass;
 class StaticArrayTableDataFetcher implements TableDataFetcher {
 
 	/**
-	 * @var Factory
-	 */
-	protected $factory;
-	/**
 	 * @var stdClass[]
 	 */
 	protected $data = [];
@@ -32,8 +28,8 @@ class StaticArrayTableDataFetcher implements TableDataFetcher {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(Factory $factory) {
-		$this->factory = $factory;
+	public function __construct() {
+
 	}
 
 
@@ -62,7 +58,7 @@ class StaticArrayTableDataFetcher implements TableDataFetcher {
 	/**
 	 * @inheritDoc
 	 */
-	public function fetchData(TableFilter $filter): TableData {
+	public function fetchData(TableFilter $filter, Factory $factory): TableData {
 		$data = $this->data;
 
 		$data = array_filter($data, function (stdClass $data) use ($filter): bool {
