@@ -71,8 +71,8 @@ class TableCSVExportFormat implements TableExportFormat {
 		$stream = new Stream(fopen("php://memory", "rw"));
 		$stream->write($data);
 
-		$dic->http()->saveResponse(self::dic()->http()->response()->withBody($stream)->withHeader("Content-Disposition", 'attachment; filename="'
-			. $filename . '"')// Filename
+		$dic->http()->saveResponse($dic->http()->response()->withBody($stream)->withHeader("Content-Disposition", 'attachment; filename="' . $filename
+			. '"')// Filename
 		->withHeader("Content-Type", ilMimeTypeUtil::APPLICATION__OCTET_STREAM)// Force download
 		->withHeader("Expires", "0")->withHeader("Pragma", "public")); // No cache
 
