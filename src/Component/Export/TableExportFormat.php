@@ -1,11 +1,14 @@
 <?php
 
-namespace srag\TableUI\Component\Export;
+namespace ILIAS\UI\DataTable\Component\Export;
+
+use ILIAS\DI\Container;
+use ILIAS\UI\Renderer;
 
 /**
  * Interface TableExportFormat
  *
- * @package srag\TableUI\Component\Export
+ * @package ILIAS\UI\DataTable\Component\Export
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -44,9 +47,11 @@ interface TableExportFormat {
 
 
 	/**
-	 * @param string[] $columns
-	 * @param array    $rows
-	 * @param string   $title
+	 * @param string[]  $columns
+	 * @param array     $rows
+	 * @param string    $title
+	 * @param Renderer  $renderer
+	 * @param Container $dic
 	 */
-	public function export(array $columns, array $rows, string $title): void;
+	public function export(array $columns, array $rows, string $title, Renderer $renderer, Container $dic): void;
 }

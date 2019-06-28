@@ -1,15 +1,17 @@
 <?php
 
-namespace srag\TableUI\Example\Column\Formater;
+namespace ILIAS\UI\DataTable\Example\Column\Formater;
 
-use srag\TableUI\Component\Column\Formater\TableColumnFormater;
-use srag\TableUI\Component\Column\TableColumn;
-use srag\TableUI\Component\Data\Row\TableRowData;
+use ILIAS\DI\Container;
+use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
+use ILIAS\UI\DataTable\Component\Column\TableColumn;
+use ILIAS\UI\DataTable\Component\Data\Row\TableRowData;
+use ILIAS\UI\Renderer;
 
 /**
  * Class SimplePropertyTableColumnFormater
  *
- * @package srag\TableUI\Example\Column\Formater
+ * @package ILIAS\UI\DataTable\Example\Column\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -26,7 +28,7 @@ class SimplePropertyTableColumnFormater implements TableColumnFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatHeader(TableColumn $column): string {
+	public function formatHeader(TableColumn $column, Renderer $renderer, Container $dic): string {
 		return $column->getTitle();
 	}
 
@@ -34,7 +36,7 @@ class SimplePropertyTableColumnFormater implements TableColumnFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatRow(TableColumn $column, TableRowData $row): string {
+	public function formatRow(TableColumn $column, TableRowData $row, Renderer $renderer, Container $dic): string {
 		$value = $row->getOriginalData()->{$column->getKey()};
 
 		return strval($value);

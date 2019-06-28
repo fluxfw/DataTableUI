@@ -1,6 +1,6 @@
 {
   "name": "srag/tableui",
-  "description": "ILIAS 6.0 Table UI",
+  "description": "ILIAS 6.0 Data Table UI",
   "type": "library",
   "keywords": [
     "ILIAS",
@@ -21,12 +21,11 @@
     "issues": "https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LTABLEUI"
   },
   "require": {
-    "php": ">=7.2",
-    "srag/dic": ">=0.1.0"
+    "php": ">=7.2"
   },
   "autoload": {
     "psr-4": {
-      "srag\\TableUI\\": "src/"
+      "ILIAS\\UI\\DataTable\\": "src/"
     }
   },
   "config": {

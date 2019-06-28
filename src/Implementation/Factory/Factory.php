@@ -1,36 +1,34 @@
 <?php
 
-namespace srag\TableUI\Implementation\Factory;
+namespace ILIAS\UI\DataTable\Implementation\Factory;
 
-use srag\TableUI\Component\Column\Formater\TableColumnFormater;
-use srag\TableUI\Component\Column\TableColumn as TableColumnInterface;
-use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
-use srag\TableUI\Component\Data\Row\TableRowData as TableRowDataInterface;
-use srag\TableUI\Component\Data\TableData as TableDataInterface;
-use srag\TableUI\Component\Export\Formater\TableExportFormater;
-use srag\TableUI\Component\Export\TableExportFormat;
-use srag\TableUI\Component\Factory\Factory as FactoryInterface;
-use srag\TableUI\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
-use srag\TableUI\Component\Filter\Storage\TableFilterStorage as TableFilterStorageInterface;
-use srag\TableUI\Component\Filter\TableFilter as TableFilterInterface;
-use srag\TableUI\Component\Table as TableUIInterface;
-use srag\TableUI\Implementation\Column\Action\ActionTableColumn;
-use srag\TableUI\Implementation\Column\Action\ActionTableColumnFormater;
-use srag\TableUI\Implementation\Column\TableColumn;
-use srag\TableUI\Implementation\Data\Row\TableRowData;
-use srag\TableUI\Implementation\Data\TableData;
-use srag\TableUI\Implementation\Export\TableCSVExportFormat;
-use srag\TableUI\Implementation\Export\TableExcelExportFormat;
-use srag\TableUI\Implementation\Export\TablePDFExportFormat;
-use srag\TableUI\Implementation\Filter\Sort\TableFilterSortField;
-use srag\TableUI\Implementation\Filter\Storage\TableFilterStorage;
-use srag\TableUI\Implementation\Filter\TableFilter;
-use srag\TableUI\Implementation\Table;
+use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
+use ILIAS\UI\DataTable\Component\Column\TableColumn as TableColumnInterface;
+use ILIAS\UI\DataTable\Component\Data\Fetcher\TableDataFetcher;
+use ILIAS\UI\DataTable\Component\Data\Row\TableRowData as TableRowDataInterface;
+use ILIAS\UI\DataTable\Component\Data\TableData as TableDataInterface;
+use ILIAS\UI\DataTable\Component\DataTable as DataTableInterface;
+use ILIAS\UI\DataTable\Component\Export\Formater\TableExportFormater;
+use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
+use ILIAS\UI\DataTable\Component\Factory\Factory as FactoryInterface;
+use ILIAS\UI\DataTable\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
+use ILIAS\UI\DataTable\Component\Filter\TableFilter as TableFilterInterface;
+use ILIAS\UI\DataTable\Implementation\Column\Action\ActionTableColumn;
+use ILIAS\UI\DataTable\Implementation\Column\Action\ActionTableColumnFormater;
+use ILIAS\UI\DataTable\Implementation\Column\TableColumn;
+use ILIAS\UI\DataTable\Implementation\Data\Row\TableRowData;
+use ILIAS\UI\DataTable\Implementation\Data\TableData;
+use ILIAS\UI\DataTable\Implementation\DataTable;
+use ILIAS\UI\DataTable\Implementation\Export\TableCSVExportFormat;
+use ILIAS\UI\DataTable\Implementation\Export\TableExcelExportFormat;
+use ILIAS\UI\DataTable\Implementation\Export\TablePDFExportFormat;
+use ILIAS\UI\DataTable\Implementation\Filter\Sort\TableFilterSortField;
+use ILIAS\UI\DataTable\Implementation\Filter\TableFilter;
 
 /**
  * Class Factory
  *
- * @package srag\TableUI\Implementation\Factory
+ * @package ILIAS\UI\DataTable\Implementation\Factory
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -47,8 +45,8 @@ class Factory implements FactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function table(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher): TableUIInterface {
-		return new Table($id, $action_url, $title, $columns, $data_fetcher);
+	public function table(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher): DataTableInterface {
+		return new DataTable($id, $action_url, $title, $columns, $data_fetcher);
 	}
 
 
@@ -96,14 +94,6 @@ class Factory implements FactoryInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function filterStorage(): TableFilterStorageInterface {
-		return new TableFilterStorage($this);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
 	public function rowData(string $row_id, object $original_data): TableRowDataInterface {
 		return new TableRowData($row_id, $original_data);
 	}
@@ -137,7 +127,7 @@ class Factory implements FactoryInterface {
 	 * @inheritDoc
 	 */
 	public function getActionRowId(): string {
-		return strval(filter_input(INPUT_GET, TableUIInterface::ACTION_GET_VAR));
+		return strval(filter_input(INPUT_GET, DataTableInterface::ACTION_GET_VAR));
 	}
 
 
@@ -145,6 +135,6 @@ class Factory implements FactoryInterface {
 	 * @inheritDoc
 	 */
 	public function getMultipleActionRowIds(): array {
-		return (filter_input(INPUT_POST, TableUIInterface::MULTIPLE_SELECT_POST_VAR, FILTER_DEFAULT, FILTER_FORCE_ARRAY) ?? []);
+		return (filter_input(INPUT_POST, DataTableInterface::MULTIPLE_SELECT_POST_VAR, FILTER_DEFAULT, FILTER_FORCE_ARRAY) ?? []);
 	}
 }

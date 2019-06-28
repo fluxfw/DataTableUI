@@ -1,38 +1,39 @@
 <?php
 
-namespace srag\TableUI\Component;
+namespace ILIAS\UI\DataTable\Component;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\FilterInput;
-use srag\TableUI\Component\Column\TableColumn;
-use srag\TableUI\Component\Data\Fetcher\TableDataFetcher;
-use srag\TableUI\Component\Export\TableExportFormat;
-use srag\TableUI\Component\Filter\Storage\TableFilterStorage;
-use srag\TableUI\Component\Filter\TableFilter;
+use ILIAS\UI\DataTable\Component\Column\TableColumn;
+use ILIAS\UI\DataTable\Component\Data\Fetcher\TableDataFetcher;
+use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
+use ILIAS\UI\DataTable\Component\Filter\Storage\TableFilterStorage;
+use ILIAS\UI\DataTable\Component\Filter\TableFilter;
 
 /**
- * Interface Table
+ * Interface DataTable
  *
- * @package srag\TableUI\Component
+ * @package ILIAS\UI\DataTable\Component
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface Table extends Component {
+interface DataTable extends Component {
 
 	const ACTION_GET_VAR = "row_id";
 	const MULTIPLE_SELECT_POST_VAR = "selected_row_ids";
 
 
 	/**
-	 * Table constructor
+	 * DataTable constructor
 	 *
-	 * @param string           $id
-	 * @param string           $action_url
-	 * @param string           $title
-	 * @param TableColumn[]    $columns
-	 * @param TableDataFetcher $data_fetcher
+	 * @param string             $id
+	 * @param string             $action_url
+	 * @param string             $title
+	 * @param TableColumn[]      $columns
+	 * @param TableDataFetcher   $data_fetcher
+	 * @param TableFilterStorage $filter_storage
 	 */
-	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher);
+	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage);
 
 
 	/**
@@ -176,15 +177,15 @@ interface Table extends Component {
 
 
 	/**
-	 * @return TableFilterStorage|null
+	 * @return TableFilterStorage
 	 */
-	public function getFilterStorage(): ?TableFilterStorage;
+	public function getFilterStorage(): TableFilterStorage;
 
 
 	/**
-	 * @param TableFilterStorage|null $filter_storage
+	 * @param TableFilterStorage $filter_storage
 	 *
 	 * @return self
 	 */
-	public function withFilterStorage(?TableFilterStorage $filter_storage): self;
+	public function withFilterStorage(TableFilterStorage $filter_storage): self;
 }
