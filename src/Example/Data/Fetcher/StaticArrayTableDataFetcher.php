@@ -117,10 +117,10 @@ class StaticArrayTableDataFetcher implements TableDataFetcher {
 
 		$data = array_slice($data, $filter->getLimitStart(), $filter->getLimitEnd());
 
-		$data = array_map(function (stdClass $row): TableRowData {
-			return $this->factory->rowData($row->column1, $row);
+		$data = array_map(function (stdClass $row) use ($factory): TableRowData {
+			return $factory->rowData($row->column1, $row);
 		}, $data);
 
-		return $this->factory->data($data, $max_count);
+		return $factory->data($data, $max_count);
 	}
 }
