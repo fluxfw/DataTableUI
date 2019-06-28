@@ -1,21 +1,21 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Implementation\Column\Action;
+namespace ILIAS\UI\Implementation\Table\Data\Column\Action;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Button\Shy;
-use ILIAS\UI\DataTable\Component\Column\Action\ActionTableColumn;
-use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
-use ILIAS\UI\DataTable\Component\Column\TableColumn;
-use ILIAS\UI\DataTable\Component\Data\Row\TableRowData;
-use ILIAS\UI\DataTable\Component\DataTable;
+use ILIAS\UI\Component\Table\Data\Column\Action\ActionTableColumn;
+use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn;
+use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
+use ILIAS\UI\Component\Table\Data\DataTable;
 use ILIAS\UI\Renderer;
 use ilUtil;
 
 /**
  * Class ActionTableColumnFormater
  *
- * @package ILIAS\UI\DataTable\Implementation\Column\Action
+ * @package ILIAS\UI\Implementation\Table\Data\Column\Action
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

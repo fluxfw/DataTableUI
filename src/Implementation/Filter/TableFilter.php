@@ -1,14 +1,14 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Implementation\Filter;
+namespace ILIAS\UI\Implementation\Table\Data\Filter;
 
-use ILIAS\UI\DataTable\Component\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\DataTable\Component\Filter\TableFilter as TableFilterInterface;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
+use ILIAS\UI\Component\Table\Data\Filter\TableFilter as TableFilterInterface;
 
 /**
  * Class TableFilter
  *
- * @package ILIAS\UI\DataTable\Implementation\Filter
+ * @package ILIAS\UI\Implementation\Table\Data\Filter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

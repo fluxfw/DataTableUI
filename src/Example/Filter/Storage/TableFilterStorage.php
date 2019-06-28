@@ -1,26 +1,22 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Example\Filter\Storage;
+namespace ILIAS\UI\Example\Table\Data\Filter\Storage;
 
-use ILIAS\UI\DataTable\Component\Factory\Factory;
-use ILIAS\UI\DataTable\Component\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\DataTable\Component\Filter\Storage\TableFilterStorage as TableFilterStorageInterface;
-use ILIAS\UI\DataTable\Component\Filter\TableFilter;
+use ILIAS\UI\Component\Table\Data\Factory\Factory;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
+use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage as TableFilterStorageInterface;
+use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 use ilTablePropertiesStorage;
 
 /**
  * Class TableFilterStorage
  *
- * @package ILIAS\UI\DataTable\Example\Filter\Storage
+ * @package ILIAS\UI\Example\Table\Data\Filter\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class TableFilterStorage implements TableFilterStorageInterface {
 
-	/**
-	 * @var Factory
-	 */
-	protected $factory;
 	/**
 	 * @var ilTablePropertiesStorage
 	 */
@@ -30,9 +26,7 @@ class TableFilterStorage implements TableFilterStorageInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(Factory $factory) {
-		$this->factory = $factory;
-
+	public function __construct() {
 		// TODO: Not use ilTablePropertiesStorage and reimplement it - Currently just a fast solution to save the table filter
 		$this->properties_storage = new ilTablePropertiesStorage();
 		$this->properties_storage->properties = array_reduce(self::VARS, function (array $properties, string $property): array {
@@ -46,8 +40,8 @@ class TableFilterStorage implements TableFilterStorageInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function read(string $table_id, int $user_id): TableFilter {
-		$filter = $this->factory->filter($table_id, $user_id);
+	public function read(string $table_id, int $user_id, Factory $factory): TableFilter {
+		$filter = $factory->filter($table_id, $user_id);
 
 		foreach (self::VARS as $property) {
 			$value = json_decode($this->properties_storage->getProperty($filter->getTableId(), $filter->getUserId(), $property), true);
@@ -55,8 +49,8 @@ class TableFilterStorage implements TableFilterStorageInterface {
 			if (!empty($value)) {
 				switch ($property) {
 					case self::VAR_SORT_FIELDS:
-						$filter = $filter->withSortFields(array_map(function (array $sort_field): TableFilterSortField {
-							return $this->factory->filterSortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
+						$filter = $filter->withSortFields(array_map(function (array $sort_field) use ($factory): TableFilterSortField {
+							return $factory->filterSortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
 						}, $value));
 						break;
 

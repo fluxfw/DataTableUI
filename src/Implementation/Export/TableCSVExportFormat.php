@@ -1,18 +1,18 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Implementation\Export;
+namespace ILIAS\UI\Implementation\Table\Data\Export;
 
 use GuzzleHttp\Psr7\Stream;
 use ilCSVWriter;
 use ILIAS\DI\Container;
-use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
+use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
 use ILIAS\UI\Renderer;
 use ilMimeTypeUtil;
 
 /**
  * Class TableCSVExportFormat
  *
- * @package ILIAS\UI\DataTable\Implementation\Export
+ * @package ILIAS\UI\Implementation\Table\Data\Export
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

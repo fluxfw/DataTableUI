@@ -1,15 +1,15 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Implementation\Column\Action;
+namespace ILIAS\UI\Implementation\Table\Data\Column\Action;
 
-use ILIAS\UI\DataTable\Component\Column\Action\ActionTableColumn as ActionTableColumnInterface;
-use ILIAS\UI\DataTable\Component\Column\TableColumn as TableColumnInterface;
-use ILIAS\UI\DataTable\Implementation\Column\TableColumn;
+use ILIAS\UI\Component\Table\Data\Column\Action\ActionTableColumn as ActionTableColumnInterface;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn as TableColumnInterface;
+use ILIAS\UI\Implementation\Table\Data\Column\TableColumn;
 
 /**
  * Class ActionTableColumn
  *
- * @package ILIAS\UI\DataTable\Implementation\Column\Action
+ * @package ILIAS\UI\Implementation\Table\Data\Column\Action
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

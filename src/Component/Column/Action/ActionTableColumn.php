@@ -1,13 +1,13 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Component\Column\Action;
+namespace ILIAS\UI\Component\Table\Data\Column\Action;
 
-use ILIAS\UI\DataTable\Component\Column\TableColumn;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn;
 
 /**
  * Interface ActionTableColumn
  *
- * @package ILIAS\UI\DataTable\Component\Column\Action
+ * @package ILIAS\UI\Component\Table\Data\Column\Action
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

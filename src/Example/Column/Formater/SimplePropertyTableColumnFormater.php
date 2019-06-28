@@ -1,17 +1,17 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Example\Column\Formater;
+namespace ILIAS\UI\Example\Table\Data\Column\Formater;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
-use ILIAS\UI\DataTable\Component\Column\TableColumn;
-use ILIAS\UI\DataTable\Component\Data\Row\TableRowData;
+use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn;
+use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
 use ILIAS\UI\Renderer;
 
 /**
  * Class SimplePropertyTableColumnFormater
  *
- * @package ILIAS\UI\DataTable\Example\Column\Formater
+ * @package ILIAS\UI\Example\Table\Data\Column\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

@@ -1,20 +1,18 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Implementation;
+namespace ILIAS\UI\Implementation\Table\Data;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterStandard;
-use ILIAS\UI\DataTable\Component\Column\TableColumn;
-use ILIAS\UI\DataTable\Component\Data\TableData;
-use ILIAS\UI\DataTable\Component\DataTable;
-use ILIAS\UI\DataTable\Component\Export\TableExportFormat;
-use ILIAS\UI\DataTable\Component\Factory\Factory;
-use ILIAS\UI\DataTable\Component\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\DataTable\Component\Filter\Storage\TableFilterStorage;
-use ILIAS\UI\DataTable\Component\Filter\TableFilter;
-use ILIAS\UI\DataTable\Utils\TableUITrait;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn;
+use ILIAS\UI\Component\Table\Data\Data\TableData;
+use ILIAS\UI\Component\Table\Data\DataTable;
+use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
+use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
+use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ilTemplateWrapper;
 use ILIAS\UI\Implementation\Render\Template;
@@ -28,13 +26,12 @@ use Throwable;
 /**
  * Class Renderer
  *
- * @package ILIAS\UI\DataTable\Implementation
+ * @package ILIAS\UI\Implementation\Table\Data
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class Renderer extends AbstractComponentRenderer {
 
-	use TableUITrait;
 	/**
 	 * @var FilterStandard|null
 	 */
@@ -74,22 +71,17 @@ class Renderer extends AbstractComponentRenderer {
 	 * @return string
 	 */
 	protected function renderStandard(DataTable $component, RendererInterface $renderer): string {
-		// TODO: Later from `$this->dic->ui()->factory()->table()->data()`
-		$factory = self::datatable();
+		$filter = $component->getFilterStorage()->read($component->getId(), $this->dic->user()->getId(), $component->getFactory());
 
-		$filter_storage = $component->getFilterStorage();
+		$filter = $this->handleFilterInput($component, $filter);
 
-		$filter = $filter_storage->read($component->getId(), $this->dic->user()->getId());
-
-		$filter = $this->handleFilterInput($component, $filter, $factory);
-
-		$filter = $this->handleDefaultSort($component, $filter, $factory);
+		$filter = $this->handleDefaultSort($component, $filter);
 
 		$filter = $this->handleDefaultSelectedColumns($component, $filter);
 
 		$columns = $this->getColumns($component, $filter);
 
-		$data = $this->handleFetchData($component, $filter, $factory);
+		$data = $this->handleFetchData($component, $filter);
 
 		$this->handleExport($component, $columns, $data, $renderer);
 
@@ -120,7 +112,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$html = $tpl->get();
 
-		$filter_storage->store($filter);
+		$component->getFilterStorage()->store($filter);
 
 		return $html;
 	}
@@ -343,14 +335,13 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @param DataTable   $component
 	 * @param TableFilter $filter
-	 * @param Factory     $factory
 	 *
 	 * @return TableFilter
 	 */
-	protected function handleDefaultSort(DataTable $component, TableFilter $filter, Factory $factory): TableFilter {
+	protected function handleDefaultSort(DataTable $component, TableFilter $filter): TableFilter {
 		if (!$filter->isFilterSet() && empty($filter->getSortFields())) {
-			$filter = $filter->withSortFields(array_map(function (TableColumn $column) use ($factory): TableFilterSortField {
-				return $factory->filterSortField($column->getKey(), $column->getDefaultSortDirection());
+			$filter = $filter->withSortFields(array_map(function (TableColumn $column) use ($component): TableFilterSortField {
+				return $component->getFactory()->filterSortField($column->getKey(), $column->getDefaultSortDirection());
 			}, array_filter($component->getColumns(), function (TableColumn $column): bool {
 				return ($column->isSortable() && $column->isDefaultSort());
 			})));
@@ -424,15 +415,14 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @param DataTable   $component
 	 * @param TableFilter $filter
-	 * @param Factory     $factory
 	 *
 	 * @return TableData
 	 */
-	protected function handleFetchData(DataTable $component, TableFilter $filter, Factory $factory): TableData {
+	protected function handleFetchData(DataTable $component, TableFilter $filter): TableData {
 		if (!$component->isFetchDataNeedsFilterFirstSet() || $filter->isFilterSet()) {
 			$data = $component->getDataFetcher()->fetchData($filter);
 		} else {
-			$data = $factory->data([], 0);
+			$data = $component->getFactory()->data([], 0);
 		}
 
 		return $data;
@@ -470,17 +460,16 @@ class Renderer extends AbstractComponentRenderer {
 	/**
 	 * @param DataTable   $component
 	 * @param TableFilter $filter
-	 * @param Factory     $factory
 	 *
 	 * @return TableFilter
 	 */
-	protected function handleFilterInput(DataTable $component, TableFilter $filter, Factory $factory): TableFilter {
+	protected function handleFilterInput(DataTable $component, TableFilter $filter): TableFilter {
 		//if (strtoupper(filter_input(INPUT_SERVER, "REQUEST_METHOD")) === "POST") {
 
 		$sort_field = strval(filter_input(INPUT_GET, TableFilterStorage::VAR_SORT_FIELD));
 		$sort_field_direction = intval(filter_input(INPUT_GET, TableFilterStorage::VAR_SORT_FIELD_DIRECTION));
 		if (!empty($sort_field) && !empty($sort_field_direction)) {
-			$filter = $filter->addSortField($factory->filterSortField($sort_field, $sort_field_direction));
+			$filter = $filter->addSortField($component->getFactory()->filterSortField($sort_field, $sort_field_direction));
 
 			$filter = $filter->withFilterSet(true);
 		}

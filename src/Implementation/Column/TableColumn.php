@@ -1,16 +1,16 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Implementation\Column;
+namespace ILIAS\UI\Implementation\Table\Data\Column;
 
-use ILIAS\UI\DataTable\Component\Column\Formater\TableColumnFormater;
-use ILIAS\UI\DataTable\Component\Column\TableColumn as TableColumnInterface;
-use ILIAS\UI\DataTable\Component\Export\Formater\TableExportFormater;
-use ILIAS\UI\DataTable\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
+use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
+use ILIAS\UI\Component\Table\Data\Column\TableColumn as TableColumnInterface;
+use ILIAS\UI\Component\Table\Data\Export\Formater\TableExportFormater;
+use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
 
 /**
  * Class TableColumn
  *
- * @package ILIAS\UI\DataTable\Implementation\Column
+ * @package ILIAS\UI\Implementation\Table\Data\Column
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

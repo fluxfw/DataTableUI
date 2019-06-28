@@ -1,11 +1,11 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Component\Data\Row;
+namespace ILIAS\UI\Component\Table\Data\Data\Row;
 
 /**
  * Interface TableRowData
  *
- * @package ILIAS\UI\DataTable\Component\Data\Row
+ * @package ILIAS\UI\Component\Table\Data\Data\Row
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

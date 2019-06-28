@@ -1,14 +1,14 @@
 <?php
 
-namespace ILIAS\UI\DataTable\Component\Filter\Storage;
+namespace ILIAS\UI\Component\Table\Data\Filter\Storage;
 
-use ILIAS\UI\DataTable\Component\Factory\Factory;
-use ILIAS\UI\DataTable\Component\Filter\TableFilter;
+use ILIAS\UI\Component\Table\Data\Factory\Factory;
+use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 
 /**
  * Interface TableFilterStorage
  *
- * @package ILIAS\UI\DataTable\Component\Filter\Storage
+ * @package ILIAS\UI\Component\Table\Data\Filter\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -72,19 +72,18 @@ interface TableFilterStorage {
 
 	/**
 	 * TableFilterStorage constructor
-	 *
-	 * @param Factory $factory
 	 */
-	public function __construct(Factory $factory);
+	public function __construct();
 
 
 	/**
-	 * @param string $table_id
-	 * @param int    $user_id
+	 * @param string  $table_id
+	 * @param int     $user_id
+	 * @param Factory $factory
 	 *
 	 * @return TableFilter
 	 */
-	public function read(string $table_id, int $user_id): TableFilter;
+	public function read(string $table_id, int $user_id, Factory $factory): TableFilter;
 
 
 	/**
