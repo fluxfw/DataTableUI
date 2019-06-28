@@ -408,7 +408,7 @@ class Renderer extends AbstractComponentRenderer {
 			$rows_[] = $row_;
 		}
 
-		$export_format->export($columns_, $rows_, $component->getTitle(), $this->dic);
+		$export_format->export($columns_, $rows_, $component->getTitle(), $renderer, $this->dic);
 	}
 
 
