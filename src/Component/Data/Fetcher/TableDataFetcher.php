@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Component\Table\Data\Data\Fetcher;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Data\TableData;
 use ILIAS\UI\Component\Table\Data\Factory\Factory;
 use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
@@ -23,8 +24,10 @@ interface TableDataFetcher {
 
 	/**
 	 * @param TableFilter $filter
+	 * @param Factory     $factory
+	 * @param Container   $dic
 	 *
 	 * @return TableData
 	 */
-	public function fetchData(TableFilter $filter, Factory $factory): TableData;
+	public function fetchData(TableFilter $filter, Factory $factory, Container $dic): TableData;
 }

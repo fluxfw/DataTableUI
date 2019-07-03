@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.8.7]
+- Improvments
+
 ## [0.8.6]
 - Improvments
 

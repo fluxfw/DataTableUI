@@ -420,7 +420,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function handleFetchData(DataTable $component, TableFilter $filter): TableData {
 		if (!$component->isFetchDataNeedsFilterFirstSet() || $filter->isFilterSet()) {
-			$data = $component->getDataFetcher()->fetchData($filter, $component->getFactory());
+			$data = $component->getDataFetcher()->fetchData($filter, $component->getFactory(), $this->dic);
 		} else {
 			$data = $component->getFactory()->data([], 0);
 		}
