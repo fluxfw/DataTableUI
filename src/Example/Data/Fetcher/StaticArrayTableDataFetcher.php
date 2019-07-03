@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Example\Table\Data\Data\Fetcher;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
 use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
 use ILIAS\UI\Component\Table\Data\Data\TableData;
@@ -58,7 +59,7 @@ class StaticArrayTableDataFetcher implements TableDataFetcher {
 	/**
 	 * @inheritDoc
 	 */
-	public function fetchData(TableFilter $filter, Factory $factory): TableData {
+	public function fetchData(TableFilter $filter, Factory $factory, Container $dic): TableData {
 		$data = $this->data;
 
 		$data = array_filter($data, function (stdClass $data) use ($filter): bool {
