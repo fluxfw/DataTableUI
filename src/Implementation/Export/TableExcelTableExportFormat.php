@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Implementation\Table\Data\Export;
 
 use ilExcel;
+use ILIAS\UI\Component\Table\Data\DataTable;
 use ILIAS\UI\Renderer;
 
 /**
@@ -26,7 +27,7 @@ class TableExcelTableExportFormat extends AbstractTableExportFormat {
 	 * @inheritDoc
 	 */
 	public function getTitle(): string {
-		return "Excel";
+		return $this->dic->language()->txt(DataTable::LANG_MODULE . "_export_excel");
 	}
 
 

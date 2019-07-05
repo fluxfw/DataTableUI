@@ -22,6 +22,7 @@ interface DataTable extends Component {
 
 	const ACTION_GET_VAR = "row_id";
 	const MULTIPLE_SELECT_POST_VAR = "selected_row_ids";
+	const LANG_MODULE = "datatable";
 
 
 	/**

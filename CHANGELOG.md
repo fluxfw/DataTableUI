@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.9.1]
+- Fixes
+
 ## [0.9.0]
 - Translate texts
 - Abstract classes

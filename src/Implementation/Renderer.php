@@ -30,7 +30,6 @@ use Throwable;
  */
 class Renderer extends AbstractComponentRenderer {
 
-	const LANG_MODULE = "datatable";
 	/**
 	 * @var FilterStandard|null
 	 */
@@ -57,7 +56,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->dic = $DIC;
 
-		$this->dic->language()->loadLanguageModule(self::LANG_MODULE);
+		$this->dic->language()->loadLanguageModule(DataTable::LANG_MODULE);
 
 		$this->checkComponent($component);
 
@@ -151,7 +150,7 @@ class Renderer extends AbstractComponentRenderer {
 			]), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_SELECT_COLUMN . "=" . $column->getKey()));
 		}, array_filter($component->getColumns(), function (TableColumn $column) use ($filter): bool {
 			return ($column->isSelectable() && !in_array($column->getKey(), $filter->getSelectedColumns()));
-		})))->withLabel($this->dic->language()->txt("add_columns", self::LANG_MODULE));
+		})))->withLabel($this->dic->language()->txt(DataTable::LANG_MODULE . "_add_columns"));
 	}
 
 
@@ -165,7 +164,7 @@ class Renderer extends AbstractComponentRenderer {
 			return $this->dic->ui()->factory()->button()
 				->shy($export_format->getTitle(), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_EXPORT_FORMAT_ID
 					. "=" . $export_format->getId()));
-		}, $component->getExportFormats()))->withLabel($this->dic->language()->txt("export", self::LANG_MODULE));
+		}, $component->getExportFormats()))->withLabel($this->dic->language()->txt(DataTable::LANG_MODULE . "_export"));
 	}
 
 
@@ -182,14 +181,15 @@ class Renderer extends AbstractComponentRenderer {
 			if ($filter->getCurrentPage() === $page) {
 				return $this->dic->ui()->factory()->legacy($renderer->render([
 					$this->dic->ui()->factory()->symbol()->glyph()->apply(),
-					$this->dic->ui()->factory()->legacy($page)
+					$this->dic->ui()->factory()->legacy(strval($page))
 				]));
 			} else {
 				return $this->dic->ui()->factory()->button()
-					->shy($page, ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_CURRENT_PAGE . "=" . $page));
+					->shy(strval($page), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_CURRENT_PAGE . "="
+						. $page));
 			}
-		}, range(1, $filter->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($this->dic->language()
-			->txt("pages", self::LANG_MODULE), $filter->getCurrentPage(), $filter->getTotalPages($data->getMaxCount())));
+		}, range(1, $filter->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($this->dic->language()->txt(DataTable::LANG_MODULE
+			. "_pages"), $filter->getCurrentPage(), $filter->getTotalPages($data->getMaxCount())));
 	}
 
 
@@ -205,13 +205,14 @@ class Renderer extends AbstractComponentRenderer {
 			if ($filter->getRowsCount() === $count) {
 				return $this->dic->ui()->factory()->legacy($renderer->render([
 					$this->dic->ui()->factory()->symbol()->glyph()->apply(),
-					$this->dic->ui()->factory()->legacy($count)
+					$this->dic->ui()->factory()->legacy(strval($count))
 				]));
 			} else {
 				return $this->dic->ui()->factory()->button()
-					->shy($count, ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_ROWS_COUNT . "=" . $count));
+					->shy(strval($count), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_ROWS_COUNT . "="
+						. $count));
 			}
-		}, TableFilter::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt("rows_per_page", self::LANG_MODULE), $filter->getRowsCount()));
+		}, TableFilter::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt(DataTable::LANG_MODULE . "_rows_per_page"), $filter->getRowsCount()));
 	}
 
 
@@ -353,7 +354,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param TableData   $data
 	 */
 	protected function handleDisplayCount(Template $tpl, TableFilter $filter, TableData $data): void {
-		$tpl->setVariable("COUNT", sprintf($this->dic->language()->txt("count", self::LANG_MODULE), ($filter->getLimitStart()
+		$tpl->setVariable("COUNT", sprintf($this->dic->language()->txt(DataTable::LANG_MODULE . "_count"), ($filter->getLimitStart()
 			+ 1), min($filter->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount()));
 	}
 
@@ -538,7 +539,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl_checkbox = $this->getTemplate("checkbox.html", true, true);
 
-		$tpl_checkbox->setVariable("TXT", $this->dic->language()->txt("select_all", self::LANG_MODULE));
+		$tpl_checkbox->setVariable("TXT", $this->dic->language()->txt(DataTable::LANG_MODULE . "_select_all"));
 
 		// TODO: No inline js code
 		$tpl_checkbox->setVariable("ON_CHANGE", ' onchange="il.Util.setChecked(\'' . $component->getId() . '\', \''
@@ -549,7 +550,7 @@ class Renderer extends AbstractComponentRenderer {
 			$this->dic->ui()->factory()->dropdown()->standard(array_map(function (string $title, string $action): Shy {
 				return $this->dic->ui()->factory()->button()->shy($title, $action, DataTable::ACTION_GET_VAR);
 			}, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel($this->dic->language()
-				->txt("multiple_actions", self::LANG_MODULE))
+				->txt(DataTable::LANG_MODULE . "_multiple_actions"))
 		]));
 	}
 
