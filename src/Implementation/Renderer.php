@@ -212,7 +212,8 @@ class Renderer extends AbstractComponentRenderer {
 					->shy(strval($count), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_ROWS_COUNT . "="
 						. $count));
 			}
-		}, TableFilter::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt(DataTable::LANG_MODULE . "_rows_per_page"), $filter->getRowsCount()));
+		}, TableFilter::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt(DataTable::LANG_MODULE
+			. "_rows_per_page"), $filter->getRowsCount()));
 	}
 
 
@@ -541,17 +542,16 @@ class Renderer extends AbstractComponentRenderer {
 
 		$tpl_checkbox->setVariable("TXT", $this->dic->language()->txt(DataTable::LANG_MODULE . "_select_all"));
 
-		// TODO: No inline js code
-		$tpl_checkbox->setVariable("ON_CHANGE", ' onchange="il.Util.setChecked(\'' . $component->getId() . '\', \''
-			. DataTable::MULTIPLE_SELECT_POST_VAR . '\', this.checked);"');
-
-		$tpl->setVariable("MULTIPLE_ACTIONS", $renderer->render([
+		$multiple_actions = [
 			$this->dic->ui()->factory()->legacy($tpl_checkbox->get()),
 			$this->dic->ui()->factory()->dropdown()->standard(array_map(function (string $title, string $action): Shy {
 				return $this->dic->ui()->factory()->button()->shy($title, $action, DataTable::ACTION_GET_VAR);
 			}, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel($this->dic->language()
 				->txt(DataTable::LANG_MODULE . "_multiple_actions"))
-		]));
+		];
+
+		$tpl->setVariable("MULTIPLE_ACTIONS_TOP", $renderer->render($multiple_actions));
+		$tpl->setVariable("MULTIPLE_ACTIONS_BOTTOM", $renderer->render($multiple_actions));
 	}
 
 

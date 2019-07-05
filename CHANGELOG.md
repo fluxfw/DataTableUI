@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.9.3]
+- Make multiple actions work
+
 ## [0.9.2]
 - Improvments
 
