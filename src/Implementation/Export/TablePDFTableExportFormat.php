@@ -36,11 +36,9 @@ class TablePDFTableExportFormat extends AbstractTableExportFormat {
 	 * @inheritDoc
 	 */
 	public function export(array $columns, array $rows, string $title, Renderer $renderer): void {
-		$css = file_get_contents(__DIR__ . "/../../../css/pdf_export.css");
+		$tpl = new ilTemplate(__DIR__ . "/../../../templates/table.html", true, true); // TODO: Somehow access `getTemplate` of renderer
 
-		$tpl = new ilTemplate(__DIR__ . "/../../../templates/pdf_export.html", true, true); // TODO: Somehow access `getTemplate` of renderer
-
-		$tpl->setVariable("CSS", $css);
+		$tpl->setVariable("TITLE", $title);
 
 		$tpl->setCurrentBlock("header");
 		foreach ($columns as $column) {
@@ -70,8 +68,8 @@ class TablePDFTableExportFormat extends AbstractTableExportFormat {
 
 		$filename = $title . ".pdf";
 
-		$a = new ilHtmlToPdfTransformerFactory();
+		$pdf = new ilHtmlToPdfTransformerFactory();
 
-		$a->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, self::class, "");
+		$pdf->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, self::class, "");
 	}
 }

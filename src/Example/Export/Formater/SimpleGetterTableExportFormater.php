@@ -25,6 +25,10 @@ class SimpleGetterTableExportFormater extends AbstractTableExportFormater {
 		$value = "";
 
 		switch ($export_format->getId()) {
+			case TableExportFormat::EXPORT_FORMAT_PDF:
+				$value = "<b>{$column->getTitle()}</b>";
+				break;
+
 			default:
 				$value = $column->getTitle();
 				break;
