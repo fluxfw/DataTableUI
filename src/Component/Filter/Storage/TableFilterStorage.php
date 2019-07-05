@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Component\Table\Data\Filter\Storage;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Factory\Factory;
 use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 
@@ -72,8 +73,10 @@ interface TableFilterStorage {
 
 	/**
 	 * TableFilterStorage constructor
+	 *
+	 * @param Container $dic
 	 */
-	public function __construct();
+	public function __construct(Container $dic);
 
 
 	/**

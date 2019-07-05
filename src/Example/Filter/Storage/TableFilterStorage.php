@@ -2,10 +2,11 @@
 
 namespace ILIAS\UI\Example\Table\Data\Filter\Storage;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Factory\Factory;
 use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage as TableFilterStorageInterface;
 use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
+use ILIAS\UI\Implementation\Table\Data\Filter\Storage\AbstractTableFilterStorage;
 use ilTablePropertiesStorage;
 
 /**
@@ -15,7 +16,7 @@ use ilTablePropertiesStorage;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class TableFilterStorage implements TableFilterStorageInterface {
+class TableFilterStorage extends AbstractTableFilterStorage {
 
 	/**
 	 * @var ilTablePropertiesStorage
@@ -26,8 +27,10 @@ class TableFilterStorage implements TableFilterStorageInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
-		// TODO: Not use ilTablePropertiesStorage and reimplement it - Currently just a fast solution to save the table filter
+	public function __construct(Container $dic) {
+		parent::__construct($dic);
+
+		// TODO: Not use ilTablePropertiesStorage and reimplement it - Currently just a "fast solution" to save the table filter
 		$this->properties_storage = new ilTablePropertiesStorage();
 		$this->properties_storage->properties = array_reduce(self::VARS, function (array $properties, string $property): array {
 			$properties[$property] = [ "storage" => "db" ];
@@ -82,15 +85,5 @@ class TableFilterStorage implements TableFilterStorageInterface {
 
 			$this->properties_storage->storeProperty($filter->getTableId(), $filter->getUserId(), $property, json_encode($value));
 		}
-	}
-
-
-	/**
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	protected function strToCamelCase(string $string): string {
-		return str_replace("_", "", ucwords($string, "_"));
 	}
 }

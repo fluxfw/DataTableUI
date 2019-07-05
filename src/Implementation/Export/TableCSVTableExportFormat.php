@@ -4,8 +4,6 @@ namespace ILIAS\UI\Implementation\Table\Data\Export;
 
 use GuzzleHttp\Psr7\Stream;
 use ilCSVWriter;
-use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
 use ILIAS\UI\Renderer;
 use ilMimeTypeUtil;
 
@@ -16,15 +14,7 @@ use ilMimeTypeUtil;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class TableCSVExportFormat implements TableExportFormat {
-
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct() {
-
-	}
-
+class TableCSVTableExportFormat extends AbstractTableExportFormat {
 
 	/**
 	 * @inheritDoc
@@ -45,7 +35,7 @@ class TableCSVExportFormat implements TableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function export(array $columns, array $rows, string $title, Renderer $renderer, Container $dic): void {
+	public function export(array $columns, array $rows, string $title, Renderer $renderer): void {
 		$csv = new ilCSVWriter();
 
 		$csv->setSeparator(";");
@@ -64,19 +54,19 @@ class TableCSVExportFormat implements TableExportFormat {
 
 		$data = $csv->getCSVString();
 
-		// TODO: Some unneeded code!!!
+		// TODO: Some unneeded code ?!
 
 		$filename = $title . ".csv";
 
 		$stream = new Stream(fopen("php://memory", "rw"));
 		$stream->write($data);
 
-		$dic->http()->saveResponse($dic->http()->response()->withBody($stream)->withHeader("Content-Disposition", 'attachment; filename="' . $filename
-			. '"')// Filename
+		$this->dic->http()->saveResponse($this->dic->http()->response()->withBody($stream)->withHeader("Content-Disposition", 'attachment; filename="'
+			. $filename . '"')// Filename
 		->withHeader("Content-Type", ilMimeTypeUtil::APPLICATION__OCTET_STREAM)// Force download
-		->withHeader("Expires", "0")->withHeader("Pragma", "public")); // No cache
+		->withHeader("Expires", "0")->withHeader("Pragma", "public"));// No cache
 
-		$dic->http()->sendResponse();
+		$this->dic->http()->sendResponse();
 
 		exit;
 	}

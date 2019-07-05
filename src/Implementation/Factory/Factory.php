@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Implementation\Table\Data\Factory;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
 use ILIAS\UI\Component\Table\Data\Column\TableColumn as TableColumnInterface;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
@@ -20,9 +21,9 @@ use ILIAS\UI\Implementation\Table\Data\Column\TableColumn;
 use ILIAS\UI\Implementation\Table\Data\Data\Row\TableRowData;
 use ILIAS\UI\Implementation\Table\Data\Data\TableData;
 use ILIAS\UI\Implementation\Table\Data\DataTable;
-use ILIAS\UI\Implementation\Table\Data\Export\TableCSVExportFormat;
-use ILIAS\UI\Implementation\Table\Data\Export\TableExcelExportFormat;
-use ILIAS\UI\Implementation\Table\Data\Export\TablePDFExportFormat;
+use ILIAS\UI\Implementation\Table\Data\Export\TableCSVTableExportFormat;
+use ILIAS\UI\Implementation\Table\Data\Export\TableExcelTableExportFormat;
+use ILIAS\UI\Implementation\Table\Data\Export\TablePDFTableExportFormat;
 use ILIAS\UI\Implementation\Table\Data\Filter\Sort\TableFilterSortField;
 use ILIAS\UI\Implementation\Table\Data\Filter\TableFilter;
 
@@ -36,10 +37,16 @@ use ILIAS\UI\Implementation\Table\Data\Filter\TableFilter;
 class Factory implements FactoryInterface {
 
 	/**
+	 * @var Container
+	 */
+	protected $dic;
+
+
+	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
-
+	public function __construct(Container $dic) {
+		$this->dic = $dic;
 	}
 
 
@@ -63,7 +70,7 @@ class Factory implements FactoryInterface {
 	 * @inheritDoc
 	 */
 	public function actionColumn(string $key, string $title, array $actions): TableColumnInterface {
-		return (new ActionTableColumn($key, $title, new ActionTableColumnFormater()))->withActions($actions)->withSortable(false)
+		return (new ActionTableColumn($key, $title, new ActionTableColumnFormater($this->dic)))->withActions($actions)->withSortable(false)
 			->withSelectable(false);
 	}
 
@@ -104,7 +111,7 @@ class Factory implements FactoryInterface {
 	 * @inheritDoc
 	 */
 	public function exportFormatCSV(): TableExportFormat {
-		return new TableCSVExportFormat();
+		return new TableCSVTableExportFormat($this->dic);
 	}
 
 
@@ -112,7 +119,7 @@ class Factory implements FactoryInterface {
 	 * @inheritDoc
 	 */
 	public function exportFormatExcel(): TableExportFormat {
-		return new TableExcelExportFormat();
+		return new TableExcelTableExportFormat($this->dic);
 	}
 
 
@@ -120,7 +127,7 @@ class Factory implements FactoryInterface {
 	 * @inheritDoc
 	 */
 	public function exportFormatPDF(): TableExportFormat {
-		return new TablePDFExportFormat();
+		return new TablePDFTableExportFormat($this->dic);
 	}
 
 

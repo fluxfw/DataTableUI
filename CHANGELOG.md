@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.9.0]
+- Translate texts
+- Abstract classes
+- Improve template path
+- Implement PDF export
+
 ## [0.8.7]
 - Improvments
 

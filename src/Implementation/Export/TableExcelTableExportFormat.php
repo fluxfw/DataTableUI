@@ -3,8 +3,6 @@
 namespace ILIAS\UI\Implementation\Table\Data\Export;
 
 use ilExcel;
-use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
 use ILIAS\UI\Renderer;
 
 /**
@@ -14,15 +12,7 @@ use ILIAS\UI\Renderer;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class TableExcelExportFormat implements TableExportFormat {
-
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct() {
-
-	}
-
+class TableExcelTableExportFormat extends AbstractTableExportFormat {
 
 	/**
 	 * @inheritDoc
@@ -43,7 +33,7 @@ class TableExcelExportFormat implements TableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function export(array $columns, array $rows, string $title, Renderer $renderer, Container $dic): void {
+	public function export(array $columns, array $rows, string $title, Renderer $renderer): void {
 		$excel = new ilExcel();
 
 		$excel->addSheet($title);

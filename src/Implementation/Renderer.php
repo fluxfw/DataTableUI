@@ -14,10 +14,8 @@ use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
 use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
 use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
-use ILIAS\UI\Implementation\Render\ilTemplateWrapper;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
-use ilTemplate;
 use ilUIFilterRequestAdapter;
 use ilUIFilterService;
 use ilUtil;
@@ -32,6 +30,7 @@ use Throwable;
  */
 class Renderer extends AbstractComponentRenderer {
 
+	const LANG_MODULE = "datatable";
 	/**
 	 * @var FilterStandard|null
 	 */
@@ -57,6 +56,8 @@ class Renderer extends AbstractComponentRenderer {
 		global $DIC;
 
 		$this->dic = $DIC;
+
+		$this->dic->language()->loadLanguageModule(self::LANG_MODULE);
 
 		$this->checkComponent($component);
 
@@ -92,7 +93,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->dic->ui()->mainTemplate()->addJavaScript($dir . "/js/datatable.min.js");
 
-		$tpl = $this->getTemplate_("table.html", true, true);
+		$tpl = $this->getTemplate("table.html", true, true);
 
 		$tpl->setVariable("ID", $component->getId());
 
@@ -150,7 +151,7 @@ class Renderer extends AbstractComponentRenderer {
 			]), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_SELECT_COLUMN . "=" . $column->getKey()));
 		}, array_filter($component->getColumns(), function (TableColumn $column) use ($filter): bool {
 			return ($column->isSelectable() && !in_array($column->getKey(), $filter->getSelectedColumns()));
-		})))->withLabel("Add columns"); // TODO: Translate
+		})))->withLabel($this->dic->language()->txt("add_columns", self::LANG_MODULE));
 	}
 
 
@@ -164,7 +165,7 @@ class Renderer extends AbstractComponentRenderer {
 			return $this->dic->ui()->factory()->button()
 				->shy($export_format->getTitle(), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_EXPORT_FORMAT_ID
 					. "=" . $export_format->getId()));
-		}, $component->getExportFormats()))->withLabel("Export"); // TODO: Translate
+		}, $component->getExportFormats()))->withLabel($this->dic->language()->txt("export", self::LANG_MODULE));
 	}
 
 
@@ -181,15 +182,14 @@ class Renderer extends AbstractComponentRenderer {
 			if ($filter->getCurrentPage() === $page) {
 				return $this->dic->ui()->factory()->legacy($renderer->render([
 					$this->dic->ui()->factory()->symbol()->glyph()->apply(),
-					$this->dic->ui()->factory()->legacy(strval($page))
+					$this->dic->ui()->factory()->legacy($page)
 				]));
 			} else {
 				return $this->dic->ui()->factory()->button()
-					->shy(strval($page), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_CURRENT_PAGE . "="
-						. $page));
+					->shy($page, ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_CURRENT_PAGE . "=" . $page));
 			}
-		}, range(1, $filter->getTotalPages($data->getMaxCount()))))
-			->withLabel("Pages ({$filter->getCurrentPage()} of {$filter->getTotalPages($data->getMaxCount())})"); // TODO: Translate
+		}, range(1, $filter->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($this->dic->language()
+			->txt("pages", self::LANG_MODULE), $filter->getCurrentPage(), $filter->getTotalPages($data->getMaxCount())));
 	}
 
 
@@ -205,28 +205,21 @@ class Renderer extends AbstractComponentRenderer {
 			if ($filter->getRowsCount() === $count) {
 				return $this->dic->ui()->factory()->legacy($renderer->render([
 					$this->dic->ui()->factory()->symbol()->glyph()->apply(),
-					$this->dic->ui()->factory()->legacy(strval($count))
+					$this->dic->ui()->factory()->legacy($count)
 				]));
 			} else {
 				return $this->dic->ui()->factory()->button()
-					->shy(strval($count), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_ROWS_COUNT . "="
-						. $count));
+					->shy($count, ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_ROWS_COUNT . "=" . $count));
 			}
-		}, TableFilter::ROWS_COUNT))->withLabel("Rows per page ({$filter->getRowsCount()})"); // TODO: Translate
+		}, TableFilter::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt("rows_per_page", self::LANG_MODULE), $filter->getRowsCount()));
 	}
 
 
 	/**
-	 * @param string $name
-	 * @param bool   $purge_unfilled_vars
-	 * @param bool   $purge_unused_blocks
-	 *
-	 * @return Template
+	 * @inheritDoc
 	 */
-	protected function getTemplate_(string $name, bool $purge_unfilled_vars, bool $purge_unused_blocks): Template {
-		// TODO:
-		return new ilTemplateWrapper($this->dic->ui()->mainTemplate(), new ilTemplate(__DIR__ . "/../../templates/"
-			. $name, $purge_unfilled_vars, $purge_unused_blocks));
+	protected function getTemplatePath(/*string*/ $name): string {
+		return __DIR__ . "/../../templates/" . $name;
 	}
 
 
@@ -256,14 +249,16 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function handleColumns(Template $tpl, DataTable $component, array $columns, TableFilter $filter, RendererInterface $renderer): void {
 		$tpl->setCurrentBlock("header");
+
 		if (count($component->getMultipleActions()) > 0) {
 			$tpl->setVariable("HEADER", "");
 
 			$tpl->parseCurrentBlock();
 		}
+
 		foreach ($columns as $column) {
 			$deselect_button = $this->dic->ui()->factory()->legacy("");
-			$sort_button = $column->getColumnFormater()->formatHeader($column, $renderer, $this->dic);
+			$sort_button = $column->getColumnFormater()->formatHeader($column, $renderer);
 			$remove_sort_button = $this->dic->ui()->factory()->legacy("");
 
 			if ($column->isSelectable()) {
@@ -293,7 +288,7 @@ class Renderer extends AbstractComponentRenderer {
 					}
 
 					$remove_sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render($this->dic->ui()->factory()->symbol()->glyph()
-						->back() // TODO: other icon for remove sort
+						->back() // TODO: Other icon for remove sort
 					), ilUtil::appendUrlParameterString($component->getActionUrl(), TableFilterStorage::VAR_REMOVE_SORT_FIELD . "="
 						. $column->getKey()));
 				} else {
@@ -309,6 +304,7 @@ class Renderer extends AbstractComponentRenderer {
 			$tpl->setVariable("HEADER", $renderer->render([ $deselect_button, $sort_button, $remove_sort_button ]));
 
 			$tpl->parseCurrentBlock();
+			// TODO: Dragable columns
 		}
 	}
 
@@ -357,15 +353,8 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param TableData   $data
 	 */
 	protected function handleDisplayCount(Template $tpl, TableFilter $filter, TableData $data): void {
-		$tpl->setVariable("COUNT", implode("", [
-			"(",
-			strval($filter->getLimitStart() + 1),
-			" - ",
-			strval(min($filter->getLimitEnd(), $data->getMaxCount())),
-			" of ",
-			strval($data->getMaxCount()),
-			")"
-		])); // TODO: Translate
+		$tpl->setVariable("COUNT", sprintf($this->dic->language()->txt("count", self::LANG_MODULE), ($filter->getLimitStart()
+			+ 1), min($filter->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount()));
 	}
 
 
@@ -382,6 +371,9 @@ class Renderer extends AbstractComponentRenderer {
 			return;
 		}
 
+		/**
+		 * @var TableExportFormat|null $export_format
+		 */
 		$export_format = current(array_filter($component->getExportFormats(), function (TableExportFormat $export_format) use ($export_format_id): bool {
 			return ($export_format->getId() === $export_format_id);
 		}));
@@ -396,19 +388,19 @@ class Renderer extends AbstractComponentRenderer {
 
 		$columns_ = [];
 		foreach ($columns as $column) {
-			$columns_[] = $column->getExportFormater()->formatHeader($export_format, $column, $renderer, $this->dic);
+			$columns_[] = $column->getExportFormater()->formatHeader($export_format, $column, $renderer);
 		}
 
 		$rows_ = [];
 		foreach ($data->getData() as $row) {
 			$row_ = [];
 			foreach ($columns as $column) {
-				$row_[] = $column->getExportFormater()->formatRow($export_format, $column, $row, $renderer, $this->dic);
+				$row_[] = $column->getExportFormater()->formatRow($export_format, $column, $row, $renderer);
 			}
 			$rows_[] = $row_;
 		}
 
-		$export_format->export($columns_, $rows_, $component->getTitle(), $renderer, $this->dic);
+		$export_format->export($columns_, $rows_, $component->getTitle(), $renderer);
 	}
 
 
@@ -420,7 +412,7 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function handleFetchData(DataTable $component, TableFilter $filter): TableData {
 		if (!$component->isFetchDataNeedsFilterFirstSet() || $filter->isFilterSet()) {
-			$data = $component->getDataFetcher()->fetchData($filter, $component->getFactory(), $this->dic);
+			$data = $component->getDataFetcher()->fetchData($filter, $component->getFactory());
 		} else {
 			$data = $component->getFactory()->data([], 0);
 		}
@@ -513,7 +505,7 @@ class Renderer extends AbstractComponentRenderer {
 			try {
 				$data = $this->dic->uiService()->filter()->getData($this->filter_form);
 
-				// TODO: Bug? On reset filter and on normal table load, the data is no array. But it should only empty the filter, on reset, not on normal load
+				// TODO: Bug? On reset filter and on normal table load, the data is no array. But it should only empty the filter, on reset, not on normal load (https://mantis.ilias.de/view.php?id=25644)
 				if (!is_array($data)) {
 					if (filter_input(INPUT_GET, ilUIFilterRequestAdapter::CMD_PARAMETER) === ilUIFilterService::CMD_RESET) {
 						$data = [];
@@ -544,9 +536,9 @@ class Renderer extends AbstractComponentRenderer {
 			return;
 		}
 
-		$tpl_checkbox = $this->getTemplate_("checkbox.html", true, true);
+		$tpl_checkbox = $this->getTemplate("checkbox.html", true, true);
 
-		$tpl_checkbox->setVariable("TXT", "Select all"); // TODO: Translate
+		$tpl_checkbox->setVariable("TXT", $this->dic->language()->txt("select_all", self::LANG_MODULE));
 
 		// TODO: No inline js code
 		$tpl_checkbox->setVariable("ON_CHANGE", ' onchange="il.Util.setChecked(\'' . $component->getId() . '\', \''
@@ -556,7 +548,8 @@ class Renderer extends AbstractComponentRenderer {
 			$this->dic->ui()->factory()->legacy($tpl_checkbox->get()),
 			$this->dic->ui()->factory()->dropdown()->standard(array_map(function (string $title, string $action): Shy {
 				return $this->dic->ui()->factory()->button()->shy($title, $action, DataTable::ACTION_GET_VAR);
-			}, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel("Multiple actions") // TODO: Translate
+			}, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel($this->dic->language()
+				->txt("multiple_actions", self::LANG_MODULE))
 		]));
 	}
 
@@ -570,13 +563,14 @@ class Renderer extends AbstractComponentRenderer {
 	 */
 	protected function handleRows(Template $tpl, DataTable $component, array $columns, TableData $data, RendererInterface $renderer): void {
 		$tpl->setCurrentBlock("body");
+
 		foreach ($data->getData() as $row) {
-			$tpl_row = $this->getTemplate_("row.html", true, true);
+			$tpl_row = $this->getTemplate("row.html", true, true);
 
 			$tpl_row->setCurrentBlock("row");
 
 			if (count($component->getMultipleActions()) > 0) {
-				$tpl_checkbox = $this->getTemplate_("checkbox.html", true, true);
+				$tpl_checkbox = $this->getTemplate("checkbox.html", true, true);
 
 				$tpl_checkbox->setVariable("POST_VAR", DataTable::MULTIPLE_SELECT_POST_VAR . "[]");
 
@@ -588,7 +582,7 @@ class Renderer extends AbstractComponentRenderer {
 			}
 
 			foreach ($columns as $column) {
-				$value = $column->getColumnFormater()->formatRow($column, $row, $renderer, $this->dic);
+				$value = $column->getColumnFormater()->formatRow($column, $row, $renderer);
 
 				if ($value === "") {
 					$value = "&nbsp;";
