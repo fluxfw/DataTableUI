@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Implementation\Table\Data\Export;
 
 use ilHtmlToPdfTransformerFactory;
+use ILIAS\UI\Component\Table\Data\DataTable;
 use ILIAS\UI\Renderer;
 use ilTemplate;
 
@@ -27,7 +28,7 @@ class TablePDFTableExportFormat extends AbstractTableExportFormat {
 	 * @inheritDoc
 	 */
 	public function getTitle(): string {
-		return "PDF";
+		return $this->dic->language()->txt(DataTable::LANG_MODULE . "_export_pdf");
 	}
 
 
@@ -67,7 +68,7 @@ class TablePDFTableExportFormat extends AbstractTableExportFormat {
 
 		$html = $tpl->get();
 
-		$filename = $title . ".csv";
+		$filename = $title . ".pdf";
 
 		$a = new ilHtmlToPdfTransformerFactory();
 

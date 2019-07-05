@@ -1,7 +1,10 @@
-datatable#:#add_columns#:#Add columns
-datatable#:#count#:#(%1$s of %2$s)
-datatable#:#export#:#Export
-datatable#:#multiple_actions#:#Multiple actions
-datatable#:#pages#:#Pages (%1$s of %2$s)
-datatable#:#rows_per_page#:#Rows per page (%s)
-datatable#:#select_all#:#Select all
+datatable_add_columns#:#Add columns
+datatable_count#:#(%1$s of %2$s)
+datatable_export#:#Export
+datatable_export_csv#:#CSV
+datatable_export_excel#:#Excel
+datatable_export_pdf#:#PDF
+datatable_multiple_actions#:#Multiple actions
+datatable_pages#:#Pages (%1$s of %2$s)
+datatable_rows_per_page#:#Rows per page (%s)
+datatable_select_all#:#Select all

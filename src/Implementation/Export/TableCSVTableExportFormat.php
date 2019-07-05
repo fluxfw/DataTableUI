@@ -4,6 +4,7 @@ namespace ILIAS\UI\Implementation\Table\Data\Export;
 
 use GuzzleHttp\Psr7\Stream;
 use ilCSVWriter;
+use ILIAS\UI\Component\Table\Data\DataTable;
 use ILIAS\UI\Renderer;
 use ilMimeTypeUtil;
 
@@ -28,7 +29,7 @@ class TableCSVTableExportFormat extends AbstractTableExportFormat {
 	 * @inheritDoc
 	 */
 	public function getTitle(): string {
-		return "CSV";
+		return $this->dic->language()->txt(DataTable::LANG_MODULE . "_export_csv");
 	}
 
 
