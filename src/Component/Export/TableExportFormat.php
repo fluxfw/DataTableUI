@@ -30,8 +30,10 @@ interface TableExportFormat {
 
 	/**
 	 * TableExportFormat constructor
+	 *
+	 * @param Container $dic
 	 */
-	public function __construct();
+	public function __construct(Container $dic);
 
 
 	/**
@@ -47,11 +49,10 @@ interface TableExportFormat {
 
 
 	/**
-	 * @param string[]  $columns
-	 * @param array     $rows
-	 * @param string    $title
-	 * @param Renderer  $renderer
-	 * @param Container $dic
+	 * @param string[] $columns
+	 * @param array    $rows
+	 * @param string   $title
+	 * @param Renderer $renderer
 	 */
-	public function export(array $columns, array $rows, string $title, Renderer $renderer, Container $dic): void;
+	public function export(array $columns, array $rows, string $title, Renderer $renderer): void;
 }

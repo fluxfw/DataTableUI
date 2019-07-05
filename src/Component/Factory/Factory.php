@@ -2,6 +2,7 @@
 
 namespace ILIAS\UI\Component\Table\Data\Factory;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
 use ILIAS\UI\Component\Table\Data\Column\TableColumn;
 use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
@@ -25,8 +26,10 @@ interface Factory {
 
 	/**
 	 * Factory constructor
+	 *
+	 * @param Container $dic
 	 */
-	public function __construct();
+	public function __construct(Container $dic);
 
 
 	/**

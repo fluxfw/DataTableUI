@@ -18,27 +18,27 @@ interface TableColumnFormater {
 
 	/**
 	 * TableColumnFormater constructor
+	 *
+	 * @param Container $dic
 	 */
-	public function __construct();
+	public function __construct(Container $dic);
 
 
 	/**
 	 * @param TableColumn $column
 	 * @param Renderer    $renderer
-	 * @param Container   $dic
 	 *
 	 * @return string
 	 */
-	public function formatHeader(TableColumn $column, Renderer $renderer, Container $dic): string;
+	public function formatHeader(TableColumn $column, Renderer $renderer): string;
 
 
 	/**
 	 * @param TableColumn  $column
 	 * @param TableRowData $row
 	 * @param Renderer     $renderer
-	 * @param Container    $dic
 	 *
 	 * @return string
 	 */
-	public function formatRow(TableColumn $column, TableRowData $row, Renderer $renderer, Container $dic): string;
+	public function formatRow(TableColumn $column, TableRowData $row, Renderer $renderer): string;
 }

@@ -18,16 +18,17 @@ interface TableDataFetcher {
 
 	/**
 	 * TableDataFetcher constructor
+	 *
+	 * @param Container $dic
 	 */
-	public function __construct();
+	public function __construct(Container $dic);
 
 
 	/**
 	 * @param TableFilter $filter
 	 * @param Factory     $factory
-	 * @param Container   $dic
 	 *
 	 * @return TableData
 	 */
-	public function fetchData(TableFilter $filter, Factory $factory, Container $dic): TableData;
+	public function fetchData(TableFilter $filter, Factory $factory): TableData;
 }

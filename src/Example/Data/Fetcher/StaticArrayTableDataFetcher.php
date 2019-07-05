@@ -2,13 +2,12 @@
 
 namespace ILIAS\UI\Example\Table\Data\Data\Fetcher;
 
-use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
 use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
 use ILIAS\UI\Component\Table\Data\Data\TableData;
 use ILIAS\UI\Component\Table\Data\Factory\Factory;
 use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
 use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
+use ILIAS\UI\Implementation\Table\Data\Data\Fetcher\AbstractTableDataFetcher;
 use stdClass;
 
 /**
@@ -18,20 +17,12 @@ use stdClass;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class StaticArrayTableDataFetcher implements TableDataFetcher {
+class StaticArrayTableDataFetcher extends AbstractTableDataFetcher {
 
 	/**
 	 * @var stdClass[]
 	 */
 	protected $data = [];
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function __construct() {
-
-	}
 
 
 	/**
@@ -59,7 +50,7 @@ class StaticArrayTableDataFetcher implements TableDataFetcher {
 	/**
 	 * @inheritDoc
 	 */
-	public function fetchData(TableFilter $filter, Factory $factory, Container $dic): TableData {
+	public function fetchData(TableFilter $filter, Factory $factory): TableData {
 		$data = $this->data;
 
 		$data = array_filter($data, function (stdClass $data) use ($filter): bool {

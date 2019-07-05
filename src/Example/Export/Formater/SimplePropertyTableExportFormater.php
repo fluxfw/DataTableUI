@@ -2,11 +2,10 @@
 
 namespace ILIAS\UI\Example\Table\Data\Column\Formater;
 
-use ILIAS\DI\Container;
 use ILIAS\UI\Component\Table\Data\Column\TableColumn;
 use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Component\Table\Data\Export\Formater\TableExportFormater;
 use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
+use ILIAS\UI\Implementation\Table\Data\Export\Formater\AbstractTableExportFormater;
 use ILIAS\UI\Renderer;
 use Throwable;
 
@@ -17,20 +16,12 @@ use Throwable;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class SimplePropertyTableExportFormater implements TableExportFormater {
+class SimplePropertyTableExportFormater extends AbstractTableExportFormater {
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
-
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function formatHeader(TableExportFormat $export_format, TableColumn $column, Renderer $renderer, Container $dic): string {
+	public function formatHeader(TableExportFormat $export_format, TableColumn $column, Renderer $renderer): string {
 		$value = "";
 
 		switch ($export_format->getId()) {
@@ -46,7 +37,7 @@ class SimplePropertyTableExportFormater implements TableExportFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row, Renderer $renderer, Container $dic): string {
+	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row, Renderer $renderer): string {
 		$value = "";
 
 		switch ($export_format->getId()) {

@@ -1,0 +1,7 @@
+datatable#:#add_columns#:#Spalten hinzufügen
+datatable#:#count#:#(%1$s von %2$s)
+datatable#:#export#:#Exportieren
+datatable#:#multiple_actions#:#Mehrfache Aktionen
+datatable#:#pages#:#Seiten (%1$s von %2$s)
+datatable#:#rows_per_page#:#Zeilen pro Seite (%s)
+datatable#:#select_all#:#Alle auswählen

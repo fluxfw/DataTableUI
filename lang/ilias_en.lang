@@ -1,0 +1,7 @@
+datatable#:#add_columns#:#Add columns
+datatable#:#count#:#(%1$s of %2$s)
+datatable#:#export#:#Export
+datatable#:#multiple_actions#:#Multiple actions
+datatable#:#pages#:#Pages (%1$s of %2$s)
+datatable#:#rows_per_page#:#Rows per page (%s)
+datatable#:#select_all#:#Select all
