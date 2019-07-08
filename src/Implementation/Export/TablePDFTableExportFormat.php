@@ -19,7 +19,7 @@ class TablePDFTableExportFormat extends AbstractTableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function getId(): int {
+	public function getExportId(): string {
 		return self::EXPORT_FORMAT_PDF;
 	}
 
@@ -35,7 +35,7 @@ class TablePDFTableExportFormat extends AbstractTableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function export(array $columns, array $rows, string $title, Renderer $renderer): void {
+	public function export(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): void {
 		$tpl = new ilTemplate(__DIR__ . "/../../../templates/table.html", true, true); // TODO: Somehow access `getTemplate` of renderer
 
 		$tpl->setVariable("TITLE", $title);

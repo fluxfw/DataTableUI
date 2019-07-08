@@ -118,16 +118,4 @@ interface Factory {
 	 * @return TableExportFormat
 	 */
 	public function exportFormatPDF(): TableExportFormat;
-
-
-	/**
-	 * @return string
-	 */
-	public function getActionRowId(): string;
-
-
-	/**
-	 * @return string[]
-	 */
-	public function getMultipleActionRowIds(): array;
 }

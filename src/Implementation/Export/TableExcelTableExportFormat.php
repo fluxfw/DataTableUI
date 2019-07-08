@@ -18,7 +18,7 @@ class TableExcelTableExportFormat extends AbstractTableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function getId(): int {
+	public function getExportId(): string {
 		return self::EXPORT_FORMAT_EXCEL;
 	}
 
@@ -34,7 +34,7 @@ class TableExcelTableExportFormat extends AbstractTableExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function export(array $columns, array $rows, string $title, Renderer $renderer): void {
+	public function export(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): void {
 		$excel = new ilExcel();
 
 		$excel->addSheet($title);

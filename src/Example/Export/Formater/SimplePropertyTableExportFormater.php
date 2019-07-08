@@ -21,10 +21,10 @@ class SimplePropertyTableExportFormater extends AbstractTableExportFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatHeader(TableExportFormat $export_format, TableColumn $column, Renderer $renderer): string {
+	public function formatHeader(TableExportFormat $export_format, TableColumn $column, string $table_id, Renderer $renderer): string {
 		$value = "";
 
-		switch ($export_format->getId()) {
+		switch ($export_format->getExportId()) {
 			case TableExportFormat::EXPORT_FORMAT_PDF:
 				$value = "<b>{$column->getTitle()}</b>";
 				break;
@@ -41,10 +41,10 @@ class SimplePropertyTableExportFormater extends AbstractTableExportFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row, Renderer $renderer): string {
+	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row, string $table_id, Renderer $renderer): string {
 		$value = "";
 
-		switch ($export_format->getId()) {
+		switch ($export_format->getExportId()) {
 			default:
 				try {
 					$value = strval($row->getOriginalData()->{$column->getKey()});

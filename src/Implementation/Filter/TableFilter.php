@@ -312,7 +312,7 @@ class TableFilter implements TableFilterInterface {
 	 * @inheritDoc
 	 */
 	public function getTotalPages(int $max_count): int {
-		return ceil($max_count / $this->getRowsCount());
+		return max(1, ceil($max_count / $this->getRowsCount()));
 	}
 
 

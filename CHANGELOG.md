@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.9.6]
+- Fix pages count if no data
+- Fix mutiple tables on same page
+
 ## [0.9.5]
 - CSS
 
