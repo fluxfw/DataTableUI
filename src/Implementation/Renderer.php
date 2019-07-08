@@ -364,7 +364,7 @@ class Renderer extends AbstractComponentRenderer {
 	 * @param RendererInterface $renderer
 	 */
 	protected function handleExport(DataTable $component, array $columns, TableData $data, RendererInterface $renderer): void {
-		$export_format_id = intval(filter_input(INPUT_GET, self::actionParameter(TableFilterStorage::VAR_EXPORT_FORMAT_ID, $component->getTableId())));
+		$export_format_id = strval(filter_input(INPUT_GET, self::actionParameter(TableFilterStorage::VAR_EXPORT_FORMAT_ID, $component->getTableId())));
 
 		if (empty($export_format_id)) {
 			return;
