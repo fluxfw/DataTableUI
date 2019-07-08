@@ -29,7 +29,6 @@
 ## [0.9.4]
 - CSS
 
->>>>>>> 18ab14e258f0a330c4664da7e0ce31ddd27dffe3
 ## [0.9.3]
 - Make multiple actions work
 
