@@ -1,18 +1,18 @@
 <?php
 
-namespace ILIAS\UI\Example\Table\Data\Filter\Storage;
+namespace srag\DataTable\Example\Filter\Storage;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Factory\Factory;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
-use ILIAS\UI\Implementation\Table\Data\Filter\Storage\AbstractTableFilterStorage;
 use ilTablePropertiesStorage;
+use srag\DataTable\Component\Factory\Factory;
+use srag\DataTable\Component\Filter\Sort\TableFilterSortField;
+use srag\DataTable\Component\Filter\TableFilter;
+use srag\DataTable\Implementation\Filter\Storage\AbstractTableFilterStorage;
 
 /**
  * Class TableFilterStorage
  *
- * @package ILIAS\UI\Example\Table\Data\Filter\Storage
+ * @package srag\DataTable\Example\Filter\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

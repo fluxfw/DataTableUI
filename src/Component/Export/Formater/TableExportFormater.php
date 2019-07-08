@@ -1,17 +1,17 @@
 <?php
 
-namespace ILIAS\UI\Component\Table\Data\Export\Formater;
+namespace srag\DataTable\Component\Export\Formater;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
 use ILIAS\UI\Renderer;
+use srag\DataTable\Component\Column\TableColumn;
+use srag\DataTable\Component\Data\Row\TableRowData;
+use srag\DataTable\Component\Export\TableExportFormat;
 
 /**
  * Interface TableExportFormater
  *
- * @package ILIAS\UI\Component\Table\Data\Export\Formater
+ * @package srag\DataTable\Component\Export\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

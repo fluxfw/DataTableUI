@@ -1,14 +1,14 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data\Export\Formater;
+namespace srag\DataTable\Implementation\Export\Formater;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Export\Formater\TableExportFormater;
+use srag\DataTable\Component\Export\Formater\TableExportFormater;
 
 /**
  * Class AbstractTableExportFormater
  *
- * @package ILIAS\UI\Implementation\Table\Data\Export\Formater
+ * @package srag\DataTable\Implementation\Export\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

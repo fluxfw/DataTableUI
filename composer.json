@@ -25,9 +25,7 @@
   },
   "autoload": {
     "psr-4": {
-      "ILIAS\\UI\\Component\\Table\\Data\\": "src/Component/",
-      "ILIAS\\UI\\Example\\Table\\Data\\": "src/Example/",
-      "ILIAS\\UI\\Implementation\\Table\\Data\\": "src/Implementation/"
+      "srag\\DataTable\\": "src/"
     }
   },
   "config": {

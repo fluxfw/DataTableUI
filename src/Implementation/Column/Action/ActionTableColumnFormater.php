@@ -1,20 +1,20 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data\Column\Action;
+namespace srag\DataTable\Implementation\Column\Action;
 
 use ILIAS\UI\Component\Button\Shy;
-use ILIAS\UI\Component\Table\Data\Column\Action\ActionTableColumn;
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Component\Table\Data\DataTable;
-use ILIAS\UI\Implementation\Table\Data\Export\Formater\AbstractTableColumnFormater;
 use ILIAS\UI\Renderer;
 use ilUtil;
+use srag\DataTable\Component\Column\Action\ActionTableColumn;
+use srag\DataTable\Component\Column\TableColumn;
+use srag\DataTable\Component\Data\Row\TableRowData;
+use srag\DataTable\Component\DataTable;
+use srag\DataTable\Implementation\Export\Formater\AbstractTableColumnFormater;
 
 /**
  * Class ActionTableColumnFormater
  *
- * @package ILIAS\UI\Implementation\Table\Data\Column\Action
+ * @package srag\DataTable\Implementation\Column\Action
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

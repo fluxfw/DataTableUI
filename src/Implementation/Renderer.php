@@ -1,30 +1,31 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data;
+namespace srag\DataTable\Implementation;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterStandard;
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\TableData;
-use ILIAS\UI\Component\Table\Data\DataTable;
-use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
 use ilUIFilterRequestAdapter;
 use ilUIFilterService;
 use ilUtil;
+use srag\DataTable\Component\Column\TableColumn;
+use srag\DataTable\Component\Data\TableData;
+use srag\DataTable\Component\DataTable;
+use srag\DataTable\Component\Export\TableExportFormat;
+use srag\DataTable\Component\Filter\Sort\TableFilterSortField;
+use srag\DataTable\Component\Filter\Storage\TableFilterStorage;
+use srag\DataTable\Component\Filter\TableFilter;
 use Throwable;
 
 /**
  * Class Renderer
  *
- * @package ILIAS\UI\Implementation\Table\Data
+ * @package srag\DataTable\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -85,13 +86,6 @@ class Renderer extends AbstractComponentRenderer {
 
 		$this->handleExport($component, $columns, $data, $renderer);
 
-		$dir = __DIR__;
-		$dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1) . "/../..";
-
-		$this->dic->ui()->mainTemplate()->addCss($dir . "/css/datatable.css");
-
-		$this->dic->ui()->mainTemplate()->addJavaScript($dir . "/js/datatable.min.js");
-
 		$tpl = $this->getTemplate("table.html", true, true);
 
 		$tpl->setVariable("ID", $component->getId());
@@ -115,6 +109,21 @@ class Renderer extends AbstractComponentRenderer {
 		$component->getFilterStorage()->store($filter);
 
 		return $html;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function registerResources(ResourceRegistry $registry): void {
+		parent::registerResources($registry);
+
+		$dir = __DIR__;
+		$dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1) . "/../..";
+
+		$registry->register($dir . "/css/datatable.css");
+
+		$registry->register($dir . "/js/datatable.min.js");
 	}
 
 
@@ -506,13 +515,6 @@ class Renderer extends AbstractComponentRenderer {
 			$this->initFilterForm($component, $filter);
 			try {
 				$data = $this->dic->uiService()->filter()->getData($this->filter_form);
-
-				// TODO: Bug? On reset filter and on normal table load, the data is no array. But it should only empty the filter, on reset, not on normal load (https://mantis.ilias.de/view.php?id=25644)
-				if (!is_array($data)) {
-					if (filter_input(INPUT_GET, ilUIFilterRequestAdapter::CMD_PARAMETER) === ilUIFilterService::CMD_RESET) {
-						$data = [];
-					}
-				}
 
 				if (is_array($data)) {
 					$filter = $filter->withFieldValues($data);

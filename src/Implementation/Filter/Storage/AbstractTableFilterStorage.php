@@ -1,14 +1,14 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data\Filter\Storage;
+namespace srag\DataTable\Implementation\Filter\Storage;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
+use srag\DataTable\Component\Filter\Storage\TableFilterStorage;
 
 /**
  * Class AbstractTableFilterStorage
  *
- * @package ILIAS\UI\Implementation\Table\Data\Filter\Storage
+ * @package srag\DataTable\Implementation\Filter\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

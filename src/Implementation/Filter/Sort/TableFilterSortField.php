@@ -1,15 +1,15 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data\Filter\Sort;
+namespace srag\DataTable\Implementation\Filter\Sort;
 
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
+use srag\DataTable\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
+use srag\DataTable\Component\Filter\Storage\TableFilterStorage;
 use stdClass;
 
 /**
  * Class TableFilterSortField
  *
- * @package ILIAS\UI\Implementation\Table\Data\Filter\Sort
+ * @package srag\DataTable\Implementation\Filter\Sort
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

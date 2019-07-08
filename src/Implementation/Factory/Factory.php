@@ -1,36 +1,36 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data\Factory;
+namespace srag\DataTable\Implementation\Factory;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
-use ILIAS\UI\Component\Table\Data\Column\TableColumn as TableColumnInterface;
-use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData as TableRowDataInterface;
-use ILIAS\UI\Component\Table\Data\Data\TableData as TableDataInterface;
-use ILIAS\UI\Component\Table\Data\DataTable as DataTableInterface;
-use ILIAS\UI\Component\Table\Data\Export\Formater\TableExportFormater;
-use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
-use ILIAS\UI\Component\Table\Data\Factory\Factory as FactoryInterface;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter as TableFilterInterface;
-use ILIAS\UI\Implementation\Table\Data\Column\Action\ActionTableColumn;
-use ILIAS\UI\Implementation\Table\Data\Column\Action\ActionTableColumnFormater;
-use ILIAS\UI\Implementation\Table\Data\Column\TableColumn;
-use ILIAS\UI\Implementation\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Implementation\Table\Data\Data\TableData;
-use ILIAS\UI\Implementation\Table\Data\DataTable;
-use ILIAS\UI\Implementation\Table\Data\Export\TableCSVTableExportFormat;
-use ILIAS\UI\Implementation\Table\Data\Export\TableExcelTableExportFormat;
-use ILIAS\UI\Implementation\Table\Data\Export\TablePDFTableExportFormat;
-use ILIAS\UI\Implementation\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Implementation\Table\Data\Filter\TableFilter;
+use srag\DataTable\Component\Column\Formater\TableColumnFormater;
+use srag\DataTable\Component\Column\TableColumn as TableColumnInterface;
+use srag\DataTable\Component\Data\Fetcher\TableDataFetcher;
+use srag\DataTable\Component\Data\Row\TableRowData as TableRowDataInterface;
+use srag\DataTable\Component\Data\TableData as TableDataInterface;
+use srag\DataTable\Component\DataTable as DataTableInterface;
+use srag\DataTable\Component\Export\Formater\TableExportFormater;
+use srag\DataTable\Component\Export\TableExportFormat;
+use srag\DataTable\Component\Factory\Factory as FactoryInterface;
+use srag\DataTable\Component\Filter\Sort\TableFilterSortField as TableFilterSortFieldInterface;
+use srag\DataTable\Component\Filter\Storage\TableFilterStorage;
+use srag\DataTable\Component\Filter\TableFilter as TableFilterInterface;
+use srag\DataTable\Implementation\Column\Action\ActionTableColumn;
+use srag\DataTable\Implementation\Column\Action\ActionTableColumnFormater;
+use srag\DataTable\Implementation\Column\TableColumn;
+use srag\DataTable\Implementation\Data\Row\TableRowData;
+use srag\DataTable\Implementation\Data\TableData;
+use srag\DataTable\Implementation\DataTable;
+use srag\DataTable\Implementation\Export\TableCSVTableExportFormat;
+use srag\DataTable\Implementation\Export\TableExcelTableExportFormat;
+use srag\DataTable\Implementation\Export\TablePDFTableExportFormat;
+use srag\DataTable\Implementation\Filter\Sort\TableFilterSortField;
+use srag\DataTable\Implementation\Filter\TableFilter;
 
 /**
  * Class Factory
  *
- * @package ILIAS\UI\Implementation\Table\Data\Factory
+ * @package srag\DataTable\Implementation\Factory
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

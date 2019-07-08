@@ -1,19 +1,19 @@
 <?php
 
-namespace ILIAS\UI\Example\Table\Data\Data\Fetcher;
+namespace srag\DataTable\Example\Data\Fetcher;
 
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Component\Table\Data\Data\TableData;
-use ILIAS\UI\Component\Table\Data\Factory\Factory;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
-use ILIAS\UI\Implementation\Table\Data\Data\Fetcher\AbstractTableDataFetcher;
+use srag\DataTable\Component\Data\Row\TableRowData;
+use srag\DataTable\Component\Data\TableData;
+use srag\DataTable\Component\Factory\Factory;
+use srag\DataTable\Component\Filter\Sort\TableFilterSortField;
+use srag\DataTable\Component\Filter\TableFilter;
+use srag\DataTable\Implementation\Data\Fetcher\AbstractTableDataFetcher;
 use stdClass;
 
 /**
  * Class StaticArrayTableDataFetcher
  *
- * @package ILIAS\UI\Example\Table\Data\Data\Fetcher
+ * @package srag\DataTable\Example\Data\Fetcher
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

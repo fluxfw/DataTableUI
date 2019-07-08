@@ -1,24 +1,24 @@
 <?php
 
-namespace ILIAS\UI\Component\Table\Data\Factory;
+namespace srag\DataTable\Component\Factory;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Column\Formater\TableColumnFormater;
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Component\Table\Data\Data\TableData;
-use ILIAS\UI\Component\Table\Data\DataTable;
-use ILIAS\UI\Component\Table\Data\Export\Formater\TableExportFormater;
-use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
+use srag\DataTable\Component\Column\Formater\TableColumnFormater;
+use srag\DataTable\Component\Column\TableColumn;
+use srag\DataTable\Component\Data\Fetcher\TableDataFetcher;
+use srag\DataTable\Component\Data\Row\TableRowData;
+use srag\DataTable\Component\Data\TableData;
+use srag\DataTable\Component\DataTable;
+use srag\DataTable\Component\Export\Formater\TableExportFormater;
+use srag\DataTable\Component\Export\TableExportFormat;
+use srag\DataTable\Component\Filter\Sort\TableFilterSortField;
+use srag\DataTable\Component\Filter\Storage\TableFilterStorage;
+use srag\DataTable\Component\Filter\TableFilter;
 
 /**
  * Interface Factory
  *
- * @package ILIAS\UI\Component\Table\Data\Factory
+ * @package srag\DataTable\Component\Factory
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

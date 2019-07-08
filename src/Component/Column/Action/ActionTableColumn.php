@@ -1,13 +1,13 @@
 <?php
 
-namespace ILIAS\UI\Component\Table\Data\Column\Action;
+namespace srag\DataTable\Component\Column\Action;
 
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
+use srag\DataTable\Component\Column\TableColumn;
 
 /**
  * Interface ActionTableColumn
  *
- * @package ILIAS\UI\Component\Table\Data\Column\Action
+ * @package srag\DataTable\Component\Column\Action
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
