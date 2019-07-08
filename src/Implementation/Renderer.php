@@ -472,7 +472,7 @@ class Renderer extends AbstractComponentRenderer {
 			$filter = $filter->withFilterSet(true);
 		}
 
-		$rows_count = intval(filter_input(INPUT_GET, self::actionParameter(TableFilterStorage::VAR_ROWS_COUNT, $component)));
+		$rows_count = intval(filter_input(INPUT_GET, self::actionParameter(TableFilterStorage::VAR_ROWS_COUNT, $component->getTableId())));
 		if (!empty($rows_count)) {
 			$filter = $filter->withRowsCount($rows_count);
 			$filter = $filter->withCurrentPage(); // Reset current page on row change
