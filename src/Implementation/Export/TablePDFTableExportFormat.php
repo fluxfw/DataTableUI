@@ -70,6 +70,6 @@ class TablePDFTableExportFormat extends AbstractTableExportFormat {
 
 		$pdf = new ilHtmlToPdfTransformerFactory();
 
-		$pdf->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, self::class, "");
+		$pdf->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, self::class, $table_id);
 	}
 }
