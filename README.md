@@ -6,7 +6,7 @@ ILIAS 6.0 Table Data UI
 First add the following to your `composer.json` file:
 ```json
 "require": {
-  "srag/tableui": ">=0.1.0"
+  "srag/datatable": ">=0.1.0"
 },
 ```
 And run a `composer install`.
