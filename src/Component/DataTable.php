@@ -28,7 +28,7 @@ interface DataTable extends Component {
 	/**
 	 * DataTable constructor
 	 *
-	 * @param string             $id
+	 * @param string             $table_id
 	 * @param string             $action_url
 	 * @param string             $title
 	 * @param TableColumn[]      $columns
@@ -36,21 +36,21 @@ interface DataTable extends Component {
 	 * @param TableFilterStorage $filter_storage
 	 * @param Factory            $factory
 	 */
-	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage, Factory $factory);
+	public function __construct(string $table_id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage, Factory $factory);
 
 
 	/**
 	 * @return string
 	 */
-	public function getId(): string;
+	public function getTableId(): string;
 
 
 	/**
-	 * @param string $id
+	 * @param string $table_id
 	 *
 	 * @return self
 	 */
-	public function withId(string $id): self;
+	public function withTableId(string $table_id): self;
 
 
 	/**
@@ -191,6 +191,18 @@ interface DataTable extends Component {
 	 * @return self
 	 */
 	public function withFilterStorage(TableFilterStorage $filter_storage): self;
+
+
+	/**
+	 * @return string
+	 */
+	public function getActionRowId(): string;
+
+
+	/**
+	 * @return string[]
+	 */
+	public function getMultipleActionRowIds(): array;
 
 
 	/**
