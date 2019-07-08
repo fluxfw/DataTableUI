@@ -19,7 +19,7 @@ class SimplePropertyTableColumnFormater extends AbstractTableColumnFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatHeader(TableColumn $column, Renderer $renderer): string {
+	public function formatHeader(TableColumn $column, string $table_id, Renderer $renderer): string {
 		return $column->getTitle();
 	}
 
@@ -27,7 +27,7 @@ class SimplePropertyTableColumnFormater extends AbstractTableColumnFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatRow(TableColumn $column, TableRowData $row, Renderer $renderer): string {
+	public function formatRow(TableColumn $column, TableRowData $row, string $table_id, Renderer $renderer): string {
 		$value = $row->getOriginalData()->{$column->getKey()};
 
 		return strval($value);

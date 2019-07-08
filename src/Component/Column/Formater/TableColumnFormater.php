@@ -26,19 +26,21 @@ interface TableColumnFormater {
 
 	/**
 	 * @param TableColumn $column
+	 * @param string      $table_id
 	 * @param Renderer    $renderer
 	 *
 	 * @return string
 	 */
-	public function formatHeader(TableColumn $column, Renderer $renderer): string;
+	public function formatHeader(TableColumn $column, string $table_id, Renderer $renderer): string;
 
 
 	/**
 	 * @param TableColumn  $column
 	 * @param TableRowData $row
+	 * @param string       $table_id
 	 * @param Renderer     $renderer
 	 *
 	 * @return string
 	 */
-	public function formatRow(TableColumn $column, TableRowData $row, Renderer $renderer): string;
+	public function formatRow(TableColumn $column, TableRowData $row, string $table_id, Renderer $renderer): string;
 }

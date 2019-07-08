@@ -1,8 +1,35 @@
 # Changelog
 
-## [0.9.4]
+## [0.9.12]
 - Fixes
 
+## [0.9.11]
+- Fixes
+- Examples
+
+## [0.9.10]
+- Fixes
+
+## [0.9.9]
+- Fixes
+
+## [0.9.8]
+- Fixes
+
+## [0.9.7]
+- Fixes
+
+## [0.9.6]
+- Fix pages count if no data
+- Fix mutiple tables on same page
+
+## [0.9.5]
+- CSS
+
+## [0.9.4]
+- CSS
+
+>>>>>>> 18ab14e258f0a330c4664da7e0ce31ddd27dffe3
 ## [0.9.3]
 - Make multiple actions work
 

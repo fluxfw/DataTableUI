@@ -28,20 +28,22 @@ interface TableExportFormater {
 	/**
 	 * @param TableExportFormat $export_format
 	 * @param TableColumn       $column
+	 * @param string            $table_id
 	 * @param Renderer          $renderer
 	 *
 	 * @return string
 	 */
-	public function formatHeader(TableExportFormat $export_format, TableColumn $column, Renderer $renderer): string;
+	public function formatHeader(TableExportFormat $export_format, TableColumn $column, string $table_id, Renderer $renderer): string;
 
 
 	/**
 	 * @param TableExportFormat $export_format
 	 * @param TableColumn       $column
 	 * @param TableRowData      $row
+	 * @param string            $table_id
 	 * @param Renderer          $renderer
 	 *
 	 * @return string
 	 */
-	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row, Renderer $renderer): string;
+	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row, string $table_id, Renderer $renderer): string;
 }

@@ -25,7 +25,7 @@ class DataTable implements DataTableInterface {
 	/**
 	 * @var string
 	 */
-	protected $id = "";
+	protected $table_id = "";
 	/**
 	 * @var string
 	 */
@@ -75,8 +75,8 @@ class DataTable implements DataTableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(string $id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage, Factory $factory) {
-		$this->id = $id;
+	public function __construct(string $table_id, string $action_url, string $title, array $columns, TableDataFetcher $data_fetcher, TableFilterStorage $filter_storage, Factory $factory) {
+		$this->table_id = $table_id;
 
 		$this->action_url = $action_url;
 
@@ -95,18 +95,18 @@ class DataTable implements DataTableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getId(): string {
-		return $this->id;
+	public function getTableId(): string {
+		return $this->table_id;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withId(string $id): DataTableInterface {
+	public function withTableId(string $table_id): DataTableInterface {
 		$clone = clone $this;
 
-		$clone->id = $id;
+		$clone->table_id = $table_id;
 
 		return $clone;
 	}
@@ -309,6 +309,23 @@ class DataTable implements DataTableInterface {
 		$clone->filter_storage = $filter_storage;
 
 		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getActionRowId(): string {
+		return strval(filter_input(INPUT_GET, Renderer::actionParameter(DataTableInterface::ACTION_GET_VAR, $this->getTableId())));
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getMultipleActionRowIds(): array {
+		return (filter_input(INPUT_POST, Renderer::actionParameter(DataTableInterface::MULTIPLE_SELECT_POST_VAR, $this->getTableId()), FILTER_DEFAULT, FILTER_FORCE_ARRAY)
+			?? []);
 	}
 
 

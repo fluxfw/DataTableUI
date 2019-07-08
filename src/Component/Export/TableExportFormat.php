@@ -15,17 +15,17 @@ use ILIAS\UI\Renderer;
 interface TableExportFormat {
 
 	/**
-	 * @var int
+	 * @var string
 	 */
-	const EXPORT_FORMAT_CSV = 1;
+	const EXPORT_FORMAT_CSV = "csv";
 	/**
-	 * @var int
+	 * @var string
 	 */
-	const EXPORT_FORMAT_EXCEL = 2;
+	const EXPORT_FORMAT_EXCEL = "excel";
 	/**
-	 * @var int
+	 * @var string
 	 */
-	const EXPORT_FORMAT_PDF = 3;
+	const EXPORT_FORMAT_PDF = "pdf";
 
 
 	/**
@@ -37,9 +37,9 @@ interface TableExportFormat {
 
 
 	/**
-	 * @return int
+	 * @return string
 	 */
-	public function getId(): int;
+	public function getExportId(): string;
 
 
 	/**
@@ -52,7 +52,8 @@ interface TableExportFormat {
 	 * @param string[] $columns
 	 * @param array    $rows
 	 * @param string   $title
+	 * @param string   $table_id
 	 * @param Renderer $renderer
 	 */
-	public function export(array $columns, array $rows, string $title, Renderer $renderer): void;
+	public function export(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): void;
 }

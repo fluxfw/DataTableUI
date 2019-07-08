@@ -21,10 +21,10 @@ class SimpleGetterTableExportFormater extends AbstractTableExportFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatHeader(TableExportFormat $export_format, TableColumn $column, Renderer $renderer): string {
+	public function formatHeader(TableExportFormat $export_format, TableColumn $column, Renderer $renderer, string $table_id): string {
 		$value = "";
 
-		switch ($export_format->getId()) {
+		switch ($export_format->getExportId()) {
 			case TableExportFormat::EXPORT_FORMAT_PDF:
 				$value = "<b>{$column->getTitle()}</b>";
 				break;
@@ -41,10 +41,10 @@ class SimpleGetterTableExportFormater extends AbstractTableExportFormater {
 	/**
 	 * @inheritDoc
 	 */
-	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row, Renderer $renderer): string {
+	public function formatRow(TableExportFormat $export_format, TableColumn $column, TableRowData $row, Renderer $renderer, string $table_id): string {
 		$value = "";
 
-		switch ($export_format->getId()) {
+		switch ($export_format->getExportId()) {
 			default:
 				try {
 					if (method_exists($row->getOriginalData(), $method = "get" . $this->strToCamelCase($column->getKey()))) {

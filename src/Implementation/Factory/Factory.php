@@ -129,20 +129,4 @@ class Factory implements FactoryInterface {
 	public function exportFormatPDF(): TableExportFormat {
 		return new TablePDFTableExportFormat($this->dic);
 	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getActionRowId(): string {
-		return strval(filter_input(INPUT_GET, DataTableInterface::ACTION_GET_VAR));
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getMultipleActionRowIds(): array {
-		return (filter_input(INPUT_POST, DataTableInterface::MULTIPLE_SELECT_POST_VAR, FILTER_DEFAULT, FILTER_FORCE_ARRAY) ?? []);
-	}
 }
