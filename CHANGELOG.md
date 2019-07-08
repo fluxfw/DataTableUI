@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.9.7]
+- Fixes
+
 ## [0.9.6]
 - Fix pages count if no data
 - Fix mutiple tables on same page
