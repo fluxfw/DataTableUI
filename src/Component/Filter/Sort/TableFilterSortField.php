@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\UI\Component\Table\Data\Filter\Sort;
+namespace srag\DataTable\Component\Filter\Sort;
 
 use JsonSerializable;
 use stdClass;
@@ -8,7 +8,7 @@ use stdClass;
 /**
  * Interface TableFilterSortField
  *
- * @package ILIAS\UI\Component\Table\Data\Filter\Sort
+ * @package srag\DataTable\Component\Filter\Sort
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

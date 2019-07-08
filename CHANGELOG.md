@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.9.12]
+- Fixes
+
 ## [0.9.11]
 - Fixes
 - Examples

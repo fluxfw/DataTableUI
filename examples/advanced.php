@@ -1,18 +1,18 @@
 <?php
 
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Component\Table\Data\Data\TableData as TableDataInterface;
-use ILIAS\UI\Component\Table\Data\Factory\Factory as FactoryInterface;
-use ILIAS\UI\Component\Table\Data\Filter\Sort\TableFilterSortField;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
-use ILIAS\UI\Example\Table\Data\Column\Formater\SimplePropertyTableColumnFormater;
-use ILIAS\UI\Example\Table\Data\Column\Formater\SimplePropertyTableExportFormater;
-use ILIAS\UI\Example\Table\Data\Filter\Storage\TableFilterStorage;
-use ILIAS\UI\Implementation\Table\Data\Data\Fetcher\AbstractTableDataFetcher;
-use ILIAS\UI\Implementation\Table\Data\Data\TableData;
-use ILIAS\UI\Implementation\Table\Data\Export\Formater\AbstractTableColumnFormater;
-use ILIAS\UI\Implementation\Table\Data\Factory\Factory;
+use srag\DataTable\Component\Column\TableColumn;
+use srag\DataTable\Component\Data\Row\TableRowData;
+use srag\DataTable\Component\Data\TableData as TableDataInterface;
+use srag\DataTable\Component\Factory\Factory as FactoryInterface;
+use srag\DataTable\Component\Filter\Sort\TableFilterSortField;
+use srag\DataTable\Component\Filter\TableFilter;
+use srag\DataTable\Example\Column\Formater\SimplePropertyTableColumnFormater;
+use srag\DataTable\Example\Column\Formater\SimplePropertyTableExportFormater;
+use srag\DataTable\Example\Filter\Storage\TableFilterStorage;
+use srag\DataTable\Implementation\Data\Fetcher\AbstractTableDataFetcher;
+use srag\DataTable\Implementation\Data\TableData;
+use srag\DataTable\Implementation\Export\Formater\AbstractTableColumnFormater;
+use srag\DataTable\Implementation\Factory\Factory;
 use ILIAS\UI\Renderer;
 
 /**

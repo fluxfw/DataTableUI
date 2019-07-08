@@ -1,16 +1,16 @@
 <?php
 
-namespace ILIAS\UI\Component\Table\Data\Column\Formater;
+namespace srag\DataTable\Component\Column\Formater;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
 use ILIAS\UI\Renderer;
+use srag\DataTable\Component\Column\TableColumn;
+use srag\DataTable\Component\Data\Row\TableRowData;
 
 /**
  * Interface TableColumnFormater
  *
- * @package ILIAS\UI\Component\Table\Data\Column\Formater
+ * @package srag\DataTable\Component\Column\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

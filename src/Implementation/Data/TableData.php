@@ -1,14 +1,14 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data\Data;
+namespace srag\DataTable\Implementation\Data;
 
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Component\Table\Data\Data\TableData as TableDataInterface;
+use srag\DataTable\Component\Data\Row\TableRowData;
+use srag\DataTable\Component\Data\TableData as TableDataInterface;
 
 /**
  * Class TableData
  *
- * @package ILIAS\UI\Implementation\Table\Data\Data
+ * @package srag\DataTable\Implementation\Data
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

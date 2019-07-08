@@ -1,15 +1,15 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data\Export;
+namespace srag\DataTable\Implementation\Export;
 
 use ilExcel;
-use ILIAS\UI\Component\Table\Data\DataTable;
 use ILIAS\UI\Renderer;
+use srag\DataTable\Component\DataTable;
 
 /**
  * Class TableExcelExportFormat
  *
- * @package ILIAS\UI\Implementation\Table\Data\Export
+ * @package srag\DataTable\Implementation\Export
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

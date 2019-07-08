@@ -1,13 +1,13 @@
 <?php
 
-namespace ILIAS\UI\Component\Table\Data\Data;
+namespace srag\DataTable\Component\Data;
 
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
+use srag\DataTable\Component\Data\Row\TableRowData;
 
 /**
  * Interface TableData
  *
- * @package ILIAS\UI\Component\Table\Data\Data
+ * @package srag\DataTable\Component\Data
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

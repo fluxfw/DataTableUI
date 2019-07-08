@@ -1,21 +1,21 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data;
+namespace srag\DataTable\Implementation;
 
 use ILIAS\UI\Component\Input\Field\FilterInput;
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
-use ILIAS\UI\Component\Table\Data\DataTable as DataTableInterface;
-use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
-use ILIAS\UI\Component\Table\Data\Factory\Factory;
-use ILIAS\UI\Component\Table\Data\Filter\Storage\TableFilterStorage;
-use ILIAS\UI\Component\Table\Data\Filter\TableFilter;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use srag\DataTable\Component\Column\TableColumn;
+use srag\DataTable\Component\Data\Fetcher\TableDataFetcher;
+use srag\DataTable\Component\DataTable as DataTableInterface;
+use srag\DataTable\Component\Export\TableExportFormat;
+use srag\DataTable\Component\Factory\Factory;
+use srag\DataTable\Component\Filter\Storage\TableFilterStorage;
+use srag\DataTable\Component\Filter\TableFilter;
 
 /**
  * Class DataTable
  *
- * @package ILIAS\UI\Implementation\Table\Data
+ * @package srag\DataTable\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

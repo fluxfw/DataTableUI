@@ -1,6 +1,6 @@
 <?php
 
-namespace ILIAS\UI\Component\Table\Data\Export;
+namespace srag\DataTable\Component\Export;
 
 use ILIAS\DI\Container;
 use ILIAS\UI\Renderer;
@@ -8,7 +8,7 @@ use ILIAS\UI\Renderer;
 /**
  * Interface TableExportFormat
  *
- * @package ILIAS\UI\Component\Table\Data\Export
+ * @package srag\DataTable\Component\Export
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

@@ -1,14 +1,14 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data\Data\Fetcher;
+namespace srag\DataTable\Implementation\Data\Fetcher;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Data\Fetcher\TableDataFetcher;
+use srag\DataTable\Component\Data\Fetcher\TableDataFetcher;
 
 /**
  * Class AbstractTableDataFetcher
  *
- * @package ILIAS\UI\Implementation\Table\Data\Data\Fetcher
+ * @package srag\DataTable\Implementation\Data\Fetcher
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

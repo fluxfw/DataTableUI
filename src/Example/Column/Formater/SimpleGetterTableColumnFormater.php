@@ -1,16 +1,16 @@
 <?php
 
-namespace ILIAS\UI\Example\Table\Data\Column\Formater;
+namespace srag\DataTable\Example\Column\Formater;
 
-use ILIAS\UI\Component\Table\Data\Column\TableColumn;
-use ILIAS\UI\Component\Table\Data\Data\Row\TableRowData;
-use ILIAS\UI\Implementation\Table\Data\Export\Formater\AbstractTableColumnFormater;
 use ILIAS\UI\Renderer;
+use srag\DataTable\Component\Column\TableColumn;
+use srag\DataTable\Component\Data\Row\TableRowData;
+use srag\DataTable\Implementation\Export\Formater\AbstractTableColumnFormater;
 
 /**
  * Class SimpleGetterTableColumnFormater
  *
- * @package ILIAS\UI\Example\Table\Data\Column\Formater
+ * @package srag\DataTable\Example\Column\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

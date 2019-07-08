@@ -1,14 +1,14 @@
 <?php
 
-namespace ILIAS\UI\Implementation\Table\Data\Export;
+namespace srag\DataTable\Implementation\Export;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Table\Data\Export\TableExportFormat;
+use srag\DataTable\Component\Export\TableExportFormat;
 
 /**
  * Class AbstractTableExportFormat
  *
- * @package ILIAS\UI\Implementation\Table\Data\Export
+ * @package srag\DataTable\Implementation\Export
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
