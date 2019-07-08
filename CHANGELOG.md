@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.9.4]
+- CSS
+
 ## [0.9.3]
 - Make multiple actions work
 
