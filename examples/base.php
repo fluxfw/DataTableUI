@@ -14,7 +14,7 @@ use srag\DataTable\Implementation\Factory\Factory;
 /**
  * @return string
  */
-function standard(): string {
+function base(): string {
 	global $DIC;
 
 	$action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class) . "&node_id=TableDataData";
