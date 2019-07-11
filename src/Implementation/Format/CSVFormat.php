@@ -1,15 +1,14 @@
 <?php
 
-namespace srag\DataTable\Implementation\Export;
+namespace srag\DataTable\Implementation\Format;
 
 use ilCSVWriter;
 use ILIAS\UI\Renderer;
-use srag\DataTable\Component\Table;
 
 /**
  * Class CSVFormat
  *
- * @package srag\DataTable\Implementation\Export
+ * @package srag\DataTable\Implementation\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -20,14 +19,6 @@ class CSVFormat extends AbstractFormat {
 	 */
 	public function getFormatId(): string {
 		return self::FORMAT_CSV;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getDisplayTitle(): string {
-		return $this->dic->language()->txt(Table::LANG_MODULE . "_export_csv");
 	}
 
 

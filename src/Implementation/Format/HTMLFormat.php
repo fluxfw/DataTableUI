@@ -1,15 +1,14 @@
 <?php
 
-namespace srag\DataTable\Implementation\Export;
+namespace srag\DataTable\Implementation\Format;
 
 use ILIAS\UI\Renderer;
 use ilTemplate;
-use srag\DataTable\Component\Table;
 
 /**
  * Class HTMLFormat
  *
- * @package srag\DataTable\Implementation\Export
+ * @package srag\DataTable\Implementation\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -20,14 +19,6 @@ class HTMLFormat extends AbstractFormat {
 	 */
 	public function getFormatId(): string {
 		return self::FORMAT_HTML;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getDisplayTitle(): string {
-		return $this->dic->language()->txt(Table::LANG_MODULE . "_export_html");
 	}
 
 
