@@ -3,6 +3,7 @@ datatable_count#:#(%1$s von %2$s)
 datatable_export#:#Exportieren
 datatable_export_csv#:#CSV
 datatable_export_excel#:#Excel
+datatable_export_html#:#HTML
 datatable_export_pdf#:#PDF
 datatable_multiple_actions#:#Mehrfache Aktionen
 datatable_no_data#:#Keine Daten

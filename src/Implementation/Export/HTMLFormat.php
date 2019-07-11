@@ -2,41 +2,50 @@
 
 namespace srag\DataTable\Implementation\Export;
 
-use ilHtmlToPdfTransformerFactory;
 use ILIAS\UI\Renderer;
 use ilTemplate;
 use srag\DataTable\Component\Table;
 
 /**
- * Class PDFExportFormat
+ * Class HTMLFormat
  *
  * @package srag\DataTable\Implementation\Export
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class PDFExportFormat extends AbstractExportFormat {
+class HTMLFormat extends AbstractFormat {
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getExportId(): string {
-		return self::EXPORT_FORMAT_PDF;
+	public function getFormatId(): string {
+		return self::FORMAT_HTML;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getTitle(): string {
-		return $this->dic->language()->txt(Table::LANG_MODULE . "_export_pdf");
+	public function getDisplayTitle(): string {
+		return $this->dic->language()->txt(Table::LANG_MODULE . "_export_html");
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function export(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): void {
+	public function getFileExtension(): string {
+		return "html";
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function render(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): string {
 		$tpl = new ilTemplate(__DIR__ . "/../../../templates/tpl.datatable.html", true, true); // TODO: Somehow access `getTemplate` of renderer
+
+		$tpl->setVariable("ID", $table_id);
 
 		$tpl->setVariable("TITLE", $title);
 
@@ -49,7 +58,8 @@ class PDFExportFormat extends AbstractExportFormat {
 
 		$tpl->setCurrentBlock("body");
 		foreach ($rows as $row) {
-			$tpl_row = new ilTemplate(__DIR__ . "/../../../templates/tpl.datatablerow.html", true, true); // TODO: Somehow access `getTemplate` of renderer
+			$tpl_row = new ilTemplate(__DIR__
+				. "/../../../templates/tpl.datatablerow.html", true, true); // TODO: Somehow access `getTemplate` of renderer
 
 			$tpl_row->setCurrentBlock("row");
 
@@ -64,12 +74,6 @@ class PDFExportFormat extends AbstractExportFormat {
 			$tpl->parseCurrentBlock();
 		}
 
-		$html = $tpl->get();
-
-		$filename = $title . ".pdf";
-
-		$pdf = new ilHtmlToPdfTransformerFactory();
-
-		$pdf->deliverPDFFromHTMLString($html, $filename, ilHtmlToPdfTransformerFactory::PDF_OUTPUT_DOWNLOAD, self::class, $table_id);
+		return $tpl->get();
 	}
 }

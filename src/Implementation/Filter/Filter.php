@@ -2,8 +2,8 @@
 
 namespace srag\DataTable\Implementation\Filter;
 
-use srag\DataTable\Component\Filter\Sort\FilterSortField;
 use srag\DataTable\Component\Filter\Filter as FilterInterface;
+use srag\DataTable\Component\Filter\Sort\FilterSortField;
 
 /**
  * Class Filter

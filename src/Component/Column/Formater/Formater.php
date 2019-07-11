@@ -8,16 +8,16 @@ use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
 
 /**
- * Interface ColumnFormater
+ * Interface Formater
  *
  * @package srag\DataTable\Component\Column\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface ColumnFormater {
+interface Formater {
 
 	/**
-	 * ColumnFormater constructor
+	 * Formater constructor
 	 *
 	 * @param Container $dic
 	 */
@@ -25,16 +25,18 @@ interface ColumnFormater {
 
 
 	/**
+	 * @param string   $format_id
 	 * @param Column   $column
 	 * @param string   $table_id
 	 * @param Renderer $renderer
 	 *
 	 * @return string
 	 */
-	public function formatHeader(Column $column, string $table_id, Renderer $renderer): string;
+	public function formatHeader(string $format_id, Column $column, string $table_id, Renderer $renderer): string;
 
 
 	/**
+	 * @param string   $format_id
 	 * @param Column   $column
 	 * @param RowData  $row
 	 * @param string   $table_id
@@ -42,5 +44,5 @@ interface ColumnFormater {
 	 *
 	 * @return string
 	 */
-	public function formatRow(Column $column, RowData $row, string $table_id, Renderer $renderer): string;
+	public function formatRow(string $format_id, Column $column, RowData $row, string $table_id, Renderer $renderer): string;
 }
