@@ -11,10 +11,10 @@ use srag\DataTable\Component\Table as TableInterface;
 use srag\DataTable\Implementation\Column\Action\ActionColumn;
 use srag\DataTable\Implementation\Column\Action\ActionFormater;
 use srag\DataTable\Implementation\Column\Column;
-use srag\DataTable\Implementation\Export\CSVFormat;
-use srag\DataTable\Implementation\Export\ExcelFormat;
-use srag\DataTable\Implementation\Export\HTMLFormat;
-use srag\DataTable\Implementation\Export\PDFFormat;
+use srag\DataTable\Implementation\Format\CSVFormat;
+use srag\DataTable\Implementation\Format\ExcelFormat;
+use srag\DataTable\Implementation\Format\HTMLFormat;
+use srag\DataTable\Implementation\Format\PDFFormat;
 use srag\DataTable\Implementation\Table;
 
 /**

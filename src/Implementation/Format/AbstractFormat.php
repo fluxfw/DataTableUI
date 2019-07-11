@@ -1,16 +1,17 @@
 <?php
 
-namespace srag\DataTable\Implementation\Export;
+namespace srag\DataTable\Implementation\Format;
 
 use GuzzleHttp\Psr7\Stream;
 use ILIAS\DI\Container;
 use ilMimeTypeUtil;
 use srag\DataTable\Component\Format\Format;
+use srag\DataTable\Component\Table;
 
 /**
  * Class AbstractFormat
  *
- * @package srag\DataTable\Implementation\Export
+ * @package srag\DataTable\Implementation\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -27,6 +28,14 @@ abstract class AbstractFormat implements Format {
 	 */
 	public function __construct(Container $dic) {
 		$this->dic = $dic;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getDisplayTitle(): string {
+		return $this->dic->language()->txt(Table::LANG_MODULE . "_format_" . $this->getFormatId());
 	}
 
 
