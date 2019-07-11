@@ -5,9 +5,9 @@ namespace srag\DataTable\Example\Filter\Storage;
 use ILIAS\DI\Container;
 use ilTablePropertiesStorage;
 use srag\DataTable\Component\Factory\Factory;
-use srag\DataTable\Component\Filter\Sort\TableFilterSortField;
-use srag\DataTable\Component\Filter\TableFilter;
-use srag\DataTable\Implementation\Filter\Storage\AbstractTableFilterStorage;
+use srag\DataTable\Component\Filter\Sort\FilterSortField;
+use srag\DataTable\Component\Filter\Filter;
+use srag\DataTable\Implementation\Filter\Storage\AbstractFilterStorage;
 
 /**
  * Class TableFilterStorage
@@ -16,7 +16,7 @@ use srag\DataTable\Implementation\Filter\Storage\AbstractTableFilterStorage;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class TableFilterStorage extends AbstractTableFilterStorage {
+class TableFilterStorage extends AbstractFilterStorage {
 
 	/**
 	 * @var ilTablePropertiesStorage
@@ -43,7 +43,7 @@ class TableFilterStorage extends AbstractTableFilterStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function read(string $table_id, int $user_id, Factory $factory): TableFilter {
+	public function read(string $table_id, int $user_id, Factory $factory): Filter {
 		$filter = $factory->filter($table_id, $user_id);
 
 		foreach (self::VARS as $property) {
@@ -52,7 +52,7 @@ class TableFilterStorage extends AbstractTableFilterStorage {
 			if (!empty($value)) {
 				switch ($property) {
 					case self::VAR_SORT_FIELDS:
-						$filter = $filter->withSortFields(array_map(function (array $sort_field) use ($factory): TableFilterSortField {
+						$filter = $filter->withSortFields(array_map(function (array $sort_field) use ($factory): FilterSortField {
 							return $factory->filterSortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
 						}, $value));
 						break;
@@ -72,7 +72,7 @@ class TableFilterStorage extends AbstractTableFilterStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function store(TableFilter $filter): void {
+	public function store(Filter $filter): void {
 		foreach (self::VARS as $property) {
 			$value = "";
 			if (method_exists($filter, $method = "get" . $this->strToCamelCase($property))) {

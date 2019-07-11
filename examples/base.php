@@ -1,14 +1,14 @@
 <?php
 
-use srag\DataTable\Component\Data\Row\TableRowData;
-use srag\DataTable\Component\Data\TableData;
+use srag\DataTable\Component\Data\Row\RowData;
+use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Factory\Factory as FactoryInterface;
-use srag\DataTable\Component\Filter\Sort\TableFilterSortField;
-use srag\DataTable\Component\Filter\TableFilter;
-use srag\DataTable\Example\Column\Formater\SimplePropertyTableColumnFormater;
-use srag\DataTable\Example\Column\Formater\SimplePropertyTableExportFormater;
+use srag\DataTable\Component\Filter\Sort\FilterSortField;
+use srag\DataTable\Component\Filter\Filter;
+use srag\DataTable\Example\Column\Formater\SimplePropertyColumnFormater;
+use srag\DataTable\Example\Column\Formater\SimplePropertyExportFormater;
 use srag\DataTable\Example\Filter\Storage\TableFilterStorage;
-use srag\DataTable\Implementation\Data\Fetcher\AbstractTableDataFetcher;
+use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
 use srag\DataTable\Implementation\Factory\Factory;
 
 /**
@@ -22,15 +22,15 @@ function base(): string {
 	$factory = new Factory($DIC); // TODO: Later from `$DIC->ui()->factory()->table()->data()`
 
 	$table = $factory->table("example_datatable_actions", $action_url, "Example data table with actions", [
-		$factory->column("column1", "Column 1", new SimplePropertyTableColumnFormater($DIC), new SimplePropertyTableExportFormater($DIC)),
-		$factory->column("column2", "Column 2", new SimplePropertyTableColumnFormater($DIC), new SimplePropertyTableExportFormater($DIC)),
-		$factory->column("column3", "Column 3", new SimplePropertyTableColumnFormater($DIC), new SimplePropertyTableExportFormater($DIC))
-	], new class($DIC) extends AbstractTableDataFetcher {
+		$factory->column("column1", "Column 1", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC)),
+		$factory->column("column2", "Column 2", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC)),
+		$factory->column("column3", "Column 3", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC))
+	], new class($DIC) extends AbstractDataFetcher {
 
 		/**
 		 * @inheritDoc
 		 */
-		public function fetchData(TableFilter $filter, FactoryInterface $factory): TableData {
+		public function fetchData(Filter $filter, FactoryInterface $factory): Data {
 			$data = array_map(function (int $index): stdClass {
 				return (object)[
 					"column1" => $index,
@@ -79,7 +79,7 @@ function base(): string {
 
 					$i = strnatcmp($s1, $s2);
 
-					if ($sort_field->getSortFieldDirection() === TableFilterSortField::SORT_DIRECTION_DOWN) {
+					if ($sort_field->getSortFieldDirection() === FilterSortField::SORT_DIRECTION_DOWN) {
 						$i *= - 1;
 					}
 
@@ -95,7 +95,7 @@ function base(): string {
 
 			$data = array_slice($data, $filter->getLimitStart(), $filter->getLimitEnd());
 
-			$data = array_map(function (stdClass $row) use ($factory): TableRowData {
+			$data = array_map(function (stdClass $row) use ($factory): RowData {
 				return $factory->rowData($row->column1, $row);
 			}, $data);
 
