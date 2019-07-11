@@ -3,6 +3,7 @@
 namespace srag\DataTable\Component\Data;
 
 use srag\DataTable\Component\Data\Row\RowData;
+use srag\DataTable\Component\Data\Row\RowDataGetter;
 
 /**
  * Interface Data

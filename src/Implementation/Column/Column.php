@@ -2,10 +2,10 @@
 
 namespace srag\DataTable\Implementation\Column;
 
-use srag\DataTable\Component\Column\Formater\ColumnFormater;
 use srag\DataTable\Component\Column\Column as ColumnInterface;
-use srag\DataTable\Component\Export\Formater\ExportFormater;
+use srag\DataTable\Component\Column\Formater\Formater;
 use srag\DataTable\Component\Filter\Sort\FilterSortField as FilterSortFieldInterface;
+use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
 
 /**
  * Class Column
@@ -25,13 +25,9 @@ class Column implements ColumnInterface {
 	 */
 	protected $title = "";
 	/**
-	 * @var ColumnFormater
+	 * @var Formater
 	 */
-	protected $column_formater;
-	/**
-	 * @var ExportFormater|null
-	 */
-	protected $export_formater = null;
+	protected $formater;
 	/**
 	 * @var bool
 	 */
@@ -55,20 +51,23 @@ class Column implements ColumnInterface {
 	/**
 	 * @var bool
 	 */
+	protected $exportable = true;
+	/**
+	 * @var bool
+	 */
 	protected $dragable = false;
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(string $key, string $title, ColumnFormater $column_formater, ?ExportFormater $export_formater = null) {
+	public function __construct(string $key, string $title) {
 		$this->key = $key;
 
 		$this->title = $title;
 
-		$this->column_formater = $column_formater;
-
-		$this->export_formater = $export_formater;
+		global $DIC; // TODO: !!!
+		$this->formater = new DefaultFormater($DIC);
 	}
 
 
@@ -115,38 +114,18 @@ class Column implements ColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getColumnFormater(): ColumnFormater {
-		return $this->column_formater;
+	public function getFormater(): Formater {
+		return $this->formater;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withColumnFormater(ColumnFormater $column_formater): ColumnInterface {
+	public function withFormater(Formater $formater): ColumnInterface {
 		$clone = clone $this;
 
-		$clone->column_formater = $column_formater;
-
-		return $clone;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function getExportFormater(): ?ExportFormater {
-		return $this->export_formater;
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function withExportFormater(?ExportFormater $export_formater = null): ColumnInterface {
-		$clone = clone $this;
-
-		$clone->export_formater = $export_formater;
+		$clone->formater = $formater;
 
 		return $clone;
 	}
@@ -247,6 +226,26 @@ class Column implements ColumnInterface {
 		$clone = clone $this;
 
 		$clone->default_selected = $default_selected;
+
+		return $clone;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function isExportable(): bool {
+		return $this->exportable;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withExportable(bool $exportable = true): ColumnInterface {
+		$clone = clone $this;
+
+		$clone->exportable = $exportable;
 
 		return $clone;
 	}

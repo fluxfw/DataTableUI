@@ -1,18 +1,18 @@
 <?php
 
-namespace srag\DataTable\Implementation\Export;
+namespace srag\DataTable\Implementation\Column\Formater;
 
 use ILIAS\DI\Container;
-use srag\DataTable\Component\Export\ExportFormat;
+use srag\DataTable\Component\Column\Formater\Formater;
 
 /**
- * Class AbstractExportFormat
+ * Class AbstractFormater
  *
- * @package srag\DataTable\Implementation\Export
+ * @package srag\DataTable\Implementation\Column\Formater
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractExportFormat implements ExportFormat {
+abstract class AbstractFormater implements Formater {
 
 	/**
 	 * @var Container

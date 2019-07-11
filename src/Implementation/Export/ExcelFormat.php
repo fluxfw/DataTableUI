@@ -7,26 +7,26 @@ use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Table;
 
 /**
- * Class ExcelExportFormat
+ * Class ExcelFormat
  *
  * @package srag\DataTable\Implementation\Export
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ExcelExportFormat extends AbstractExportFormat {
+class ExcelFormat extends AbstractFormat {
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getExportId(): string {
-		return self::EXPORT_FORMAT_EXCEL;
+	public function getFormatId(): string {
+		return self::FORMAT_EXCEL;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function getTitle(): string {
+	public function getDisplayTitle(): string {
 		return $this->dic->language()->txt(Table::LANG_MODULE . "_export_excel");
 	}
 
@@ -34,13 +34,21 @@ class ExcelExportFormat extends AbstractExportFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function export(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): void {
+	public function getFileExtension(): string {
+		return "xlsx";
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function render(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): string {
 		$excel = new ilExcel();
 
 		$excel->addSheet($title);
 
 		$current_row = 1;
-		$current_col = 0;
+		$current_col = 1;
 
 		foreach ($columns as $current_col => $column) {
 			$excel->setCell($current_row, $current_col, $column);
@@ -55,6 +63,12 @@ class ExcelExportFormat extends AbstractExportFormat {
 			$current_row ++;
 		}
 
-		$excel->sendToClient($title);
+		$tmp_file = $excel->writeToTmpFile();
+
+		$data = file_get_contents($tmp_file);
+
+		unlink($tmp_file);
+
+		return $data;
 	}
 }

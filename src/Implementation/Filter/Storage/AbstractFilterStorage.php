@@ -2,8 +2,11 @@
 
 namespace srag\DataTable\Implementation\Filter\Storage;
 
-use ILIAS\DI\Container;
+use srag\DataTable\Component\Filter\Filter as FilterInterface;
+use srag\DataTable\Component\Filter\Sort\FilterSortField as FilterSortFieldInterface;
 use srag\DataTable\Component\Filter\Storage\FilterStorage;
+use srag\DataTable\Implementation\Filter\Filter;
+use srag\DataTable\Implementation\Filter\Sort\FilterSortField;
 
 /**
  * Class AbstractFilterStorage
@@ -15,16 +18,26 @@ use srag\DataTable\Component\Filter\Storage\FilterStorage;
 abstract class AbstractFilterStorage implements FilterStorage {
 
 	/**
-	 * @var Container
+	 * @inheritDoc
 	 */
-	protected $dic;
+	public function __construct() {
+
+	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(Container $dic) {
-		$this->dic = $dic;
+	public function filter(string $table_id, int $user_id): FilterInterface {
+		return new Filter($table_id, $user_id);
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function sortField(string $sort_field, int $sort_field_direction): FilterSortFieldInterface {
+		return new FilterSortField($sort_field, $sort_field_direction);
 	}
 
 

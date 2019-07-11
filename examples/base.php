@@ -1,13 +1,10 @@
 <?php
 
-use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Factory\Factory as FactoryInterface;
-use srag\DataTable\Component\Filter\Sort\FilterSortField;
+use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Filter\Filter;
-use srag\DataTable\Example\Column\Formater\SimplePropertyColumnFormater;
-use srag\DataTable\Example\Column\Formater\SimplePropertyExportFormater;
-use srag\DataTable\Example\Filter\Storage\TableFilterStorage;
+use srag\DataTable\Component\Filter\Sort\FilterSortField;
+use srag\DataTable\Example\Filter\Storage\DefaultFilterStorage;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
 use srag\DataTable\Implementation\Factory\Factory;
 
@@ -22,15 +19,15 @@ function base(): string {
 	$factory = new Factory($DIC); // TODO: Later from `$DIC->ui()->factory()->table()->data()`
 
 	$table = $factory->table("example_datatable_actions", $action_url, "Example data table with actions", [
-		$factory->column("column1", "Column 1", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC)),
-		$factory->column("column2", "Column 2", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC)),
-		$factory->column("column3", "Column 3", new SimplePropertyColumnFormater($DIC), new SimplePropertyExportFormater($DIC))
+		$factory->column("column1", "Column 1"),
+		$factory->column("column2", "Column 2"),
+		$factory->column("column3", "Column 3")
 	], new class($DIC) extends AbstractDataFetcher {
 
 		/**
 		 * @inheritDoc
 		 */
-		public function fetchData(Filter $filter, FactoryInterface $factory): Data {
+		public function fetchData(Filter $filter): Data {
 			$data = array_map(function (int $index): stdClass {
 				return (object)[
 					"column1" => $index,
@@ -95,13 +92,13 @@ function base(): string {
 
 			$data = array_slice($data, $filter->getLimitStart(), $filter->getLimitEnd());
 
-			$data = array_map(function (stdClass $row) use ($factory): RowData {
-				return $factory->rowData($row->column1, $row);
+			$data = array_map(function (stdClass $row): RowData {
+				return $this->propertyRowData($row->column1, $row);
 			}, $data);
 
-			return $factory->data($data, $max_count);
+			return $this->data($data, $max_count);
 		}
-	}, new TableFilterStorage($DIC));
+	});
 
 	return $DIC->ui()->renderer()->render($table);
 }

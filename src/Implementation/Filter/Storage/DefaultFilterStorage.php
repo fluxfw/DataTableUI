@@ -1,22 +1,19 @@
 <?php
 
-namespace srag\DataTable\Example\Filter\Storage;
+namespace srag\DataTable\Implementation\Filter\Storage;
 
-use ILIAS\DI\Container;
 use ilTablePropertiesStorage;
-use srag\DataTable\Component\Factory\Factory;
-use srag\DataTable\Component\Filter\Sort\FilterSortField;
 use srag\DataTable\Component\Filter\Filter;
-use srag\DataTable\Implementation\Filter\Storage\AbstractFilterStorage;
+use srag\DataTable\Component\Filter\Sort\FilterSortField;
 
 /**
- * Class TableFilterStorage
+ * Class DefaultFilterStorage
  *
- * @package srag\DataTable\Example\Filter\Storage
+ * @package srag\DataTable\Implementation\Filter\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class TableFilterStorage extends AbstractFilterStorage {
+class DefaultFilterStorage extends AbstractFilterStorage {
 
 	/**
 	 * @var ilTablePropertiesStorage
@@ -27,8 +24,8 @@ class TableFilterStorage extends AbstractFilterStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function __construct(Container $dic) {
-		parent::__construct($dic);
+	public function __construct() {
+		parent::__construct();
 
 		// TODO: Not use ilTablePropertiesStorage and reimplement it - Currently just a "fast solution" to save the table filter
 		$this->properties_storage = new ilTablePropertiesStorage();
@@ -43,8 +40,8 @@ class TableFilterStorage extends AbstractFilterStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function read(string $table_id, int $user_id, Factory $factory): Filter {
-		$filter = $factory->filter($table_id, $user_id);
+	public function read(string $table_id, int $user_id): Filter {
+		$filter = $this->filter($table_id, $user_id);
 
 		foreach (self::VARS as $property) {
 			$value = json_decode($this->properties_storage->getProperty($filter->getTableId(), $filter->getUserId(), $property), true);
@@ -52,8 +49,8 @@ class TableFilterStorage extends AbstractFilterStorage {
 			if (!empty($value)) {
 				switch ($property) {
 					case self::VAR_SORT_FIELDS:
-						$filter = $filter->withSortFields(array_map(function (array $sort_field) use ($factory): FilterSortField {
-							return $factory->filterSortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
+						$filter = $filter->withSortFields(array_map(function (array $sort_field): FilterSortField {
+							return $this->sortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
 						}, $value));
 						break;
 

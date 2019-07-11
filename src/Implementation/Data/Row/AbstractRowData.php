@@ -2,16 +2,16 @@
 
 namespace srag\DataTable\Implementation\Data\Row;
 
-use srag\DataTable\Component\Data\Row\RowData as RowDataInterface;
+use srag\DataTable\Component\Data\Row\RowData;
 
 /**
- * Class RowData
+ * Class AbstractRowData
  *
  * @package srag\DataTable\Implementation\Data\Row
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class RowData implements RowDataInterface {
+abstract class AbstractRowData implements RowData {
 
 	/**
 	 * @var string
@@ -43,7 +43,7 @@ class RowData implements RowDataInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withRowId(string $row_id): RowDataInterface {
+	public function withRowId(string $row_id): RowData {
 		$clone = clone $this;
 
 		$clone->row_id = $row_id;
@@ -63,7 +63,7 @@ class RowData implements RowDataInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withOriginalData(object $original_data): RowDataInterface {
+	public function withOriginalData(object $original_data): RowData {
 		$clone = clone $this;
 
 		$clone->original_data = $original_data;

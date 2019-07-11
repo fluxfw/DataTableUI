@@ -2,8 +2,7 @@
 
 namespace srag\DataTable\Component\Column;
 
-use srag\DataTable\Component\Column\Formater\ColumnFormater;
-use srag\DataTable\Component\Export\Formater\ExportFormater;
+use srag\DataTable\Component\Column\Formater\Formater;
 use srag\DataTable\Component\Filter\Sort\FilterSortField;
 
 /**
@@ -18,12 +17,10 @@ interface Column {
 	/**
 	 * Column constructor
 	 *
-	 * @param string              $key
-	 * @param string              $title
-	 * @param ColumnFormater      $column_formater
-	 * @param ExportFormater|null $export_formater
+	 * @param string $key
+	 * @param string $title
 	 */
-	public function __construct(string $key, string $title, ColumnFormater $column_formater, ?ExportFormater $export_formater = null);
+	public function __construct(string $key, string $title);
 
 
 	/**
@@ -55,31 +52,17 @@ interface Column {
 
 
 	/**
-	 * @return ColumnFormater
+	 * @return Formater
 	 */
-	public function getColumnFormater(): ColumnFormater;
+	public function getFormater(): Formater;
 
 
 	/**
-	 * @param ColumnFormater $column_formater
+	 * @param Formater $formater
 	 *
 	 * @return self
 	 */
-	public function withColumnFormater(ColumnFormater $column_formater): self;
-
-
-	/**
-	 * @return ExportFormater|null
-	 */
-	public function getExportFormater(): ?ExportFormater;
-
-
-	/**
-	 * @param ExportFormater|null $export_formater
-	 *
-	 * @return self
-	 */
-	public function withExportFormater(?ExportFormater $export_formater = null): self;
+	public function withFormater(Formater $formater): self;
 
 
 	/**
@@ -150,6 +133,20 @@ interface Column {
 	 * @return self
 	 */
 	public function withDefaultSelected(bool $default_selected = true): self;
+
+
+	/**
+	 * @return bool
+	 */
+	public function isExportable(): bool;
+
+
+	/**
+	 * @param bool $exportable
+	 *
+	 * @return self
+	 */
+	public function withExportable(bool $exportable = true): self;
 
 
 	/**
