@@ -234,4 +234,5 @@ abstract class AbstractFormat implements Format {
 	 * @return string
 	 */
 	protected abstract function renderTemplate(Table $component): string;
+	// TODO: Footer
 }
