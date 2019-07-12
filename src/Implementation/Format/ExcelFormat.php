@@ -4,6 +4,11 @@ namespace srag\DataTable\Implementation\Format;
 
 use ilExcel;
 use ILIAS\UI\Renderer;
+use srag\DataTable\Component\Column\Column;
+use srag\DataTable\Component\Data\Data;
+use srag\DataTable\Component\Data\Row\RowData;
+use srag\DataTable\Component\Filter\Filter;
+use srag\DataTable\Component\Table;
 
 /**
  * Class ExcelFormat
@@ -13,6 +18,20 @@ use ILIAS\UI\Renderer;
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class ExcelFormat extends AbstractFormat {
+
+	/**
+	 * @var ilExcel
+	 */
+	protected $tpl;
+	/**
+	 * @var int
+	 */
+	protected $current_col = 0;
+	/**
+	 * @var int
+	 */
+	protected $current_row = 1;
+
 
 	/**
 	 * @inheritDoc
@@ -25,7 +44,7 @@ class ExcelFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function getFileExtension(): string {
+	protected function getFileExtension(): string {
 		return "xlsx";
 	}
 
@@ -33,28 +52,74 @@ class ExcelFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	public function render(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): string {
-		$excel = new ilExcel();
+	protected function initTemplate(Table $component, Data $data, Filter $filter, Renderer $renderer): void {
+		$this->tpl = new ilExcel();
 
-		$excel->addSheet($title);
+		$this->tpl->addSheet($component->getTitle());
+	}
 
-		$current_row = 1;
-		$current_col = 1;
 
-		foreach ($columns as $current_col => $column) {
-			$excel->setCell($current_row, $current_col, $column);
-		}
-		$excel->setBold("A" . $current_row . ":" . $excel->getColumnCoord($current_col) . $current_row);
-		$current_row ++;
+	/**
+	 * @inheritDoc
+	 */
+	public function getTemplate(): object {
+		return (object)[
+			"tpl" => $this->tpl,
+			"current_row" => $this->current_row,
+			"current_col" => $this->current_col
+		];
+	}
 
-		foreach ($rows as $row) {
-			foreach ($row as $current_col => $column) {
-				$excel->setCell($current_row, $current_col, $column);
-			}
-			$current_row ++;
-		}
 
-		$tmp_file = $excel->writeToTmpFile();
+	/**
+	 * @inheritDoc
+	 */
+	protected function handleColumns(Table $component, array $columns, Filter $filter, Renderer $renderer): void {
+		$this->current_col = 0;
+
+		parent::handleColumns($component, $columns, $filter, $renderer);
+
+		$this->current_row ++;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function handleColumn(string $formated_column, Table $component, Column $column, Filter $filter, Renderer $renderer): void {
+		$this->tpl->setCell($this->current_row, $this->current_col, $formated_column);
+
+		$this->current_col ++;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function handleRow(Table $component, array $columns, RowData $row, Filter $filter, Renderer $renderer): void {
+		$this->current_col = 0;
+
+		parent::handleRow($component, $columns, $row, $filter, $renderer);
+
+		$this->current_row ++;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function handleRowColumn(string $formated_row_column): void {
+		$this->tpl->setCell($this->current_row, $this->current_col, $formated_row_column);
+
+		$this->current_col ++;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	protected function renderTemplate(Table $component): string {
+		$tmp_file = $this->tpl->writeToTmpFile();
 
 		$data = file_get_contents($tmp_file);
 

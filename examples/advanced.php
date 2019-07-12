@@ -7,7 +7,6 @@ use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Filter\Filter;
 use srag\DataTable\Component\Filter\Sort\FilterSortField;
 use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Example\Filter\Storage\DefaultFilterStorage;
 use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
 use srag\DataTable\Implementation\Factory\Factory;
@@ -30,10 +29,10 @@ function advanced(): string {
 			/**
 			 * @inheritDoc
 			 */
-			public function formatRow(string $format_id, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
-				$type = parent::formatRow($format_id, $column, $row, $table_id, $renderer);
+			public function formatRow(Format $format, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
+				$type = parent::formatRow($format, $column, $row, $table_id, $renderer);
 
-				switch ($format_id) {
+				switch ($format->getFormatId()) {
 					case Format::FORMAT_BROWSER:
 					case Format::FORMAT_PDF:
 					case Format::FORMAT_HTML:

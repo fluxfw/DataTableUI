@@ -3,7 +3,11 @@
 namespace srag\DataTable\Component\Format;
 
 use ILIAS\DI\Container;
+use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Renderer;
+use srag\DataTable\Component\Data\Data;
+use srag\DataTable\Component\Filter\Filter;
+use srag\DataTable\Component\Table;
 
 /**
  * Interface Format
@@ -34,6 +38,14 @@ interface Format {
 	 * @var string
 	 */
 	const FORMAT_HTML = "html";
+	/**
+	 * @var int
+	 */
+	const OUTPUT_TYPE_PRINT = 1;
+	/**
+	 * @var int
+	 */
+	const OUTPUT_TYPE_DOWNLOAD = 2;
 
 
 	/**
@@ -57,25 +69,31 @@ interface Format {
 
 
 	/**
-	 * @return string
+	 * @return int
 	 */
-	public function getFileExtension(): string;
+	public function getOutputType(): int;
 
 
 	/**
-	 * @param string[] $columns
-	 * @param array    $rows
-	 * @param string   $title
-	 * @param string   $table_id
-	 * @param Renderer $renderer
+	 * @return object
 	 */
-	public function render(array $columns, array $rows, string $title, string $table_id, Renderer $renderer): string;
+	public function getTemplate(): object;
+
+
+	/**
+	 * @param TemplateFactory $tpl_factory
+	 * @param string          $tpl_path
+	 * @param Table           $component
+	 * @param Data            $data
+	 * @param Filter          $filter
+	 * @param Renderer        $renderer
+	 */
+	public function render(TemplateFactory $tpl_factory, string $tpl_path, Table $component, Data $data, Filter $filter, Renderer $renderer): string;
 
 
 	/**
 	 * @param string $data
-	 * @param string $title
-	 * @param string $table_id
+	 * @param Table  $component
 	 */
-	public function devliver(string $data, string $title, string $table_id): void;
+	public function devliver(string $data, Table $component): void;
 }
