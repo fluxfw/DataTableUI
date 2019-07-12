@@ -6,6 +6,7 @@ use ILIAS\DI\Container;
 use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
+use srag\DataTable\Component\Format\Format;
 
 /**
  * Interface Formater
@@ -25,18 +26,18 @@ interface Formater {
 
 
 	/**
-	 * @param string   $format_id
+	 * @param Format   $format
 	 * @param Column   $column
 	 * @param string   $table_id
 	 * @param Renderer $renderer
 	 *
 	 * @return string
 	 */
-	public function formatHeader(string $format_id, Column $column, string $table_id, Renderer $renderer): string;
+	public function formatHeader(Format $format, Column $column, string $table_id, Renderer $renderer): string;
 
 
 	/**
-	 * @param string   $format_id
+	 * @param Format   $format
 	 * @param Column   $column
 	 * @param RowData  $row
 	 * @param string   $table_id
@@ -44,5 +45,5 @@ interface Formater {
 	 *
 	 * @return string
 	 */
-	public function formatRow(string $format_id, Column $column, RowData $row, string $table_id, Renderer $renderer): string;
+	public function formatRow(Format $format, Column $column, RowData $row, string $table_id, Renderer $renderer): string;
 }
