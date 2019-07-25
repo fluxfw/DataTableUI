@@ -2,8 +2,8 @@
 
 namespace srag\DataTable\Component\Format;
 
-use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Table;
+use srag\DataTable\Component\UserTableSettings\Settings;
 
 /**
  * Interface BrowserFormat

@@ -6,12 +6,12 @@ use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table as TableInterface;
-use srag\DataTable\Implementation\UserTableSettings\Storage\DefaultSettingsStorage;
+use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
 use srag\DataTable\Implementation\Format\DefaultBrowserFormat;
+use srag\DataTable\Implementation\UserTableSettings\Storage\DefaultSettingsStorage;
 
 /**
  * Class Table

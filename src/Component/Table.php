@@ -6,9 +6,9 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
+use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
 
 /**
  * Interface Table

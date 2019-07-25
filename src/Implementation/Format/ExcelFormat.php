@@ -7,8 +7,8 @@ use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Table;
+use srag\DataTable\Component\UserTableSettings\Settings;
 
 /**
  * Class ExcelFormat
