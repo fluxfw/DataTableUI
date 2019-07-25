@@ -3,12 +3,12 @@
 namespace srag\DataTable\Implementation\UserTableSettings\Storage;
 
 use srag\DataTable\Component\Column\Column;
+use srag\DataTable\Component\Table;
+use srag\DataTable\Component\UserTableSettings\Settings as SettingsInterface;
 use srag\DataTable\Component\UserTableSettings\Sort\SortField as SortFieldInterface;
 use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
-use srag\DataTable\Component\UserTableSettings\Settings as SettingsInterface;
-use srag\DataTable\Component\Table;
-use srag\DataTable\Implementation\UserTableSettings\Sort\SortField;
 use srag\DataTable\Implementation\UserTableSettings\Settings;
+use srag\DataTable\Implementation\UserTableSettings\Sort\SortField;
 
 /**
  * Class AbstractSettingsStorage

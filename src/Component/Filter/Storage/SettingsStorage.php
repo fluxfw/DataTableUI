@@ -2,9 +2,9 @@
 
 namespace srag\DataTable\Component\UserTableSettings\Storage;
 
-use srag\DataTable\Component\UserTableSettings\Sort\SortField;
-use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Table;
+use srag\DataTable\Component\UserTableSettings\Settings;
+use srag\DataTable\Component\UserTableSettings\Sort\SortField;
 
 /**
  * Interface SettingsStorage

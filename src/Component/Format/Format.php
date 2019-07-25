@@ -6,8 +6,8 @@ use ILIAS\DI\Container;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Table;
+use srag\DataTable\Component\UserTableSettings\Settings;
 
 /**
  * Interface Format

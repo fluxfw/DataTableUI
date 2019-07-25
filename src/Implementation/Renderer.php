@@ -10,9 +10,9 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Renderer as RendererInterface;
 use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table;
+use srag\DataTable\Component\UserTableSettings\Settings;
 
 /**
  * Class Renderer
