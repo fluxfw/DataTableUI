@@ -1,18 +1,18 @@
 <?php
 
-namespace srag\DataTable\Component\Filter\Sort;
+namespace srag\DataTable\Component\UserTableSettings\Sort;
 
 use JsonSerializable;
 use stdClass;
 
 /**
- * Interface FilterSortField
+ * Interface SortField
  *
- * @package srag\DataTable\Component\Filter\Sort
+ * @package srag\DataTable\Component\UserTableSettings\Sort
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface FilterSortField extends JsonSerializable {
+interface SortField extends JsonSerializable {
 
 	/**
 	 * @var int
@@ -25,7 +25,7 @@ interface FilterSortField extends JsonSerializable {
 
 
 	/**
-	 * FilterSortField constructor
+	 * SortField constructor
 	 *
 	 * @param string $sort_field
 	 * @param int    $sort_field_direction

@@ -4,7 +4,7 @@ namespace srag\DataTable\Implementation\Column;
 
 use srag\DataTable\Component\Column\Column as ColumnInterface;
 use srag\DataTable\Component\Column\Formater\Formater;
-use srag\DataTable\Component\Filter\Sort\FilterSortField as FilterSortFieldInterface;
+use srag\DataTable\Component\UserTableSettings\Sort\SortField;
 use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
 
 /**
@@ -39,7 +39,7 @@ class Column implements ColumnInterface {
 	/**
 	 * @var int
 	 */
-	protected $default_sort_direction = FilterSortFieldInterface::SORT_DIRECTION_UP;
+	protected $default_sort_direction = SortField::SORT_DIRECTION_UP;
 	/**
 	 * @var bool
 	 */
@@ -182,7 +182,7 @@ class Column implements ColumnInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function withDefaultSortDirection(int $default_sort_direction = FilterSortFieldInterface::SORT_DIRECTION_UP): ColumnInterface {
+	public function withDefaultSortDirection(int $default_sort_direction = SortField::SORT_DIRECTION_UP): ColumnInterface {
 		$clone = clone $this;
 
 		$clone->default_sort_direction = $default_sort_direction;

@@ -7,7 +7,7 @@ use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Filter\Filter;
+use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Table;
 
 /**
@@ -44,7 +44,7 @@ class HTMLFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function initTemplate(Table $component, Data $data, Filter $filter, Renderer $renderer): void {
+	protected function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): void {
 		$this->tpl = $this->tpl_factory->getTemplate($this->tpl_path . "tpl.datatable.html", true, true);
 
 		$this->tpl->setVariable("ID", $component->getTableId());
@@ -58,17 +58,17 @@ class HTMLFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleColumns(Table $component, array $columns, Filter $filter, Renderer $renderer): void {
+	protected function handleColumns(Table $component, array $columns, Settings $user_table_settings, Renderer $renderer): void {
 		$this->tpl->setCurrentBlock("header");
 
-		parent::handleColumns($component, $columns, $filter, $renderer);
+		parent::handleColumns($component, $columns, $user_table_settings, $renderer);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleColumn(string $formated_column, Table $component, Column $column, Filter $filter, Renderer $renderer): void {
+	protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $user_table_settings, Renderer $renderer): void {
 		$this->tpl->setVariable("HEADER", $formated_column);
 
 		$this->tpl->parseCurrentBlock();
@@ -78,17 +78,17 @@ class HTMLFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleRows(Table $component, array $columns, Data $data, Filter $filter, Renderer $renderer): void {
+	protected function handleRows(Table $component, array $columns, Data $data, Settings $user_table_settings, Renderer $renderer): void {
 		$this->tpl->setCurrentBlock("body");
 
-		parent::handleRows($component, $columns, $data, $filter, $renderer);
+		parent::handleRows($component, $columns, $data, $user_table_settings, $renderer);
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleRow(Table $component, array $columns, RowData $row, Filter $filter, Renderer $renderer): void {
+	protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer): void {
 		$tpl = $this->tpl;
 
 		$this->tpl = $this->tpl_factory->getTemplate($this->tpl_path . "tpl.datatablerow.html", true, true);
@@ -97,7 +97,7 @@ class HTMLFormat extends AbstractFormat {
 
 		$this->tpl->setCurrentBlock("row");
 
-		parent::handleRow($component, $columns, $row, $filter, $renderer);
+		parent::handleRow($component, $columns, $row, $user_table_settings, $renderer);
 
 		$tpl->setVariable("ROW", $this->tpl->get());
 

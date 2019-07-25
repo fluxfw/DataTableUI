@@ -6,11 +6,11 @@ use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\Filter\Storage\FilterStorage;
+use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table as TableInterface;
-use srag\DataTable\Implementation\Filter\Storage\DefaultFilterStorage;
+use srag\DataTable\Implementation\UserTableSettings\Storage\DefaultSettingsStorage;
 use srag\DataTable\Implementation\Format\DefaultBrowserFormat;
 
 /**
@@ -60,9 +60,9 @@ class Table implements TableInterface {
 	 */
 	protected $multiple_actions = [];
 	/**
-	 * @var FilterStorage
+	 * @var SettingsStorage
 	 */
-	protected $filter_storage;
+	protected $user_table_settings_storage;
 
 
 	/**
@@ -82,7 +82,7 @@ class Table implements TableInterface {
 		global $DIC; // TODO: !!!
 		$this->browser_format = new DefaultBrowserFormat($DIC);
 
-		$this->filter_storage = new DefaultFilterStorage();
+		$this->user_table_settings_storage = new DefaultSettingsStorage();
 	}
 
 
@@ -269,18 +269,18 @@ class Table implements TableInterface {
 	/**
 	 * @inheritDoc
 	 */
-	public function getFilterStorage(): FilterStorage {
-		return $this->filter_storage;
+	public function getUserTableSettingsStorage(): SettingsStorage {
+		return $this->user_table_settings_storage;
 	}
 
 
 	/**
 	 * @inheritDoc
 	 */
-	public function withFilterStorage(FilterStorage $filter_storage): TableInterface {
+	public function withUserTableSettingsStorage(SettingsStorage $user_table_settings_storage): TableInterface {
 		$clone = clone $this;
 
-		$clone->filter_storage = $filter_storage;
+		$clone->user_table_settings_storage = $user_table_settings_storage;
 
 		return $clone;
 	}

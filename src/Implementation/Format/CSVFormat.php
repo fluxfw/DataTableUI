@@ -7,7 +7,7 @@ use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Filter\Filter;
+use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Table;
 
 /**
@@ -44,7 +44,7 @@ class CSVFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function initTemplate(Table $component, Data $data, Filter $filter, Renderer $renderer): void {
+	protected function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): void {
 		$this->tpl = new ilCSVWriter();
 
 		$this->tpl->setSeparator(";");
@@ -54,8 +54,8 @@ class CSVFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleColumns(Table $component, array $columns, Filter $filter, Renderer $renderer): void {
-		parent::handleColumns($component, $columns, $filter, $renderer);
+	protected function handleColumns(Table $component, array $columns, Settings $user_table_settings, Renderer $renderer): void {
+		parent::handleColumns($component, $columns, $user_table_settings, $renderer);
 
 		$this->tpl->addRow();
 	}
@@ -64,7 +64,7 @@ class CSVFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleColumn(string $formated_column, Table $component, Column $column, Filter $filter, Renderer $renderer): void {
+	protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $user_table_settings, Renderer $renderer): void {
 		$this->tpl->addColumn($formated_column);
 	}
 
@@ -72,8 +72,8 @@ class CSVFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleRow(Table $component, array $columns, RowData $row, Filter $filter, Renderer $renderer): void {
-		parent::handleRow($component, $columns, $row, $filter, $renderer);
+	protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer): void {
+		parent::handleRow($component, $columns, $row, $user_table_settings, $renderer);
 
 		$this->tpl->addRow();
 	}

@@ -7,7 +7,7 @@ use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Filter\Filter;
+use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Table;
 
 /**
@@ -52,7 +52,7 @@ class ExcelFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function initTemplate(Table $component, Data $data, Filter $filter, Renderer $renderer): void {
+	protected function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): void {
 		$this->tpl = new ilExcel();
 
 		$this->tpl->addSheet($component->getTitle());
@@ -74,10 +74,10 @@ class ExcelFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleColumns(Table $component, array $columns, Filter $filter, Renderer $renderer): void {
+	protected function handleColumns(Table $component, array $columns, Settings $user_table_settings, Renderer $renderer): void {
 		$this->current_col = 0;
 
-		parent::handleColumns($component, $columns, $filter, $renderer);
+		parent::handleColumns($component, $columns, $user_table_settings, $renderer);
 
 		$this->current_row ++;
 	}
@@ -86,7 +86,7 @@ class ExcelFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleColumn(string $formated_column, Table $component, Column $column, Filter $filter, Renderer $renderer): void {
+	protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $user_table_settings, Renderer $renderer): void {
 		$this->tpl->setCell($this->current_row, $this->current_col, $formated_column);
 
 		$this->current_col ++;
@@ -96,10 +96,10 @@ class ExcelFormat extends AbstractFormat {
 	/**
 	 * @inheritDoc
 	 */
-	protected function handleRow(Table $component, array $columns, RowData $row, Filter $filter, Renderer $renderer): void {
+	protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer): void {
 		$this->current_col = 0;
 
-		parent::handleRow($component, $columns, $row, $filter, $renderer);
+		parent::handleRow($component, $columns, $row, $user_table_settings, $renderer);
 
 		$this->current_row ++;
 	}

@@ -4,8 +4,8 @@ use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Filter\Filter;
-use srag\DataTable\Component\Filter\Sort\FilterSortField;
+use srag\DataTable\Component\UserTableSettings\Settings;
+use srag\DataTable\Component\UserTableSettings\Sort\SortField;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
@@ -55,8 +55,8 @@ function advanced(): string {
 		/**
 		 * @inheritDoc
 		 */
-		public function fetchData(Filter $filter): Data {
-			$sql = 'SELECT *' . $this->getQuery($filter);
+		public function fetchData(Settings $user_table_settings): Data {
+			$sql = 'SELECT *' . $this->getQuery($user_table_settings);
 
 			$result = $this->dic->database()->query($sql);
 
@@ -65,7 +65,7 @@ function advanced(): string {
 				$rows[] = $this->propertyRowData($row->obj_id, $row);
 			}
 
-			$sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($filter, true);
+			$sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($user_table_settings, true);
 
 			$result = $this->dic->database()->query($sql);
 
@@ -76,12 +76,12 @@ function advanced(): string {
 
 
 		/**
-		 * @param Filter $filter
-		 * @param bool   $max_count
+		 * @param Settings $filter
+		 * @param bool     $max_count
 		 *
 		 * @return string
 		 */
-		protected function getQuery(Filter $filter, $max_count = false): string {
+		protected function getQuery(Settings $filter, $max_count = false): string {
 			$sql = ' FROM object_data';
 
 			$field_values = array_filter($filter->getFieldValues());
@@ -94,9 +94,9 @@ function advanced(): string {
 
 			if (!$max_count) {
 				if (!empty($filter->getSortFields())) {
-					$sql .= ' ORDER BY ' . implode(", ", array_map(function (FilterSortField $sort_field): string {
+					$sql .= ' ORDER BY ' . implode(", ", array_map(function (SortField $sort_field): string {
 							return $this->dic->database()->quoteIdentifier($sort_field->getSortField()) . ' ' . ($sort_field->getSortFieldDirection()
-								=== FilterSortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
+								=== SortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
 						}, $filter->getSortFields()));
 				}
 
