@@ -10,9 +10,9 @@ use ilMimeTypeUtil;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table;
+use srag\DataTable\Component\UserTableSettings\Settings;
 
 /**
  * Class AbstractFormat
@@ -218,7 +218,7 @@ abstract class AbstractFormat implements Format {
 	protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer): void {
 		foreach ($columns as $column) {
 			$this->handleRowColumn($column->getFormater()
-				->formatRowCell($this, $column, $row, $row($column->getKey()), $component->getTableId(), $renderer));
+				->formatRowCell($this, $row($column->getKey()), $column, $row, $component->getTableId(), $renderer));
 		}
 	}
 
