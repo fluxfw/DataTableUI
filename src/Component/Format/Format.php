@@ -6,7 +6,7 @@ use ILIAS\DI\Container;
 use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Filter\Filter;
+use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\Table;
 
 /**
@@ -85,12 +85,12 @@ interface Format {
 	 * @param string          $tpl_path
 	 * @param Table           $component
 	 * @param Data            $data
-	 * @param Filter          $filter
+	 * @param Settings        $user_table_settings
 	 * @param Renderer        $renderer
 	 *
 	 * @return string
 	 */
-	public function render(TemplateFactory $tpl_factory, string $tpl_path, Table $component, Data $data, Filter $filter, Renderer $renderer): string;
+	public function render(TemplateFactory $tpl_factory, string $tpl_path, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): string;
 
 
 	/**

@@ -3,7 +3,7 @@
 namespace srag\DataTable\Component\Column;
 
 use srag\DataTable\Component\Column\Formater\Formater;
-use srag\DataTable\Component\Filter\Sort\FilterSortField;
+use srag\DataTable\Component\UserTableSettings\Sort\SortField;
 
 /**
  * Interface Column
@@ -104,7 +104,7 @@ interface Column {
 	 *
 	 * @return self
 	 */
-	public function withDefaultSortDirection(int $default_sort_direction = FilterSortField::SORT_DIRECTION_UP): self;
+	public function withDefaultSortDirection(int $default_sort_direction = SortField::SORT_DIRECTION_UP): self;
 
 
 	/**

@@ -6,7 +6,7 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\Filter\Storage\FilterStorage;
+use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 
@@ -163,17 +163,17 @@ interface Table extends Component {
 
 
 	/**
-	 * @return FilterStorage
+	 * @return SettingsStorage
 	 */
-	public function getFilterStorage(): FilterStorage;
+	public function getUserTableSettingsStorage(): SettingsStorage;
 
 
 	/**
-	 * @param FilterStorage $filter_storage
+	 * @param SettingsStorage $user_table_settings_storage
 	 *
 	 * @return self
 	 */
-	public function withFilterStorage(FilterStorage $filter_storage): self;
+	public function withUserTableSettingsStorage(SettingsStorage $user_table_settings_storage): self;
 
 
 	/**

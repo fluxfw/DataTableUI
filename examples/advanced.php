@@ -4,8 +4,8 @@ use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Filter\Filter;
-use srag\DataTable\Component\Filter\Sort\FilterSortField;
+use srag\DataTable\Component\UserTableSettings\Settings;
+use srag\DataTable\Component\UserTableSettings\Sort\SortField;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
@@ -17,7 +17,7 @@ use srag\DataTable\Implementation\Factory\Factory;
 function advanced(): string {
 	global $DIC;
 
-	$action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class) . "&node_id=TableDataData";
+	$action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
 
 	$factory = new Factory($DIC); // TODO: Later from `$DIC->ui()->factory()->table()->data()`
 
@@ -29,8 +29,8 @@ function advanced(): string {
 			/**
 			 * @inheritDoc
 			 */
-			public function formatRow(Format $format, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
-				$type = parent::formatRow($format, $column, $row, $table_id, $renderer);
+			public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
+				$type = parent::formatRowCell($format, $value, $column, $row, $table_id, $renderer);
 
 				switch ($format->getFormatId()) {
 					case Format::FORMAT_BROWSER:
@@ -55,17 +55,17 @@ function advanced(): string {
 		/**
 		 * @inheritDoc
 		 */
-		public function fetchData(Filter $filter): Data {
-			$sql = 'SELECT *' . $this->getQuery($filter);
+		public function fetchData(Settings $user_table_settings): Data {
+			$sql = 'SELECT *' . $this->getQuery($user_table_settings);
 
 			$result = $this->dic->database()->query($sql);
 
 			$rows = [];
-			while (!empty($row = $this->dic->database()->fetchAssoc($result))) {
-				$rows[] = $this->propertyRowData($row["obj_id"], (object)$row);
+			while (!empty($row = $this->dic->database()->fetchObject($result))) {
+				$rows[] = $this->propertyRowData($row->obj_id, $row);
 			}
 
-			$sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($filter, true);
+			$sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($user_table_settings, true);
 
 			$result = $this->dic->database()->query($sql);
 
@@ -76,15 +76,15 @@ function advanced(): string {
 
 
 		/**
-		 * @param Filter $filter
-		 * @param bool   $max_count
+		 * @param Settings $user_table_settings
+		 * @param bool     $max_count
 		 *
 		 * @return string
 		 */
-		protected function getQuery(Filter $filter, $max_count = false): string {
+		protected function getQuery(Settings $user_table_settings, $max_count = false): string {
 			$sql = ' FROM object_data';
 
-			$field_values = array_filter($filter->getFieldValues());
+			$field_values = array_filter($user_table_settings->getFieldValues());
 
 			if (!empty($field_values)) {
 				$sql .= ' WHERE ' . implode(' AND ', array_map(function (string $key, string $value): string {
@@ -93,16 +93,16 @@ function advanced(): string {
 			}
 
 			if (!$max_count) {
-				if (!empty($filter->getSortFields())) {
-					$sql .= ' ORDER BY ' . implode(", ", array_map(function (FilterSortField $sort_field): string {
+				if (!empty($user_table_settings->getSortFields())) {
+					$sql .= ' ORDER BY ' . implode(", ", array_map(function (SortField $sort_field): string {
 							return $this->dic->database()->quoteIdentifier($sort_field->getSortField()) . ' ' . ($sort_field->getSortFieldDirection()
-								=== FilterSortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
-						}, $filter->getSortFields()));
+								=== SortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
+						}, $user_table_settings->getSortFields()));
 				}
 
-				if (!empty($filter->getLimitStart()) && !empty($filter->getLimitEnd())) {
-					$sql .= ' LIMIT ' . $this->dic->database()->quote($filter->getLimitStart(), ilDBConstants::T_INTEGER) . ','
-						. $this->dic->database()->quote($filter->getLimitEnd(), ilDBConstants::T_INTEGER);
+				if (!empty($user_table_settings->getLimitStart()) && !empty($user_table_settings->getLimitEnd())) {
+					$sql .= ' LIMIT ' . $this->dic->database()->quote($user_table_settings->getLimitStart(), ilDBConstants::T_INTEGER) . ','
+						. $this->dic->database()->quote($user_table_settings->getLimitEnd(), ilDBConstants::T_INTEGER);
 				}
 			}
 

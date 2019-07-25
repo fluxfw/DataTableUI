@@ -2,8 +2,8 @@
 
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Filter\Filter;
-use srag\DataTable\Component\Filter\Sort\FilterSortField;
+use srag\DataTable\Component\UserTableSettings\Settings;
+use srag\DataTable\Component\UserTableSettings\Sort\SortField;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
 use srag\DataTable\Implementation\Factory\Factory;
 
@@ -13,7 +13,7 @@ use srag\DataTable\Implementation\Factory\Factory;
 function base(): string {
 	global $DIC;
 
-	$action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class) . "&node_id=TableDataData";
+	$action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
 
 	$factory = new Factory($DIC); // TODO: Later from `$DIC->ui()->factory()->table()->data()`
 
@@ -26,7 +26,7 @@ function base(): string {
 		/**
 		 * @inheritDoc
 		 */
-		public function fetchData(Filter $filter): Data {
+		public function fetchData(Settings $user_table_settings): Data {
 			$data = array_map(function (int $index): stdClass {
 				return (object)[
 					"column1" => $index,
@@ -35,10 +35,10 @@ function base(): string {
 				];
 			}, range(0, 25));
 
-			$data = array_filter($data, function (stdClass $data) use ($filter): bool {
+			$data = array_filter($data, function (stdClass $data) use ($user_table_settings): bool {
 				$match = true;
 
-				foreach ($filter->getFieldValues() as $key => $value) {
+				foreach ($user_table_settings->getFieldValues() as $key => $value) {
 					if (!empty($value)) {
 						switch (true) {
 							case is_array($value):
@@ -68,14 +68,14 @@ function base(): string {
 				return $match;
 			});
 
-			usort($data, function (stdClass $o1, stdClass $o2) use ($filter): int {
-				foreach ($filter->getSortFields() as $sort_field) {
+			usort($data, function (stdClass $o1, stdClass $o2) use ($user_table_settings): int {
+				foreach ($user_table_settings->getSortFields() as $sort_field) {
 					$s1 = strval($o1->{$sort_field->getSortField()});
 					$s2 = strval($o2->{$sort_field->getSortField()});
 
 					$i = strnatcmp($s1, $s2);
 
-					if ($sort_field->getSortFieldDirection() === FilterSortField::SORT_DIRECTION_DOWN) {
+					if ($sort_field->getSortFieldDirection() === SortField::SORT_DIRECTION_DOWN) {
 						$i *= - 1;
 					}
 
@@ -89,7 +89,7 @@ function base(): string {
 
 			$max_count = count($data);
 
-			$data = array_slice($data, $filter->getLimitStart(), $filter->getLimitEnd());
+			$data = array_slice($data, $user_table_settings->getLimitStart(), $user_table_settings->getLimitEnd());
 
 			$data = array_map(function (stdClass $row): RowData {
 				return $this->propertyRowData($row->column1, $row);

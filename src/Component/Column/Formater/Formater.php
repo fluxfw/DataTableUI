@@ -33,11 +33,12 @@ interface Formater {
 	 *
 	 * @return string
 	 */
-	public function formatHeader(Format $format, Column $column, string $table_id, Renderer $renderer): string;
+	public function formatHeaderCell(Format $format, Column $column, string $table_id, Renderer $renderer): string;
 
 
 	/**
 	 * @param Format   $format
+	 * @param mixed    $value
 	 * @param Column   $column
 	 * @param RowData  $row
 	 * @param string   $table_id
@@ -45,5 +46,5 @@ interface Formater {
 	 *
 	 * @return string
 	 */
-	public function formatRow(Format $format, Column $column, RowData $row, string $table_id, Renderer $renderer): string;
+	public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer): string;
 }

@@ -5,7 +5,7 @@ namespace srag\DataTable\Component\Data\Fetcher;
 use ILIAS\DI\Container;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Filter\Filter;
+use srag\DataTable\Component\UserTableSettings\Settings;
 
 /**
  * Interface DataFetcher
@@ -25,11 +25,11 @@ interface DataFetcher {
 
 
 	/**
-	 * @param Filter $filter
+	 * @param Settings $user_table_settings
 	 *
 	 * @return Data
 	 */
-	public function fetchData(Filter $filter): Data;
+	public function fetchData(Settings $user_table_settings): Data;
 
 
 	/**
