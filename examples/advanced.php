@@ -17,7 +17,6 @@ use srag\DataTable\Implementation\Factory\Factory;
 function advanced(): string {
 	global $DIC;
 
-	$DIC->ctrl()->setParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id", "TableDataData");
 	$action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
 
 	$factory = new Factory($DIC); // TODO: Later from `$DIC->ui()->factory()->table()->data()`
@@ -30,8 +29,8 @@ function advanced(): string {
 			/**
 			 * @inheritDoc
 			 */
-			public function formatRow(Format $format, Column $column, RowData $row, string $table_id, Renderer $renderer): string {
-				$type = parent::formatRow($format, $column, $row, $table_id, $renderer);
+			public function formatRowCell(Format $format, Column $column, RowData $row, $value, string $table_id, Renderer $renderer): string {
+				$type = parent::formatRowCell($format, $column, $row, $value, $table_id, $renderer);
 
 				switch ($format->getFormatId()) {
 					case Format::FORMAT_BROWSER:
