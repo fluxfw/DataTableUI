@@ -76,15 +76,15 @@ function advanced(): string {
 
 
 		/**
-		 * @param Settings $filter
+		 * @param Settings $user_table_settings
 		 * @param bool     $max_count
 		 *
 		 * @return string
 		 */
-		protected function getQuery(Settings $filter, $max_count = false): string {
+		protected function getQuery(Settings $user_table_settings, $max_count = false): string {
 			$sql = ' FROM object_data';
 
-			$field_values = array_filter($filter->getFieldValues());
+			$field_values = array_filter($user_table_settings->getFieldValues());
 
 			if (!empty($field_values)) {
 				$sql .= ' WHERE ' . implode(' AND ', array_map(function (string $key, string $value): string {
@@ -93,16 +93,16 @@ function advanced(): string {
 			}
 
 			if (!$max_count) {
-				if (!empty($filter->getSortFields())) {
+				if (!empty($user_table_settings->getSortFields())) {
 					$sql .= ' ORDER BY ' . implode(", ", array_map(function (SortField $sort_field): string {
 							return $this->dic->database()->quoteIdentifier($sort_field->getSortField()) . ' ' . ($sort_field->getSortFieldDirection()
 								=== SortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
-						}, $filter->getSortFields()));
+						}, $user_table_settings->getSortFields()));
 				}
 
-				if (!empty($filter->getLimitStart()) && !empty($filter->getLimitEnd())) {
-					$sql .= ' LIMIT ' . $this->dic->database()->quote($filter->getLimitStart(), ilDBConstants::T_INTEGER) . ','
-						. $this->dic->database()->quote($filter->getLimitEnd(), ilDBConstants::T_INTEGER);
+				if (!empty($user_table_settings->getLimitStart()) && !empty($user_table_settings->getLimitEnd())) {
+					$sql .= ' LIMIT ' . $this->dic->database()->quote($user_table_settings->getLimitStart(), ilDBConstants::T_INTEGER) . ','
+						. $this->dic->database()->quote($user_table_settings->getLimitEnd(), ilDBConstants::T_INTEGER);
 				}
 			}
 
