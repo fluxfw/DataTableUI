@@ -66,7 +66,7 @@ class Renderer extends AbstractComponentRenderer {
 
 		$user_table_settings = $component->getBrowserFormat()->handleUserTableSettingsInput($component, $user_table_settings);
 
-		$user_table_settings = $component->getUserTableSettingsStorage()->handleDefaultFilter($user_table_settings, $component);
+		$user_table_settings = $component->getUserTableSettingsStorage()->handleDefaultSettings($user_table_settings, $component);
 
 		$data = $this->handleFetchData($component, $user_table_settings);
 

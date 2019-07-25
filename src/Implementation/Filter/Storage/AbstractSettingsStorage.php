@@ -30,7 +30,7 @@ abstract class AbstractSettingsStorage implements SettingsStorage {
 	/**
 	 * @inheritDoc
 	 */
-	public function handleDefaultFilter(SettingsInterface $user_table_settings, Table $component): SettingsInterface {
+	public function handleDefaultSettings(SettingsInterface $user_table_settings, Table $component): SettingsInterface {
 		if (!$user_table_settings->isFilterSet() && empty($user_table_settings->getSortFields())) {
 			$user_table_settings = $user_table_settings->withSortFields(array_map(function (Column $column) use ($component): SortFieldInterface {
 				return $this->sortField($column->getKey(), $column->getDefaultSortDirection());

@@ -92,7 +92,7 @@ interface SettingsStorage {
 	 *
 	 * @return Settings
 	 */
-	public function handleDefaultFilter(Settings $user_table_settings, Table $component): Settings;
+	public function handleDefaultSettings(Settings $user_table_settings, Table $component): Settings;
 
 
 	/**
