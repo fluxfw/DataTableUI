@@ -5,8 +5,9 @@ namespace srag\DataTable\Implementation\Format;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
-use ILIAS\UI\Component\Glyph\Factory as GlyphFactory;
+use ILIAS\UI\Component\Glyph\Factory as GlyphFactory54;
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
+use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Renderer;
 use ilUIFilterRequestAdapter;
 use ilUIFilterService;
@@ -39,7 +40,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 */
 	protected $filter_form = null;
 	/**
-	 * @var GlyphFactory
+	 * @var GlyphFactory|GlyphFactory54
 	 */
 	protected $glyph_factory;
 
