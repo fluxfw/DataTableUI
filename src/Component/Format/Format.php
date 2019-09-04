@@ -63,9 +63,11 @@ interface Format {
 
 
 	/**
+	 * @param Table $component
+	 *
 	 * @return string
 	 */
-	public function getDisplayTitle(): string;
+	public function getDisplayTitle(Table $component): string;
 
 
 	/**

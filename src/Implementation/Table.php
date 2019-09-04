@@ -12,6 +12,7 @@ use srag\DataTable\Component\Table as TableInterface;
 use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
 use srag\DataTable\Implementation\Format\DefaultBrowserFormat;
 use srag\DataTable\Implementation\UserTableSettings\Storage\DefaultSettingsStorage;
+use srag\DIC\Plugin\PluginInterface;
 
 /**
  * Class Table
@@ -23,6 +24,10 @@ use srag\DataTable\Implementation\UserTableSettings\Storage\DefaultSettingsStora
 class Table implements TableInterface {
 
 	use ComponentHelper;
+	/**
+	 * @var PluginInterface
+	 */
+	protected $plugin;
 	/**
 	 * @var string
 	 */
@@ -83,6 +88,26 @@ class Table implements TableInterface {
 		$this->browser_format = new DefaultBrowserFormat($DIC);
 
 		$this->user_table_settings_storage = new DefaultSettingsStorage();
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function getPlugin(): PluginInterface {
+		return $this->plugin;
+	}
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function withPlugin(PluginInterface $plugin): TableInterface {
+		$clone = clone $this;
+
+		$clone->plugin = $plugin;
+
+		return $this;
 	}
 
 
