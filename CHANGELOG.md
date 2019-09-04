@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.14.3]
+- Supports ILIAS 5.4
+
 ## [0.14.2]
 - Restore pass plugin instance for fix translate texts
 

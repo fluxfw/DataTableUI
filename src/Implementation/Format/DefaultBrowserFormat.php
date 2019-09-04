@@ -2,8 +2,10 @@
 
 namespace srag\DataTable\Implementation\Format;
 
+use ILIAS\DI\Container;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
 use ILIAS\UI\Renderer;
 use ilUIFilterRequestAdapter;
@@ -19,6 +21,7 @@ use srag\DataTable\Component\Table;
 use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\UserTableSettings\Sort\SortField;
 use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
+use srag\DIC\DICTrait;
 use Throwable;
 
 /**
@@ -30,10 +33,29 @@ use Throwable;
  */
 class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 
+	use DICTrait;
 	/**
 	 * @var Standard|null
 	 */
 	protected $filter_form = null;
+	/**
+	 * @var GlyphFactory
+	 */
+	protected $glyph_factory;
+
+
+	/**
+	 * @inheritDoc
+	 */
+	public function __construct(Container $dic) {
+		parent::__construct($dic);
+
+		if (self::version()->is60()) {
+			$this->glyph_factory = $this->dic->ui()->factory()->symbol()->glyph();
+		} else {
+			$this->glyph_factory = $this->dic->ui()->factory()->glyph();
+		}
+	}
 
 
 	/**
@@ -119,8 +141,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 		$remove_sort_button = $this->dic->ui()->factory()->legacy("");
 
 		if ($column->isSelectable()) {
-			$deselect_button = $this->dic->ui()->factory()->button()->shy($renderer->render($this->dic->ui()->factory()->symbol()->glyph()
-				->remove()), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_DESELECT_COLUMN => $column->getKey() ], $component->getTableId()));
+			$deselect_button = $this->dic->ui()->factory()->button()
+				->shy($renderer->render($this->glyph_factory->remove()), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_DESELECT_COLUMN => $column->getKey() ], $component->getTableId()));
 		}
 
 		if ($column->isSortable()) {
@@ -130,7 +152,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 				if ($sort_field->getSortFieldDirection() === SortField::SORT_DIRECTION_DOWN) {
 					$sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
 						$this->dic->ui()->factory()->legacy($sort_button),
-						$this->dic->ui()->factory()->symbol()->glyph()->sortDescending()
+						$this->glyph_factory->sortDescending()
 					]), self::getActionUrl($component->getActionUrl(), [
 						SettingsStorage::VAR_SORT_FIELD => $column->getKey(),
 						SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortField::SORT_DIRECTION_UP
@@ -138,7 +160,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 				} else {
 					$sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
 						$this->dic->ui()->factory()->legacy($sort_button),
-						$this->dic->ui()->factory()->symbol()->glyph()->sortAscending()
+						$this->glyph_factory->sortAscending()
 					]), self::getActionUrl($component->getActionUrl(), [
 						SettingsStorage::VAR_SORT_FIELD => $column->getKey(),
 						SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortField::SORT_DIRECTION_DOWN
@@ -324,7 +346,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 			->standard(array_map(function (int $page) use ($component, $user_table_settings, $renderer): Component {
 				if ($user_table_settings->getCurrentPage() === $page) {
 					return $this->dic->ui()->factory()->legacy($renderer->render([
-						$this->dic->ui()->factory()->symbol()->glyph()->apply(),
+						$this->glyph_factory->apply(),
 						$this->dic->ui()->factory()->legacy(strval($page))
 					]));
 				} else {
@@ -347,7 +369,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 		return $this->dic->ui()->factory()->dropdown()
 			->standard(array_map(function (Column $column) use ($component, $user_table_settings, $renderer): Shy {
 				return $this->dic->ui()->factory()->button()->shy($renderer->render([
-					$this->dic->ui()->factory()->symbol()->glyph()->add(),
+					$this->glyph_factory->add(),
 					$this->dic->ui()->factory()->legacy($column->getTitle())
 				]), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_SELECT_COLUMN => $column->getKey() ], $component->getTableId()));
 			}, array_filter($component->getColumns(), function (Column $column) use ($user_table_settings): bool {
@@ -368,7 +390,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 			->standard(array_map(function (int $count) use ($component, $user_table_settings, $renderer): Component {
 				if ($user_table_settings->getRowsCount() === $count) {
 					return $this->dic->ui()->factory()->legacy($renderer->render([
-						$this->dic->ui()->factory()->symbol()->glyph()->apply(),
+						$this->glyph_factory->apply(),
 						$this->dic->ui()->factory()->legacy(strval($count))
 					]));
 				} else {

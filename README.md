@@ -29,7 +29,7 @@ Expand you plugin class for installing languages of the library to your plugin
 ```
 
 ### Requirements
-* ILIAS 6.0
+* ILIAS 5.4 or ILIAS 6.0
 * PHP >=7.2
 
 ### Adjustment suggestions
