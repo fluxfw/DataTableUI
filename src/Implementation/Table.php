@@ -107,7 +107,7 @@ class Table implements TableInterface {
 
 		$clone->plugin = $plugin;
 
-		return $this;
+		return $clone;
 	}
 
 

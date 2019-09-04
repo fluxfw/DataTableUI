@@ -354,8 +354,11 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 					return $this->dic->ui()->factory()->button()
 						->shy(strval($page), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_CURRENT_PAGE => $page ], $component->getTableId()));
 				}
-			}, range(1, $user_table_settings->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($component->getPlugin()
-				->translate("pages", Table::LANG_MODULE), $user_table_settings->getCurrentPage(), $user_table_settings->getTotalPages($data->getMaxCount())));
+			}, range(1, $user_table_settings->getTotalPages($data->getMaxCount()))))->withLabel($component->getPlugin()
+				->translate("pages", Table::LANG_MODULE, [
+					$user_table_settings->getCurrentPage(),
+					$user_table_settings->getTotalPages($data->getMaxCount())
+				]));
 	}
 
 
@@ -398,8 +401,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 					return $this->dic->ui()->factory()->button()
 						->shy(strval($count), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_ROWS_COUNT => $count ], $component->getTableId()));
 				}
-			}, Settings::ROWS_COUNT))->withLabel(sprintf($component->getPlugin()
-				->translate("rows_per_page", Table::LANG_MODULE), $user_table_settings->getRowsCount()));
+			}, Settings::ROWS_COUNT))->withLabel($component->getPlugin()
+				->translate("rows_per_page", Table::LANG_MODULE, [ $user_table_settings->getRowsCount() ]));
 	}
 
 
@@ -422,8 +425,11 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	 * @param Data     $data
 	 */
 	protected function handleDisplayCount(Table $component, Settings $user_table_settings, Data $data): void {
-		$count = sprintf($component->getPlugin()->translate("count", Table::LANG_MODULE), ($data->getDataCount()
-		> 0 ? $user_table_settings->getLimitStart() + 1 : 0), min($user_table_settings->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount());
+		$count = $component->getPlugin()->translate("count", Table::LANG_MODULE, [
+			($data->getDataCount() > 0 ? $user_table_settings->getLimitStart() + 1 : 0),
+			min($user_table_settings->getLimitEnd(), $data->getMaxCount()),
+			$data->getMaxCount()
+		]);
 
 		$this->tpl->setCurrentBlock("count_top");
 		$this->tpl->setVariable("COUNT_TOP", $count);
