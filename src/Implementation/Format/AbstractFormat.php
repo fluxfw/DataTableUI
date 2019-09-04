@@ -52,8 +52,8 @@ abstract class AbstractFormat implements Format {
 	/**
 	 * @inheritDoc
 	 */
-	public function getDisplayTitle(): string {
-		return $this->dic->language()->txt(Table::LANG_MODULE . "_format_" . $this->getFormatId());
+	public function getDisplayTitle(Table $component): string {
+		return $component->getPlugin()->translate("format_" . $this->getFormatId(), Table::LANG_MODULE);
 	}
 
 

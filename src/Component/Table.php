@@ -9,6 +9,8 @@ use srag\DataTable\Component\Data\Fetcher\DataFetcher;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
+use srag\DIC\Plugin\Pluginable;
+use srag\DIC\Plugin\PluginInterface;
 
 /**
  * Interface Table
@@ -17,7 +19,7 @@ use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface Table extends Component {
+interface Table extends Component, Pluginable {
 
 	const ACTION_GET_VAR = "row_id";
 	const MULTIPLE_SELECT_POST_VAR = "selected_row_ids";
@@ -34,6 +36,14 @@ interface Table extends Component {
 	 * @param DataFetcher $data_fetcher
 	 */
 	public function __construct(string $table_id, string $action_url, string $title, array $columns, DataFetcher $data_fetcher);
+
+
+	/**
+	 * @param PluginInterface $plugin
+	 *
+	 * @return self
+	 */
+	public function withPlugin(PluginInterface $plugin): self;
 
 
 	/**

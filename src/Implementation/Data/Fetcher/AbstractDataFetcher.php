@@ -37,8 +37,8 @@ abstract class AbstractDataFetcher implements DataFetcher {
 	/**
 	 * @inheritDoc
 	 */
-	public function getNoDataText(): string {
-		return $this->dic->language()->txt(Table::LANG_MODULE . "_no_data");
+	public function getNoDataText(Table $component): string {
+		return $component->getPlugin()->translate("no_data", Table::LANG_MODULE);
 	}
 
 

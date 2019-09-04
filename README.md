@@ -11,6 +11,23 @@ First add the following to your `composer.json` file:
 ```
 And run a `composer install`.
 
+#### Use
+
+Expand you plugin class for installing languages of the library to your plugin
+```php
+...
+	/**
+	 * @inheritdoc
+	 */
+	public function updateLanguages($a_lang_keys = null) {
+		parent::updateLanguages($a_lang_keys);
+
+		LibraryLanguageInstaller::getInstance()->withPlugin(self::plugin())->withLibraryLanguageDirectory(__DIR__ . "/../vendor/srag/datatable/lang")
+			->updateLanguages($a_lang_keys);
+	}
+...
+```
+
 ### Requirements
 * ILIAS 6.0
 * PHP >=7.2

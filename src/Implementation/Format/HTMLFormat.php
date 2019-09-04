@@ -141,7 +141,7 @@ class HTMLFormat extends AbstractFormat {
 		if ($data->getDataCount() === 0) {
 			$this->tpl->setCurrentBlock("no_data");
 
-			$this->tpl->setVariable("NO_DATA_TEXT", $component->getDataFetcher()->getNoDataText());
+			$this->tpl->setVariable("NO_DATA_TEXT", $component->getDataFetcher()->getNoDataText($component));
 
 			$this->tpl->parseCurrentBlock();
 		}

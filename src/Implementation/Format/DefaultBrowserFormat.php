@@ -88,7 +88,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 
 		$this->handleActionsPanel($component, $user_table_settings, $data, $renderer);
 
-		$this->handleDisplayCount($user_table_settings, $data);
+		$this->handleDisplayCount($component, $user_table_settings, $data);
 
 		$this->handleMultipleActions($component, $renderer);
 	}
@@ -145,8 +145,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 					], $component->getTableId()));
 				}
 
-				$remove_sort_button = $this->dic->ui()->factory()->button()->shy($this->dic->language()->txt(Table::LANG_MODULE
-					. "_remove_sort"), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_REMOVE_SORT_FIELD => $column->getKey() ], $component->getTableId())); // TODO: Remove sort icon
+				$remove_sort_button = $this->dic->ui()->factory()->button()->shy($component->getPlugin()
+					->translate("remove_sort", Table::LANG_MODULE), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_REMOVE_SORT_FIELD => $column->getKey() ], $component->getTableId())); // TODO: Remove sort icon
 			} else {
 				$sort_button = $this->dic->ui()->factory()->button()->shy($sort_button, self::getActionUrl($component->getActionUrl(), [
 					SettingsStorage::VAR_SORT_FIELD => $column->getKey(),
@@ -331,8 +331,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 					return $this->dic->ui()->factory()->button()
 						->shy(strval($page), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_CURRENT_PAGE => $page ], $component->getTableId()));
 				}
-			}, range(1, $user_table_settings->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
-			. "_pages"), $user_table_settings->getCurrentPage(), $user_table_settings->getTotalPages($data->getMaxCount())));
+			}, range(1, $user_table_settings->getTotalPages($data->getMaxCount()))))->withLabel(sprintf($component->getPlugin()
+				->translate("pages", Table::LANG_MODULE), $user_table_settings->getCurrentPage(), $user_table_settings->getTotalPages($data->getMaxCount())));
 	}
 
 
@@ -352,7 +352,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 				]), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_SELECT_COLUMN => $column->getKey() ], $component->getTableId()));
 			}, array_filter($component->getColumns(), function (Column $column) use ($user_table_settings): bool {
 				return ($column->isSelectable() && !in_array($column->getKey(), $user_table_settings->getSelectedColumns()));
-			})))->withLabel($this->dic->language()->txt(Table::LANG_MODULE . "_add_columns"));
+			})))->withLabel($component->getPlugin()->translate("add_columns", Table::LANG_MODULE));
 	}
 
 
@@ -375,8 +375,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 					return $this->dic->ui()->factory()->button()
 						->shy(strval($count), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_ROWS_COUNT => $count ], $component->getTableId()));
 				}
-			}, Settings::ROWS_COUNT))->withLabel(sprintf($this->dic->language()->txt(Table::LANG_MODULE
-			. "_rows_per_page"), $user_table_settings->getRowsCount()));
+			}, Settings::ROWS_COUNT))->withLabel(sprintf($component->getPlugin()
+				->translate("rows_per_page", Table::LANG_MODULE), $user_table_settings->getRowsCount()));
 	}
 
 
@@ -388,17 +388,18 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 	protected function getExportsSelector(Table $component): Component {
 		return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (Format $format) use ($component): Shy {
 			return $this->dic->ui()->factory()->button()
-				->shy($format->getDisplayTitle(), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId() ], $component->getTableId()));
-		}, $component->getFormats()))->withLabel($this->dic->language()->txt(Table::LANG_MODULE . "_export"));
+				->shy($format->getDisplayTitle($component), self::getActionUrl($component->getActionUrl(), [ SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId() ], $component->getTableId()));
+		}, $component->getFormats()))->withLabel($component->getPlugin()->translate("export", Table::LANG_MODULE));
 	}
 
 
 	/**
+	 * @param Table    $component
 	 * @param Settings $user_table_settings
 	 * @param Data     $data
 	 */
-	protected function handleDisplayCount(Settings $user_table_settings, Data $data): void {
-		$count = sprintf($this->dic->language()->txt(Table::LANG_MODULE . "_count"), ($data->getDataCount()
+	protected function handleDisplayCount(Table $component, Settings $user_table_settings, Data $data): void {
+		$count = sprintf($component->getPlugin()->translate("count", Table::LANG_MODULE), ($data->getDataCount()
 		> 0 ? $user_table_settings->getLimitStart() + 1 : 0), min($user_table_settings->getLimitEnd(), $data->getMaxCount()), $data->getMaxCount());
 
 		$this->tpl->setCurrentBlock("count_top");
@@ -426,11 +427,11 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 
 		$multiple_actions = [
 			$this->dic->ui()->factory()->legacy($tpl_checkbox->get()),
-			$this->dic->ui()->factory()->legacy($this->dic->language()->txt(Table::LANG_MODULE . "_select_all")),
+			$this->dic->ui()->factory()->legacy($component->getPlugin()->translate("select_all", Table::LANG_MODULE)),
 			$this->dic->ui()->factory()->dropdown()->standard(array_map(function (string $title, string $action): Shy {
 				return $this->dic->ui()->factory()->button()->shy($title, $action);
-			}, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel($this->dic->language()
-				->txt(Table::LANG_MODULE . "_multiple_actions"))
+			}, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel($component->getPlugin()
+				->translate("multiple_actions", Table::LANG_MODULE))
 		];
 
 		$this->tpl->setCurrentBlock("multiple_actions_top");
