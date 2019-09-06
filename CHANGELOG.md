@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.15.0]
+- Use pagination UI
+
 ## [0.14.4]
 - Fix
 
