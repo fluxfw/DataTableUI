@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.16.0]
+- New action columns
+
 ## [0.15.0]
 - Use pagination UI
 

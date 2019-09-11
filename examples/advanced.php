@@ -7,6 +7,7 @@ use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\UserTableSettings\Sort\SortField;
+use srag\DataTable\Implementation\Column\Action\AbstractActionColumn;
 use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
 use srag\DataTable\Implementation\Factory\Factory;
@@ -47,9 +48,19 @@ function advanced(): string {
 			}
 		}),
 		$factory->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
-		$factory->actionColumn("actions", "Actions", [
-			"Action" => $action_url
-		])
+		new class("actions", "Actions") extends AbstractActionColumn {
+
+			/**
+			 * @inheritDoc
+			 */
+			public function getActions(RowData $row): array {
+				global $action_url;
+
+				return [
+					"Action" => $action_url
+				];
+			}
+		}
 	], new class($DIC) extends AbstractDataFetcher {
 
 		/**

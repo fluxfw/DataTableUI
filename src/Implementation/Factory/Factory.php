@@ -8,8 +8,6 @@ use srag\DataTable\Component\Data\Fetcher\DataFetcher;
 use srag\DataTable\Component\Factory\Factory as FactoryInterface;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table as TableInterface;
-use srag\DataTable\Implementation\Column\Action\ActionColumn;
-use srag\DataTable\Implementation\Column\Action\ActionFormater;
 use srag\DataTable\Implementation\Column\Column;
 use srag\DataTable\Implementation\Format\CSVFormat;
 use srag\DataTable\Implementation\Format\ExcelFormat;
@@ -53,15 +51,6 @@ class Factory implements FactoryInterface {
 	 */
 	public function column(string $key, string $title): ColumnInterface {
 		return new Column($key, $title);
-	}
-
-
-	/**
-	 * @inheritDoc
-	 */
-	public function actionColumn(string $key, string $title, array $actions): ColumnInterface {
-		return (new ActionColumn($key, $title))->withActions($actions)->withSortable(false)->withFormater(new ActionFormater($this->dic))
-			->withSelectable(false)->withExportable(false);
 	}
 
 

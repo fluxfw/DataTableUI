@@ -3,6 +3,7 @@
 namespace srag\DataTable\Component\Column\Action;
 
 use srag\DataTable\Component\Column\Column;
+use srag\DataTable\Component\Data\Row\RowData;
 
 /**
  * Interface ActionColumn
@@ -13,25 +14,10 @@ use srag\DataTable\Component\Column\Column;
  */
 interface ActionColumn extends Column {
 
-	/* TODO: Needs PHP 7.3
 	/**
-	 * @inheritDoc
+	 * @param RowData $row
 	 *
-	 * @param array $actions
-	 * /
-	public function __construct(string $key, string $title, array $actions);
-	*/
-
-	/**
 	 * @return string[]
 	 */
-	public function getActions(): array;
-
-
-	/**
-	 * @param string[] $actions
-	 *
-	 * @return Column
-	 */
-	public function withActions(array $actions): Column;
+	public function getActions(RowData $row): array;
 }
