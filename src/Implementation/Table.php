@@ -3,6 +3,7 @@
 namespace srag\DataTable\Implementation;
 
 use ILIAS\UI\Component\Input\Field\FilterInput;
+use ILIAS\UI\Component\Input\Field\Input as FilterInput54;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
@@ -49,7 +50,7 @@ class Table implements TableInterface {
 	 */
 	protected $data_fetcher;
 	/**
-	 * @var FilterInput[]
+	 * @var FilterInput[]|FilterInput54[]
 	 */
 	protected $filter_fields = [];
 	/**
