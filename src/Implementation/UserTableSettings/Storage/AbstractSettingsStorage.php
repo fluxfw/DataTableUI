@@ -2,6 +2,7 @@
 
 namespace srag\DataTable\Implementation\UserTableSettings\Storage;
 
+use ILIAS\DI\Container;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Table;
 use srag\DataTable\Component\UserTableSettings\Settings as SettingsInterface;
@@ -20,10 +21,16 @@ use srag\DataTable\Implementation\UserTableSettings\Sort\SortField;
 abstract class AbstractSettingsStorage implements SettingsStorage {
 
 	/**
+	 * @var Container
+	 */
+	protected $dic;
+
+
+	/**
 	 * @inheritDoc
 	 */
-	public function __construct() {
-
+	public function __construct(Container $dic) {
+		$this->dic = $dic;
 	}
 
 
@@ -63,7 +70,7 @@ abstract class AbstractSettingsStorage implements SettingsStorage {
 	 * @inheritDoc
 	 */
 	public function userTableSettings(): SettingsInterface {
-		return new Settings();
+		return new Settings($this->dic->ui()->factory()->viewControl()->pagination());
 	}
 
 

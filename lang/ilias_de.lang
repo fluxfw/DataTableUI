@@ -7,5 +7,6 @@ datatable_format_html#:#HTML
 datatable_format_pdf#:#PDF
 datatable_multiple_actions#:#Mehrfache Aktionen
 datatable_no_data#:#Keine Daten
+datatable_remove_sort#:#Sortierung entfernen
 datatable_rows_per_page#:#Zeilen pro Seite (%s)
 datatable_select_all#:#Alle auswählen
