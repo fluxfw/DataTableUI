@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.17.0]
+- Container form ui fallback for filter
+
 ## [0.16.0]
 - New action columns
 

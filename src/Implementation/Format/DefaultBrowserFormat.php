@@ -6,11 +6,10 @@ use ILIAS\DI\Container;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Glyph\Factory as GlyphFactory54;
-use ILIAS\UI\Component\Input\Container\Filter\Standard;
+use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterStandard;
+use ILIAS\UI\Component\Input\Container\Form\Standard as FilterStandard54;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Renderer;
-use ilUIFilterRequestAdapter;
-use ilUIFilterService;
 use ilUtil;
 use LogicException;
 use srag\DataTable\Component\Column\Column;
@@ -36,7 +35,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 
 	use DICTrait;
 	/**
-	 * @var Standard|null
+	 * @var FilterStandard|FilterStandard54|null
 	 */
 	protected $filter_form = null;
 	/**
@@ -218,8 +217,21 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 		if ($this->filter_form === null) {
 			$filter_fields = $component->getFilterFields();
 
-			$this->filter_form = $this->dic->uiService()->filter()
-				->standard($component->getTableId(), self::getActionUrl($component->getActionUrl(), [], $component->getTableId()), $filter_fields, array_fill(0, count($filter_fields), false), true, true);
+			if (self::version()->is60()) {
+				$this->filter_form = $this->dic->uiService()->filter()
+					->standard($component->getTableId(), self::getActionUrl($component->getActionUrl(), [], $component->getTableId()), $filter_fields, array_fill(0, count($filter_fields), false), true, true);
+			} else {
+				foreach ($filter_fields as $key => &$field) {
+					try {
+						$field = $field->withValue($user_table_settings->getFieldValue($key));
+					} catch (Throwable $ex) {
+
+					}
+				}
+
+				$this->filter_form = $this->dic->ui()->factory()->input()->container()->form()
+					->standard(self::getActionUrl($component->getActionUrl(), [], $component->getTableId()), $filter_fields);
+			}
 		}
 	}
 
@@ -276,7 +288,12 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 		if (count($component->getFilterFields()) > 0) {
 			$this->initFilterForm($component, $user_table_settings);
 			try {
-				$data = $this->dic->uiService()->filter()->getData($this->filter_form);
+				if (self::version()->is60()) {
+					$data = $this->dic->uiService()->filter()->getData($this->filter_form);
+				} else {
+					$this->filter_form = $this->filter_form->withRequest($this->dic->http()->request());
+					$data = $this->filter_form->getData();
+				}
 
 				if (is_array($data)) {
 					$user_table_settings = $user_table_settings->withFieldValues($data);
