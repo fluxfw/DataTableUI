@@ -2,6 +2,7 @@
 
 namespace srag\DataTable\Component\UserTableSettings\Storage;
 
+use ILIAS\DI\Container;
 use srag\DataTable\Component\Table;
 use srag\DataTable\Component\UserTableSettings\Settings;
 use srag\DataTable\Component\UserTableSettings\Sort\SortField;
@@ -73,8 +74,10 @@ interface SettingsStorage {
 
 	/**
 	 * SettingsStorage constructor
+	 *
+	 * @param Container $dic
 	 */
-	public function __construct();
+	public function __construct(Container $dic);
 
 
 	/**
