@@ -19,7 +19,7 @@ function base() : string
 
     $DIC->ctrl()->saveParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id");
 
-    $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
+    $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
     $table = new Table("example_datatable_actions", $action_url, "Example data table with actions", [
         new Column("column1", "Column 1"),
