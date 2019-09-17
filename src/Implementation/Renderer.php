@@ -20,138 +20,146 @@ use srag\DataTable\Component\UserTableSettings\Settings;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class Renderer extends AbstractComponentRenderer {
+class Renderer extends AbstractComponentRenderer
+{
 
-	/**
-	 * @var Container
-	 */
-	protected $dic;
-
-
-	/**
-	 * @inheritDoc
-	 */
-	protected function getComponentInterfaceName(): array {
-		return [ Table::class ];
-	}
+    /**
+     * @var Container
+     */
+    protected $dic;
 
 
-	/**
-	 * @inheritDoc
-	 *
-	 * @param Table $component
-	 */
-	public function render(Component $component, RendererInterface $default_renderer): string {
-		global $DIC;
-
-		$this->dic = $DIC;
-
-		$this->dic->language()->loadLanguageModule(Table::LANG_MODULE);
-
-		$this->checkComponent($component);
-
-		return $this->renderDataTable($component, $default_renderer);
-	}
+    /**
+     * @inheritDoc
+     */
+    protected function getComponentInterfaceName() : array
+    {
+        return [Table::class];
+    }
 
 
-	/**
-	 * @param Table             $component
-	 * @param RendererInterface $renderer
-	 *
-	 * @return string
-	 */
-	protected function renderDataTable(Table $component, RendererInterface $renderer): string {
-		$user_table_settings = $component->getUserTableSettingsStorage()->read($component->getTableId(), $this->dic->user()->getId());
+    /**
+     * @inheritDoc
+     *
+     * @param Table $component
+     */
+    public function render(Component $component, RendererInterface $default_renderer) : string
+    {
+        global $DIC;
 
-		$user_table_settings = $component->getBrowserFormat()->handleUserTableSettingsInput($component, $user_table_settings);
+        $this->dic = $DIC;
 
-		$user_table_settings = $component->getUserTableSettingsStorage()->handleDefaultSettings($user_table_settings, $component);
+        $this->dic->language()->loadLanguageModule(Table::LANG_MODULE);
 
-		$data = $this->handleFetchData($component, $user_table_settings);
+        $this->checkComponent($component);
 
-		$html = $this->handleFormat($component, $data, $user_table_settings, $renderer);
-
-		$component->getUserTableSettingsStorage()->store($user_table_settings, $component->getTableId(), $this->dic->user()->getId());
-
-		return $html;
-	}
+        return $this->renderDataTable($component, $default_renderer);
+    }
 
 
-	/**
-	 * @inheritDoc
-	 */
-	public function registerResources(ResourceRegistry $registry): void {
-		parent::registerResources($registry);
+    /**
+     * @param Table             $component
+     * @param RendererInterface $renderer
+     *
+     * @return string
+     */
+    protected function renderDataTable(Table $component, RendererInterface $renderer) : string
+    {
+        $user_table_settings = $component->getUserTableSettingsStorage()->read($component->getTableId(), $this->dic->user()->getId());
 
-		$dir = __DIR__;
-		$dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1) . "/../..";
+        $user_table_settings = $component->getBrowserFormat()->handleUserTableSettingsInput($component, $user_table_settings);
 
-		$registry->register($dir . "/css/datatable.css");
+        $user_table_settings = $component->getUserTableSettingsStorage()->handleDefaultSettings($user_table_settings, $component);
 
-		$registry->register($dir . "/js/datatable.min.js");
-	}
+        $data = $this->handleFetchData($component, $user_table_settings);
 
+        $html = $this->handleFormat($component, $data, $user_table_settings, $renderer);
 
-	/**
-	 * @inheritDoc
-	 */
-	protected function getTemplatePath(/*string*/ $name): string {
-		return __DIR__ . "/../../templates/" . $name;
-	}
+        $component->getUserTableSettingsStorage()->store($user_table_settings, $component->getTableId(), $this->dic->user()->getId());
 
-
-	/**
-	 * @param Table    $component
-	 * @param Settings $user_table_settings
-	 *
-	 * @return Data
-	 */
-	protected function handleFetchData(Table $component, Settings $user_table_settings): Data {
-		if (!$component->getDataFetcher()->isFetchDataNeedsFilterFirstSet() || $user_table_settings->isFilterSet()) {
-			$data = $component->getDataFetcher()->fetchData($user_table_settings);
-		} else {
-			$data = $component->getDataFetcher()->data([], 0);
-		}
-
-		return $data;
-	}
+        return $html;
+    }
 
 
-	/**
-	 * @param Table             $component
-	 * @param Data              $data
-	 * @param Settings          $user_table_settings
-	 * @param RendererInterface $renderer
-	 *
-	 * @return string
-	 */
-	protected function handleFormat(Table $component, Data $data, Settings $user_table_settings, RendererInterface $renderer): string {
-		$input_format_id = $component->getBrowserFormat()->getInputFormatId($component);
+    /**
+     * @inheritDoc
+     */
+    public function registerResources(ResourceRegistry $registry) : void
+    {
+        parent::registerResources($registry);
 
-		/**
-		 * @var Format $format
-		 */
-		$format = current(array_filter($component->getFormats(), function (Format $format) use ($input_format_id): bool {
-			return ($format->getFormatId() === $input_format_id);
-		}));
+        $dir = __DIR__;
+        $dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1) . "/../..";
 
-		if ($format === false) {
-			$format = $component->getBrowserFormat();
-		}
+        $registry->register($dir . "/css/datatable.css");
 
-		$data = $format->render(function (string $name, bool $purge_unfilled_vars = true, bool $purge_unused_blocks = true): Template {
-			return $this->getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks);
-		}, $component, $data, $user_table_settings, $renderer);
+        $registry->register($dir . "/js/datatable.min.js");
+    }
 
-		switch ($format->getOutputType()) {
-			case Format::OUTPUT_TYPE_DOWNLOAD:
-				$format->devliver($data, $component);
 
-				return "";
+    /**
+     * @inheritDoc
+     */
+    protected function getTemplatePath(/*string*/ $name) : string
+    {
+        return __DIR__ . "/../../templates/" . $name;
+    }
 
-			case Format::OUTPUT_TYPE_PRINT:
-			default:
-				return $data;
-		}
-	}
+
+    /**
+     * @param Table    $component
+     * @param Settings $user_table_settings
+     *
+     * @return Data
+     */
+    protected function handleFetchData(Table $component, Settings $user_table_settings) : Data
+    {
+        if (!$component->getDataFetcher()->isFetchDataNeedsFilterFirstSet() || $user_table_settings->isFilterSet()) {
+            $data = $component->getDataFetcher()->fetchData($user_table_settings);
+        } else {
+            $data = $component->getDataFetcher()->data([], 0);
+        }
+
+        return $data;
+    }
+
+
+    /**
+     * @param Table             $component
+     * @param Data              $data
+     * @param Settings          $user_table_settings
+     * @param RendererInterface $renderer
+     *
+     * @return string
+     */
+    protected function handleFormat(Table $component, Data $data, Settings $user_table_settings, RendererInterface $renderer) : string
+    {
+        $input_format_id = $component->getBrowserFormat()->getInputFormatId($component);
+
+        /**
+         * @var Format $format
+         */
+        $format = current(array_filter($component->getFormats(), function (Format $format) use ($input_format_id): bool {
+            return ($format->getFormatId() === $input_format_id);
+        }));
+
+        if ($format === false) {
+            $format = $component->getBrowserFormat();
+        }
+
+        $data = $format->render(function (string $name, bool $purge_unfilled_vars = true, bool $purge_unused_blocks = true) : Template {
+            return $this->getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks);
+        }, $component, $data, $user_table_settings, $renderer);
+
+        switch ($format->getOutputType()) {
+            case Format::OUTPUT_TYPE_DOWNLOAD:
+                $format->devliver($data, $component);
+
+                return "";
+
+            case Format::OUTPUT_TYPE_PRINT:
+            default:
+                return $data;
+        }
+    }
 }
