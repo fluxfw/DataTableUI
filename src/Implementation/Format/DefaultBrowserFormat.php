@@ -237,7 +237,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
             } else {
                 foreach ($filter_fields as $key => &$field) {
                     try {
-                        $field = $field->withValue($user_table_settings->getFieldValue($key));
+                        $field = $field->withValue($user_table_settings->getFilterFieldValue($key));
                     } catch (Throwable $ex) {
 
                     }
@@ -309,7 +309,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                     $data = $this->filter_form->getData() ?? [];
                 }
 
-                $user_table_settings = $user_table_settings->withFieldValues($data);
+                $user_table_settings = $user_table_settings->withFilterFieldValues($data);
 
                 if (!empty(array_filter($data))) {
                     $user_table_settings = $user_table_settings->withFilterSet(true);
