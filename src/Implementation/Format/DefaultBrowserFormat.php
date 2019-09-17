@@ -19,8 +19,9 @@ use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table;
 use srag\DataTable\Component\UserTableSettings\Settings;
-use srag\DataTable\Component\UserTableSettings\Sort\SortField;
+use srag\DataTable\Component\UserTableSettings\Sort\SortField as SortFieldInterface;
 use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
+use srag\DataTable\Implementation\UserTableSettings\Sort\SortField;
 use srag\DIC\DICTrait;
 use Throwable;
 
@@ -160,13 +161,13 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
             $sort_field = $user_table_settings->getSortField($column->getKey());
 
             if ($sort_field !== null) {
-                if ($sort_field->getSortFieldDirection() === SortField::SORT_DIRECTION_DOWN) {
+                if ($sort_field->getSortFieldDirection() === SortFieldInterface::SORT_DIRECTION_DOWN) {
                     $sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
                         $this->dic->ui()->factory()->legacy($sort_button),
                         $this->glyph_factory->sortDescending()
                     ]), self::getActionUrl($component->getActionUrl(), [
                         SettingsStorage::VAR_SORT_FIELD           => $column->getKey(),
-                        SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortField::SORT_DIRECTION_UP
+                        SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortFieldInterface::SORT_DIRECTION_UP
                     ], $component->getTableId()));
                 } else {
                     $sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
@@ -174,7 +175,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                         $this->glyph_factory->sortAscending()
                     ]), self::getActionUrl($component->getActionUrl(), [
                         SettingsStorage::VAR_SORT_FIELD           => $column->getKey(),
-                        SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortField::SORT_DIRECTION_DOWN
+                        SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortFieldInterface::SORT_DIRECTION_DOWN
                     ], $component->getTableId()));
                 }
 
@@ -184,7 +185,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
             } else {
                 $sort_button = $this->dic->ui()->factory()->button()->shy($sort_button, self::getActionUrl($component->getActionUrl(), [
                     SettingsStorage::VAR_SORT_FIELD           => $column->getKey(),
-                    SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortField::SORT_DIRECTION_UP
+                    SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortFieldInterface::SORT_DIRECTION_UP
                 ], $component->getTableId()));
             }
         } else {
@@ -259,8 +260,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         $sort_field = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
         $sort_field_direction = intval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
         if (!empty($sort_field) && !empty($sort_field_direction)) {
-            $user_table_settings = $user_table_settings->addSortField($component->getUserTableSettingsStorage()
-                ->sortField($sort_field, $sort_field_direction));
+            $user_table_settings = $user_table_settings->addSortField(new SortField($sort_field, $sort_field_direction));
 
             $user_table_settings = $user_table_settings->withFilterSet(true);
         }

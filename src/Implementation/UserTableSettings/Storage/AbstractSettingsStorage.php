@@ -8,7 +8,6 @@ use srag\DataTable\Component\Table;
 use srag\DataTable\Component\UserTableSettings\Settings as SettingsInterface;
 use srag\DataTable\Component\UserTableSettings\Sort\SortField as SortFieldInterface;
 use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
-use srag\DataTable\Implementation\UserTableSettings\Settings;
 use srag\DataTable\Implementation\UserTableSettings\Sort\SortField;
 
 /**
@@ -43,7 +42,7 @@ abstract class AbstractSettingsStorage implements SettingsStorage
     {
         if (!$user_table_settings->isFilterSet() && empty($user_table_settings->getSortFields())) {
             $user_table_settings = $user_table_settings->withSortFields(array_map(function (Column $column) use ($component): SortFieldInterface {
-                return $this->sortField($column->getKey(), $column->getDefaultSortDirection());
+                return new SortField($column->getKey(), $column->getDefaultSortDirection());
             }, array_filter($component->getColumns(), function (Column $column) : bool {
                 return ($column->isSortable() && $column->isDefaultSort());
             })));
@@ -58,24 +57,6 @@ abstract class AbstractSettingsStorage implements SettingsStorage
         }
 
         return $user_table_settings;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function sortField(string $sort_field, int $sort_field_direction) : SortFieldInterface
-    {
-        return new SortField($sort_field, $sort_field_direction);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function userTableSettings() : SettingsInterface
-    {
-        return new Settings($this->dic->ui()->factory()->viewControl()->pagination());
     }
 
 

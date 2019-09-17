@@ -3,13 +3,8 @@
 namespace srag\DataTable\Implementation\Data\Fetcher;
 
 use ILIAS\DI\Container;
-use srag\DataTable\Component\Data\Data as DataInterface;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Table;
-use srag\DataTable\Implementation\Data\Data;
-use srag\DataTable\Implementation\Data\Row\GetterRowData;
-use srag\DataTable\Implementation\Data\Row\PropertyRowData;
 
 /**
  * Class AbstractDataFetcher
@@ -51,32 +46,5 @@ abstract class AbstractDataFetcher implements DataFetcher
     public function isFetchDataNeedsFilterFirstSet() : bool
     {
         return false;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function data(array $data, int $max_count) : DataInterface
-    {
-        return new Data($data, $max_count);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function propertyRowData(string $row_id, object $original_data) : RowData
-    {
-        return new PropertyRowData($row_id, $original_data);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getterRowData(string $row_id, object $original_data) : RowData
-    {
-        return new GetterRowData($row_id, $original_data);
     }
 }

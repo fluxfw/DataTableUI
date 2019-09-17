@@ -5,7 +5,6 @@ namespace srag\DataTable\Component\UserTableSettings\Storage;
 use ILIAS\DI\Container;
 use srag\DataTable\Component\Table;
 use srag\DataTable\Component\UserTableSettings\Settings;
-use srag\DataTable\Component\UserTableSettings\Sort\SortField;
 
 /**
  * Interface SettingsStorage
@@ -106,19 +105,4 @@ interface SettingsStorage
      * @param int      $user_id
      */
     public function store(Settings $user_table_settings, string $table_id, int $user_id) : void;
-
-
-    /**
-     * @param string $sort_field
-     * @param int    $sort_field_direction
-     *
-     * @return SortField
-     */
-    public function sortField(string $sort_field, int $sort_field_direction) : SortField;
-
-
-    /**
-     * @return Settings
-     */
-    public function userTableSettings() : Settings;
 }
