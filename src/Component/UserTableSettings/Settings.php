@@ -195,6 +195,8 @@ interface Settings {
 	 * @param Data $data
 	 *
 	 * @return Pagination
+	 *
+	 * @internal
 	 */
 	public function getPagination(Data $data): Pagination;
 }
