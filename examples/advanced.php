@@ -26,6 +26,8 @@ function advanced() : string
 {
     global $DIC;
 
+    $DIC->ctrl()->saveParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id");
+
     $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class);
 
     $table = (new Table("example_datatable_advanced", $action_url, "Advanced example data table", [
