@@ -287,18 +287,16 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 			$this->initFilterForm($component, $user_table_settings);
 			try {
 				if (self::version()->is60()) {
-					$data = $this->dic->uiService()->filter()->getData($this->filter_form);
+					$data = $this->dic->uiService()->filter()->getData($this->filter_form) ?? [];
 				} else {
 					$this->filter_form = $this->filter_form->withRequest($this->dic->http()->request());
-					$data = $this->filter_form->getData();
+					$data = $this->filter_form->getData() ?? [];
 				}
 
-				if (is_array($data)) {
-					$user_table_settings = $user_table_settings->withFieldValues($data);
+				$user_table_settings = $user_table_settings->withFieldValues($data);
 
-					if (!empty(array_filter($data))) {
-						$user_table_settings = $user_table_settings->withFilterSet(true);
-					}
+				if (!empty(array_filter($data))) {
+					$user_table_settings = $user_table_settings->withFilterSet(true);
 				}
 			} catch (Throwable $ex) {
 
@@ -451,7 +449,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat {
 			return;
 		}
 
-		$tpl_checkbox = ($this->get_template)("tpl.datatablerow.html");
+		$tpl_checkbox = ($this->get_template)("tpl.datatablerow.html", true, false);
 
 		$tpl_checkbox->setCurrentBlock("row_checkbox");
 
