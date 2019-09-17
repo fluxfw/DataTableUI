@@ -4,7 +4,6 @@ namespace srag\DataTable\Implementation\Format;
 
 use GuzzleHttp\Psr7\Stream;
 use ILIAS\DI\Container;
-use ILIAS\UI\Implementation\Render\TemplateFactory;
 use ILIAS\UI\Renderer;
 use ilMimeTypeUtil;
 use srag\DataTable\Component\Column\Column;
@@ -32,9 +31,9 @@ abstract class AbstractFormat implements Format {
 	 */
 	protected $tpl;
 	/**
-	 * @var TemplateFactory
+	 * @var callable
 	 */
-	protected $tpl_factory;
+	protected $get_template;
 	/**
 	 * @var string
 	 */
@@ -82,9 +81,8 @@ abstract class AbstractFormat implements Format {
 	/**
 	 * @inheritDoc
 	 */
-	public function render(TemplateFactory $tpl_factory, string $tpl_path, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): string {
-		$this->tpl_factory = $tpl_factory;
-		$this->tpl_path = $tpl_path;
+	public function render(callable $get_template, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer): string {
+		$this->get_template = $get_template;
 
 		$this->initTemplate($component, $data, $user_table_settings, $renderer);
 

@@ -2,12 +2,11 @@
 
 namespace srag\DataTable\Implementation;
 
-use Closure;
 use ILIAS\DI\Container;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Implementation\Render\TemplateFactory;
+use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Format\Format;
@@ -140,7 +139,9 @@ class Renderer extends AbstractComponentRenderer {
 			$format = $component->getBrowserFormat();
 		}
 
-		$data = $format->render(Closure::bind(function (): TemplateFactory { return $this->tpl_factory; }, $this, AbstractComponentRenderer::class)(), $this->getTemplatePath(""), $component, $data, $user_table_settings, $renderer); // TODO: `$this->tpl_factory` is private!!!
+		$data = $format->render(function (string $name): Template {
+			return $this->getTemplate($name, true, true);
+		}, $component, $data, $user_table_settings, $renderer);
 
 		switch ($format->getOutputType()) {
 			case Format::OUTPUT_TYPE_DOWNLOAD:
