@@ -33,7 +33,8 @@ Expand you plugin class for installing languages of the library to your plugin
 * PHP >=7.2
 
 ### Adjustment suggestions
-* Adjustment suggestions by pull requests
-* Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/LTABLEUI
-* Bug reports under https://jira.studer-raimann.ch/projects/LTABLEUI
-* For external users you can report it at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LTABLEUI
+* External users can report suggestions and bugs at https://plugins.studer-raimann.ch/goto.php?target=uihk_srsu_LTABLEUI
+* Adjustment suggestions by pull requests via github
+* Customer of studer + raimann ag: 
+	* Adjustment suggestions which are not yet worked out in detail by Jira tasks under https://jira.studer-raimann.ch/projects/LTABLEUI
+	* Bug reports under https://jira.studer-raimann.ch/projects/LTABLEUI
