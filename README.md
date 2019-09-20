@@ -28,6 +28,25 @@ Expand you plugin class for installing languages of the library to your plugin
 ...
 ```
 
+In your code
+```php
+...
+use srag\DataTable\x\Implementation\Table;
+...
+new Table(...);
+...
+```
+
+Get action id
+```php
+$table->getActionRowId();
+```
+
+Get mutliple action ids
+```php
+$table->getMultipleActionRowIds();
+```
+
 ### Requirements
 * ILIAS 5.4 or ILIAS 6.0
 * PHP >=7.2
