@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.20.3]
+- Filter form section (ILIAS 5.4 only)
+
 ## [0.20.2]
 - Readme
 

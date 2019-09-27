@@ -1,6 +1,7 @@
 datatable_add_columns#:#Spalten hinzufügen
 datatable_count#:#(%1$s von %2$s)
 datatable_export#:#Exportieren
+datatable_filter#:#Filter
 datatable_format_csv#:#CSV
 datatable_format_excel#:#Excel
 datatable_format_html#:#HTML
