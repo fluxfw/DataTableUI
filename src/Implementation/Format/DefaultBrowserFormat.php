@@ -247,9 +247,6 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                     ->standard(self::getActionUrl($component->getActionUrl(), [], $component->getTableId()), [
                         "filter" => self::dic()->ui()->factory()->input()->field()->section($filter_fields, $component->getPlugin()->translate("filter", Table::LANG_MODULE))
                     ]);
-
-                $this->filter_form = $this->dic->ui()->factory()->input()->container()->form()
-                    ->standard(self::getActionUrl($component->getActionUrl(), [], $component->getTableId()), $filter_fields);
             }
         }
     }
