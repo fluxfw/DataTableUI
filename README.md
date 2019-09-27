@@ -37,12 +37,12 @@ new Table(...);
 ...
 ```
 
-Get action id
+Get selected action row id
 ```php
 $table->getActionRowId();
 ```
 
-Get mutliple action ids
+Get selected mutliple action row ids
 ```php
 $table->getMultipleActionRowIds();
 ```

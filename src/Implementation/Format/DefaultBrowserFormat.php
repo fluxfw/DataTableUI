@@ -244,7 +244,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                 }
 
                 $this->filter_form = $this->dic->ui()->factory()->input()->container()->form()
-                    ->standard(self::getActionUrl($component->getActionUrl(), [], $component->getTableId()), $filter_fields);
+                    ->standard(self::getActionUrl($component->getActionUrl(), [], $component->getTableId()), [
+                        "filter" => self::dic()->ui()->factory()->input()->field()->section($filter_fields, $component->getPlugin()->translate("filter", Table::LANG_MODULE))
+                    ]);
             }
         }
     }
@@ -306,7 +308,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                     $data = $this->dic->uiService()->filter()->getData($this->filter_form) ?? [];
                 } else {
                     $this->filter_form = $this->filter_form->withRequest($this->dic->http()->request());
-                    $data = $this->filter_form->getData() ?? [];
+                    $data = ($this->filter_form->getData() ?? [])["filter"] ?? [];
                 }
 
                 $user_table_settings = $user_table_settings->withFilterFieldValues($data);
