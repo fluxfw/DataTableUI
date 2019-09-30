@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.20.4]
+- check typed array interfaces
+
 ## [0.20.3]
 - Filter form section (ILIAS 5.4 only)
 
