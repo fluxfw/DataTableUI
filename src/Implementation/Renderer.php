@@ -8,10 +8,11 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
-use srag\DataTable\Component\Data\Data;
+use srag\DataTable\Component\Data\Data as DataInterface;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table;
 use srag\DataTable\Component\UserTableSettings\Settings;
+use srag\DataTable\Implementation\Data\Data;
 
 /**
  * Class Renderer
@@ -110,14 +111,14 @@ class Renderer extends AbstractComponentRenderer
      * @param Table    $component
      * @param Settings $user_table_settings
      *
-     * @return Data
+     * @return DataInterface
      */
-    protected function handleFetchData(Table $component, Settings $user_table_settings) : Data
+    protected function handleFetchData(Table $component, Settings $user_table_settings) : DataInterface
     {
         if (!$component->getDataFetcher()->isFetchDataNeedsFilterFirstSet() || $user_table_settings->isFilterSet()) {
             $data = $component->getDataFetcher()->fetchData($user_table_settings);
         } else {
-            $data = $component->getDataFetcher()->data([], 0);
+            $data = new Data([], 0);
         }
 
         return $data;
@@ -126,13 +127,13 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * @param Table             $component
-     * @param Data              $data
+     * @param DataInterface     $data
      * @param Settings          $user_table_settings
      * @param RendererInterface $renderer
      *
      * @return string
      */
-    protected function handleFormat(Table $component, Data $data, Settings $user_table_settings, RendererInterface $renderer) : string
+    protected function handleFormat(Table $component, DataInterface $data, Settings $user_table_settings, RendererInterface $renderer) : string
     {
         $input_format_id = $component->getBrowserFormat()->getInputFormatId($component);
 
