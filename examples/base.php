@@ -2,8 +2,8 @@
 
 use srag\DataTable\Component\Data\Data as DataInterface;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\UserTableSettings\Settings;
-use srag\DataTable\Component\UserTableSettings\Sort\SortField;
+use srag\DataTable\Component\Settings\Settings;
+use srag\DataTable\Component\Settings\Sort\SortField;
 use srag\DataTable\Implementation\Column\Column;
 use srag\DataTable\Implementation\Data\Data;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
@@ -41,7 +41,7 @@ class BaseExampleDataFetcher extends AbstractDataFetcher
     /**
      * @inheritDoc
      */
-    public function fetchData(Settings $user_table_settings) : DataInterface
+    public function fetchData(Settings $settings) : DataInterface
     {
         $data = array_map(function (int $index) : stdClass {
             return (object) [
@@ -51,10 +51,10 @@ class BaseExampleDataFetcher extends AbstractDataFetcher
             ];
         }, range(0, 25));
 
-        $data = array_filter($data, function (stdClass $data) use ($user_table_settings): bool {
+        $data = array_filter($data, function (stdClass $data) use ($settings): bool {
             $match = true;
 
-            foreach ($user_table_settings->getFilterFieldValues() as $key => $value) {
+            foreach ($settings->getFilterFieldValues() as $key => $value) {
                 if (!empty($value)) {
                     switch (true) {
                         case is_array($value):
@@ -84,8 +84,8 @@ class BaseExampleDataFetcher extends AbstractDataFetcher
             return $match;
         });
 
-        usort($data, function (stdClass $o1, stdClass $o2) use ($user_table_settings): int {
-            foreach ($user_table_settings->getSortFields() as $sort_field) {
+        usort($data, function (stdClass $o1, stdClass $o2) use ($settings): int {
+            foreach ($settings->getSortFields() as $sort_field) {
                 $s1 = strval($o1->{$sort_field->getSortField()});
                 $s2 = strval($o2->{$sort_field->getSortField()});
 
@@ -105,7 +105,7 @@ class BaseExampleDataFetcher extends AbstractDataFetcher
 
         $max_count = count($data);
 
-        $data = array_slice($data, $user_table_settings->getLimitStart(), $user_table_settings->getRowsCount());
+        $data = array_slice($data, $settings->getLimitStart(), $settings->getRowsCount());
 
         $data = array_map(function (stdClass $row) : RowData {
             return new PropertyRowData(strval($row->column1), $row);

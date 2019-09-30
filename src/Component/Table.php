@@ -9,7 +9,7 @@ use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
+use srag\DataTable\Component\Settings\Storage\SettingsStorage;
 use srag\DIC\Plugin\Pluginable;
 use srag\DIC\Plugin\PluginInterface;
 
@@ -177,15 +177,15 @@ interface Table extends Component, Pluginable
     /**
      * @return SettingsStorage|null
      */
-    public function getCustomUserTableSettingsStorage() : ?SettingsStorage;
+    public function getCustomSettingsStorage() : ?SettingsStorage;
 
 
     /**
-     * @param SettingsStorage|null $custom_user_table_settings_storage
+     * @param SettingsStorage|null $custom_settings_storage
      *
      * @return self
      */
-    public function withCustomUserTableSettingsStorage(?SettingsStorage $custom_user_table_settings_storage = null) : self;
+    public function withCustomSettingsStorage(?SettingsStorage $custom_settings_storage = null) : self;
 
 
     /**

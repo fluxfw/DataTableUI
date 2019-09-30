@@ -10,7 +10,7 @@ use srag\DataTable\Component\Data\Fetcher\DataFetcher;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table as TableInterface;
-use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
+use srag\DataTable\Component\Settings\Storage\SettingsStorage;
 use srag\DataTable\Implementation\Format\DefaultBrowserFormat;
 use srag\DIC\DICTrait;
 use srag\DIC\Plugin\PluginInterface;
@@ -70,7 +70,7 @@ class Table implements TableInterface
     /**
      * @var SettingsStorage
      */
-    protected $custom_user_table_settings_storage;
+    protected $custom_settings_storage;
 
 
     /**
@@ -329,20 +329,20 @@ class Table implements TableInterface
     /**
      * @inheritDoc
      */
-    public function getCustomUserTableSettingsStorage() : ?SettingsStorage
+    public function getCustomSettingsStorage() : ?SettingsStorage
     {
-        return $this->custom_user_table_settings_storage;
+        return $this->custom_settings_storage;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function withCustomUserTableSettingsStorage(?SettingsStorage $custom_user_table_settings_storage = null) : TableInterface
+    public function withCustomSettingsStorage(?SettingsStorage $custom_settings_storage = null) : TableInterface
     {
         $clone = clone $this;
 
-        $clone->custom_user_table_settings_storage = $custom_user_table_settings_storage;
+        $clone->custom_settings_storage = $custom_settings_storage;
 
         return $clone;
     }

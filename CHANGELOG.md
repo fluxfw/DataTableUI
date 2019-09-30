@@ -6,6 +6,7 @@
 - Fix data if no filter set
 - deliverDownload typo
 - Move DefaultBrowserFormat and DefaultSettingsStorage to Renderer
+- Remove `UserTable` prefix
 
 ## [0.20.5]
 - check typed array interfaces

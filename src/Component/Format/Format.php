@@ -6,7 +6,7 @@ use ILIAS\DI\Container;
 use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Table;
-use srag\DataTable\Component\UserTableSettings\Settings;
+use srag\DataTable\Component\Settings\Settings;
 
 /**
  * Interface Format
@@ -86,12 +86,12 @@ interface Format
      * @param callable $get_template
      * @param Table    $component
      * @param Data     $data
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Renderer $renderer
      *
      * @return string
      */
-    public function render(callable $get_template, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer) : string;
+    public function render(callable $get_template, Table $component, Data $data, Settings $settings, Renderer $renderer) : string;
 
 
     /**

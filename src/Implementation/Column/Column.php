@@ -5,7 +5,7 @@ namespace srag\DataTable\Implementation\Column;
 use ILIAS\DI\Container;
 use srag\DataTable\Component\Column\Column as ColumnInterface;
 use srag\DataTable\Component\Column\Formater\Formater;
-use srag\DataTable\Component\UserTableSettings\Sort\SortField;
+use srag\DataTable\Component\Settings\Sort\SortField;
 use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
 
 /**

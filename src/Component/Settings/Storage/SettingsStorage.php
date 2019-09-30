@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\DataTable\Component\UserTableSettings\Storage;
+namespace srag\DataTable\Component\Settings\Storage;
 
 use ILIAS\DI\Container;
 use srag\DataTable\Component\Table;
-use srag\DataTable\Component\UserTableSettings\Settings;
+use srag\DataTable\Component\Settings\Settings;
 
 /**
  * Interface SettingsStorage
  *
- * @package srag\DataTable\Component\UserTableSettings\Storage
+ * @package srag\DataTable\Component\Settings\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -91,18 +91,18 @@ interface SettingsStorage
 
 
     /**
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Table    $component
      *
      * @return Settings
      */
-    public function handleDefaultSettings(Settings $user_table_settings, Table $component) : Settings;
+    public function handleDefaultSettings(Settings $settings, Table $component) : Settings;
 
 
     /**
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param string   $table_id
      * @param int      $user_id
      */
-    public function store(Settings $user_table_settings, string $table_id, int $user_id) : void;
+    public function store(Settings $settings, string $table_id, int $user_id) : void;
 }
