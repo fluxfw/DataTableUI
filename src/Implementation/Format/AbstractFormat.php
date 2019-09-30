@@ -105,7 +105,7 @@ abstract class AbstractFormat implements Format
     /**
      * @inheritDoc
      */
-    public function devliver(string $data, Table $component) : void
+    public function deliverDownload(string $data, Table $component) : void
     {
         $filename = $component->getTitle() . "." . $this->getFileExtension();
 
