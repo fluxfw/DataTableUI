@@ -3,6 +3,7 @@
 namespace srag\DataTable\Implementation\UserTableSettings;
 
 use ILIAS\UI\Component\ViewControl\Pagination;
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\UserTableSettings\Settings as SettingsInterface;
 use srag\DataTable\Component\UserTableSettings\Sort\SortField;
@@ -17,6 +18,7 @@ use srag\DataTable\Component\UserTableSettings\Sort\SortField;
 class Settings implements SettingsInterface
 {
 
+    use ComponentHelper;
     /**
      * @var Pagination
      */
@@ -110,6 +112,9 @@ class Settings implements SettingsInterface
      */
     public function withSortFields(array $sort_fields) : SettingsInterface
     {
+        $classes = [SortField::class];
+        $this->checkArgListElements("sort_fields", $sort_fields, $classes);
+
         $clone = clone $this;
 
         $clone->sort_fields = $sort_fields;

@@ -2,6 +2,7 @@
 
 namespace srag\DataTable\Implementation\Data;
 
+use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\DataTable\Component\Data\Data as DataInterface;
 use srag\DataTable\Component\Data\Row\RowData;
 
@@ -15,6 +16,7 @@ use srag\DataTable\Component\Data\Row\RowData;
 class Data implements DataInterface
 {
 
+    use ComponentHelper;
     /**
      * @var RowData[]
      */
@@ -50,6 +52,9 @@ class Data implements DataInterface
      */
     public function withData(array $data) : DataInterface
     {
+        $classes = [RowData::class];
+        $this->checkArgListElements("data", $data, $classes);
+
         $clone = clone $this;
 
         $clone->data = $data;
