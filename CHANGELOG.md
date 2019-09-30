@@ -1,5 +1,9 @@
 # Changelog
 
+## [x]
+- Pass $dic to Column
+- Display only link (instead dropdown) if only one action
+
 ## [0.20.5]
 - check typed array interfaces
 
