@@ -5,8 +5,8 @@ use srag\DataTable\Component\Column\Column as ColumnInterface;
 use srag\DataTable\Component\Data\Data as DataInterface;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\UserTableSettings\Settings;
-use srag\DataTable\Component\UserTableSettings\Sort\SortField;
+use srag\DataTable\Component\Settings\Settings;
+use srag\DataTable\Component\Settings\Sort\SortField;
 use srag\DataTable\Implementation\Column\Action\AbstractActionColumn;
 use srag\DataTable\Implementation\Column\Column;
 use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
@@ -31,11 +31,11 @@ function advanced() : string
     $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
     $table = (new Table("example_datatable_advanced", $action_url, "Advanced example data table", [
-        (new Column("obj_id", "Id"))->withDefaultSelected(false),
-        (new Column("title", "Title"))->withDefaultSort(true),
-        (new Column("type", "Type"))->withFormater(new AdvancedExampleFormater($DIC)),
-        (new Column("description", "Description"))->withDefaultSelected(false)->withSortable(false),
-        new AdvancedExampleActionColumns("actions", "Actions")
+        (new Column($DIC, "obj_id", "Id"))->withDefaultSelected(false),
+        (new Column($DIC, "title", "Title"))->withDefaultSort(true),
+        (new Column($DIC, "type", "Type"))->withFormater(new AdvancedExampleFormater($DIC)),
+        (new Column($DIC, "description", "Description"))->withDefaultSelected(false)->withSortable(false),
+        new AdvancedExampleActionColumns($DIC, "actions", "Actions")
     ], new AdvancedExampleDataFetcher($DIC)
     ))->withFilterFields([
         "title" => $DIC->ui()->factory()->input()->field()->text("Title"),
@@ -107,9 +107,7 @@ class AdvancedExampleActionColumns extends AbstractActionColumn
      */
     public function getActions(RowData $row) : array
     {
-        global $DIC;
-
-        $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
+        $action_url = $this->dic->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
         return [
             "Action" => $action_url
@@ -128,9 +126,9 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
     /**
      * @inheritDoc
      */
-    public function fetchData(Settings $user_table_settings) : DataInterface
+    public function fetchData(Settings $settings) : DataInterface
     {
-        $sql = 'SELECT *' . $this->getQuery($user_table_settings);
+        $sql = 'SELECT *' . $this->getQuery($settings);
 
         $result = $this->dic->database()->query($sql);
 
@@ -139,7 +137,7 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
             $rows[] = new PropertyRowData(strval($row->obj_id), $row);
         }
 
-        $sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($user_table_settings, true);
+        $sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($settings, true);
 
         $result = $this->dic->database()->query($sql);
 
@@ -150,16 +148,16 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
 
 
     /**
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param bool     $max_count
      *
      * @return string
      */
-    protected function getQuery(Settings $user_table_settings, $max_count = false) : string
+    protected function getQuery(Settings $settings, $max_count = false) : string
     {
         $sql = ' FROM object_data';
 
-        $field_values = array_filter($user_table_settings->getFilterFieldValues());
+        $field_values = array_filter($settings->getFilterFieldValues());
 
         if (!empty($field_values)) {
             $sql .= ' WHERE ' . implode(' AND ', array_map(function (string $key, string $value) : string {
@@ -168,16 +166,16 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
         }
 
         if (!$max_count) {
-            if (!empty($user_table_settings->getSortFields())) {
+            if (!empty($settings->getSortFields())) {
                 $sql .= ' ORDER BY ' . implode(", ", array_map(function (SortField $sort_field) : string {
                         return $this->dic->database()->quoteIdentifier($sort_field->getSortField()) . ' ' . ($sort_field->getSortFieldDirection()
                             === SortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
-                    }, $user_table_settings->getSortFields()));
+                    }, $settings->getSortFields()));
             }
 
-            if (!empty($user_table_settings->getLimitStart()) && !empty($user_table_settings->getLimitEnd())) {
-                $sql .= ' LIMIT ' . $this->dic->database()->quote($user_table_settings->getLimitStart(), ilDBConstants::T_INTEGER) . ','
-                    . $this->dic->database()->quote($user_table_settings->getLimitEnd(), ilDBConstants::T_INTEGER);
+            if (!empty($settings->getLimitStart()) && !empty($settings->getLimitEnd())) {
+                $sql .= ' LIMIT ' . $this->dic->database()->quote($settings->getLimitStart(), ilDBConstants::T_INTEGER) . ','
+                    . $this->dic->database()->quote($settings->getLimitEnd(), ilDBConstants::T_INTEGER);
             }
         }
 

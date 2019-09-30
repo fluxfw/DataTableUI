@@ -3,7 +3,7 @@
 namespace srag\DataTable\Component\Format;
 
 use srag\DataTable\Component\Table;
-use srag\DataTable\Component\UserTableSettings\Settings;
+use srag\DataTable\Component\Settings\Settings;
 
 /**
  * Interface BrowserFormat
@@ -25,9 +25,9 @@ interface BrowserFormat extends Format
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      *
      * @return Settings
      */
-    public function handleUserTableSettingsInput(Table $component, Settings $user_table_settings) : Settings;
+    public function handleSettingsInput(Table $component, Settings $settings) : Settings;
 }

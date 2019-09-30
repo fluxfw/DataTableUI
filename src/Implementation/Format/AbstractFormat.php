@@ -11,7 +11,7 @@ use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table;
-use srag\DataTable\Component\UserTableSettings\Settings;
+use srag\DataTable\Component\Settings\Settings;
 
 /**
  * Class AbstractFormat
@@ -86,17 +86,17 @@ abstract class AbstractFormat implements Format
     /**
      * @inheritDoc
      */
-    public function render(callable $get_template, Table $component, Data $data, Settings $user_table_settings, Renderer $renderer) : string
+    public function render(callable $get_template, Table $component, Data $data, Settings $settings, Renderer $renderer) : string
     {
         $this->get_template = $get_template;
 
-        $this->initTemplate($component, $data, $user_table_settings, $renderer);
+        $this->initTemplate($component, $data, $settings, $renderer);
 
-        $columns = $this->getColumns($component, $user_table_settings);
+        $columns = $this->getColumns($component, $settings);
 
-        $this->handleColumns($component, $columns, $user_table_settings, $renderer);
+        $this->handleColumns($component, $columns, $settings, $renderer);
 
-        $this->handleRows($component, $columns, $data, $user_table_settings, $renderer);
+        $this->handleRows($component, $columns, $data, $settings, $renderer);
 
         return $this->renderTemplate($component);
     }
@@ -105,7 +105,7 @@ abstract class AbstractFormat implements Format
     /**
      * @inheritDoc
      */
-    public function devliver(string $data, Table $component) : void
+    public function deliverDownload(string $data, Table $component) : void
     {
         $filename = $component->getTitle() . "." . $this->getFileExtension();
 
@@ -125,15 +125,15 @@ abstract class AbstractFormat implements Format
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      *
      * @return Column[]
      */
-    protected function getColumnsBase(Table $component, Settings $user_table_settings) : array
+    protected function getColumnsBase(Table $component, Settings $settings) : array
     {
-        return array_filter($component->getColumns(), function (Column $column) use ($user_table_settings): bool {
+        return array_filter($component->getColumns(), function (Column $column) use ($settings): bool {
             if ($column->isSelectable()) {
-                return in_array($column->getKey(), $user_table_settings->getSelectedColumns());
+                return in_array($column->getKey(), $settings->getSelectedColumns());
             } else {
                 return true;
             }
@@ -143,13 +143,13 @@ abstract class AbstractFormat implements Format
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      *
      * @return Column[]
      */
-    protected function getColumnsForExport(Table $component, Settings $user_table_settings) : array
+    protected function getColumnsForExport(Table $component, Settings $settings) : array
     {
-        return array_filter($this->getColumnsBase($component, $user_table_settings), function (Column $column) : bool {
+        return array_filter($this->getColumnsBase($component, $settings), function (Column $column) : bool {
             return $column->isExportable();
         });
     }
@@ -157,36 +157,36 @@ abstract class AbstractFormat implements Format
 
     /**
      * @param Table    $component
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      *
      * @return Column[]
      */
-    protected function getColumns(Table $component, Settings $user_table_settings) : array
+    protected function getColumns(Table $component, Settings $settings) : array
     {
-        return $this->getColumnsForExport($component, $user_table_settings);
+        return $this->getColumnsForExport($component, $settings);
     }
 
 
     /**
      * @param Table    $component
      * @param Data     $data
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Renderer $renderer
      */
-    protected abstract function initTemplate(Table $component, Data $data, Settings $user_table_settings, Renderer $renderer) : void;
+    protected abstract function initTemplate(Table $component, Data $data, Settings $settings, Renderer $renderer) : void;
 
 
     /**
      * @param Table    $component
      * @param Column[] $columns
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Renderer $renderer
      */
-    protected function handleColumns(Table $component, array $columns, Settings $user_table_settings, Renderer $renderer) : void
+    protected function handleColumns(Table $component, array $columns, Settings $settings, Renderer $renderer) : void
     {
         foreach ($columns as $column) {
             $this->handleColumn($column->getFormater()
-                ->formatHeaderCell($this, $column, $component->getTableId(), $renderer), $component, $column, $user_table_settings, $renderer);
+                ->formatHeaderCell($this, $column, $component->getTableId(), $renderer), $component, $column, $settings, $renderer);
         }
     }
 
@@ -195,25 +195,25 @@ abstract class AbstractFormat implements Format
      * @param string   $formated_column
      * @param Table    $component
      * @param Column   $column
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Renderer $renderer
      *
      * @return mixed
      */
-    protected abstract function handleColumn(string $formated_column, Table $component, Column $column, Settings $user_table_settings, Renderer $renderer);
+    protected abstract function handleColumn(string $formated_column, Table $component, Column $column, Settings $settings, Renderer $renderer);
 
 
     /**
      * @param Table    $component
      * @param Column[] $columns
      * @param Data     $data
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Renderer $renderer
      */
-    protected function handleRows(Table $component, array $columns, Data $data, Settings $user_table_settings, Renderer $renderer) : void
+    protected function handleRows(Table $component, array $columns, Data $data, Settings $settings, Renderer $renderer) : void
     {
         foreach ($data->getData() as $row) {
-            $this->handleRow($component, $columns, $row, $user_table_settings, $renderer);
+            $this->handleRow($component, $columns, $row, $settings, $renderer);
         }
     }
 
@@ -222,10 +222,10 @@ abstract class AbstractFormat implements Format
      * @param Table    $component
      * @param Column[] $columns
      * @param RowData  $row
-     * @param Settings $user_table_settings
+     * @param Settings $settings
      * @param Renderer $renderer
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Settings $user_table_settings, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row, Settings $settings, Renderer $renderer) : void
     {
         foreach ($columns as $column) {
             $this->handleRowColumn($column->getFormater()

@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\DataTable\Component\UserTableSettings\Sort;
+namespace srag\DataTable\Component\Settings\Sort;
 
 use JsonSerializable;
 use stdClass;
@@ -8,7 +8,7 @@ use stdClass;
 /**
  * Interface SortField
  *
- * @package srag\DataTable\Component\UserTableSettings\Sort
+ * @package srag\DataTable\Component\Settings\Sort
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

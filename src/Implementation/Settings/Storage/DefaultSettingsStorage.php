@@ -1,18 +1,18 @@
 <?php
 
-namespace srag\DataTable\Implementation\UserTableSettings\Storage;
+namespace srag\DataTable\Implementation\Settings\Storage;
 
 use ILIAS\DI\Container;
 use ilTablePropertiesStorage;
-use srag\DataTable\Component\UserTableSettings\Settings as SettingsInterface;
-use srag\DataTable\Component\UserTableSettings\Sort\SortField as SortFieldInterface;
-use srag\DataTable\Implementation\UserTableSettings\Settings;
-use srag\DataTable\Implementation\UserTableSettings\Sort\SortField;
+use srag\DataTable\Component\Settings\Settings as SettingsInterface;
+use srag\DataTable\Component\Settings\Sort\SortField as SortFieldInterface;
+use srag\DataTable\Implementation\Settings\Settings;
+use srag\DataTable\Implementation\Settings\Sort\SortField;
 
 /**
  * Class DefaultSettingsStorage
  *
- * @package srag\DataTable\Implementation\UserTableSettings\Storage
+ * @package srag\DataTable\Implementation\Settings\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -46,7 +46,7 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
      */
     public function read(string $table_id, int $user_id) : SettingsInterface
     {
-        $user_table_settings = new Settings($this->dic->ui()->factory()->viewControl()->pagination());
+        $settings = new Settings($this->dic->ui()->factory()->viewControl()->pagination());
 
         foreach (self::VARS as $property) {
             $value = json_decode($this->properties_storage->getProperty($table_id, $user_id, $property) ?? "", true);
@@ -54,35 +54,35 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
             if (!empty($value)) {
                 switch ($property) {
                     case self::VAR_SORT_FIELDS:
-                        $user_table_settings = $user_table_settings->withSortFields(array_map(function (array $sort_field) : SortFieldInterface {
+                        $settings = $settings->withSortFields(array_map(function (array $sort_field) : SortFieldInterface {
                             return new SortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
                         }, $value));
                         break;
 
                     default:
-                        if (method_exists($user_table_settings, $method = "with" . $this->strToCamelCase($property))) {
-                            $user_table_settings = $user_table_settings->{$method}($value);
+                        if (method_exists($settings, $method = "with" . $this->strToCamelCase($property))) {
+                            $settings = $settings->{$method}($value);
                         }
                 }
             }
         }
 
-        return $user_table_settings;
+        return $settings;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function store(SettingsInterface $user_table_settings, string $table_id, int $user_id) : void
+    public function store(SettingsInterface $settings, string $table_id, int $user_id) : void
     {
         foreach (self::VARS as $property) {
             $value = "";
-            if (method_exists($user_table_settings, $method = "get" . $this->strToCamelCase($property))) {
-                $value = $user_table_settings->{$method}();
+            if (method_exists($settings, $method = "get" . $this->strToCamelCase($property))) {
+                $value = $settings->{$method}();
             } else {
-                if (method_exists($user_table_settings, $method = "is" . $this->strToCamelCase($property))) {
-                    $value = $user_table_settings->{$method}();
+                if (method_exists($settings, $method = "is" . $this->strToCamelCase($property))) {
+                    $value = $settings->{$method}();
                 }
             }
 

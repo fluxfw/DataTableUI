@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.21.0]
+- Pass $dic to Column
+- Display only link (instead dropdown) if only one action
+- Fix data if no filter set
+- deliverDownload typo
+- Move DefaultBrowserFormat and DefaultSettingsStorage to Renderer
+- Remove `UserTable` prefix
+
 ## [0.20.5]
 - check typed array interfaces
 

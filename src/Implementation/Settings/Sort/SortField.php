@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\DataTable\Implementation\UserTableSettings\Sort;
+namespace srag\DataTable\Implementation\Settings\Sort;
 
-use srag\DataTable\Component\UserTableSettings\Sort\SortField as SortFieldInterface;
-use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
+use srag\DataTable\Component\Settings\Sort\SortField as SortFieldInterface;
+use srag\DataTable\Component\Settings\Storage\SettingsStorage;
 use stdClass;
 
 /**
  * Class SortField
  *
- * @package srag\DataTable\Implementation\UserTableSettings\Sort
+ * @package srag\DataTable\Implementation\Settings\Sort
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

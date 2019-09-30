@@ -1,17 +1,17 @@
 <?php
 
-namespace srag\DataTable\Implementation\UserTableSettings;
+namespace srag\DataTable\Implementation\Settings;
 
 use ILIAS\UI\Component\ViewControl\Pagination;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\UserTableSettings\Settings as SettingsInterface;
-use srag\DataTable\Component\UserTableSettings\Sort\SortField;
+use srag\DataTable\Component\Settings\Settings as SettingsInterface;
+use srag\DataTable\Component\Settings\Sort\SortField;
 
 /**
- * Class UserTableSettings
+ * Class Settings
  *
- * @package srag\DataTable\Implementation\UserTableSettings
+ * @package srag\DataTable\Implementation\Settings
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

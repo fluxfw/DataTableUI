@@ -9,7 +9,7 @@ use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
+use srag\DataTable\Component\Settings\Storage\SettingsStorage;
 use srag\DIC\Plugin\Pluginable;
 use srag\DIC\Plugin\PluginInterface;
 
@@ -133,17 +133,17 @@ interface Table extends Component, Pluginable
 
 
     /**
-     * @return BrowserFormat
+     * @return BrowserFormat|null
      */
-    public function getBrowserFormat() : BrowserFormat;
+    public function getCustomBrowserFormat() : ?BrowserFormat;
 
 
     /**
-     * @param BrowserFormat $browser_format
+     * @param BrowserFormat|null $custom_browser_format
      *
      * @return self
      */
-    public function withBrowserFormat(BrowserFormat $browser_format) : self;
+    public function withCustomBrowserFormat(?BrowserFormat $custom_browser_format = null) : self;
 
 
     /**
@@ -175,17 +175,17 @@ interface Table extends Component, Pluginable
 
 
     /**
-     * @return SettingsStorage
+     * @return SettingsStorage|null
      */
-    public function getUserTableSettingsStorage() : SettingsStorage;
+    public function getCustomSettingsStorage() : ?SettingsStorage;
 
 
     /**
-     * @param SettingsStorage $user_table_settings_storage
+     * @param SettingsStorage|null $custom_settings_storage
      *
      * @return self
      */
-    public function withUserTableSettingsStorage(SettingsStorage $user_table_settings_storage) : self;
+    public function withCustomSettingsStorage(?SettingsStorage $custom_settings_storage = null) : self;
 
 
     /**
