@@ -2,6 +2,7 @@
 
 namespace srag\DataTable\Implementation\Column;
 
+use ILIAS\DI\Container;
 use srag\DataTable\Component\Column\Column as ColumnInterface;
 use srag\DataTable\Component\Column\Formater\Formater;
 use srag\DataTable\Component\UserTableSettings\Sort\SortField;
@@ -17,6 +18,10 @@ use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
 class Column implements ColumnInterface
 {
 
+    /**
+     * @var Container
+     */
+    protected $dic;
     /**
      * @var string
      */
@@ -58,14 +63,15 @@ class Column implements ColumnInterface
     /**
      * @inheritDoc
      */
-    public function __construct(string $key, string $title)
+    public function __construct(Container $dic, string $key, string $title)
     {
+        $this->dic = $dic;
+
         $this->key = $key;
 
         $this->title = $title;
 
-        global $DIC; // TODO: !!!
-        $this->formater = new DefaultFormater($DIC);
+        $this->formater = new DefaultFormater($this->dic);
     }
 
 
