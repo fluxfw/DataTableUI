@@ -1,6 +1,6 @@
 # Changelog
 
-## [x]
+## [0.21.0]
 - Pass $dic to Column
 - Display only link (instead dropdown) if only one action
 - Fix data if no filter set
