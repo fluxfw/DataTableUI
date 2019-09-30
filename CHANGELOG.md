@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.21.1]
+- Revert 'Display only link (instead dropdown) if only one action'
+
 ## [0.21.0]
 - Pass $dic to Column
 - Display only link (instead dropdown) if only one action
