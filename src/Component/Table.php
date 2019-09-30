@@ -133,17 +133,17 @@ interface Table extends Component, Pluginable
 
 
     /**
-     * @return BrowserFormat
+     * @return BrowserFormat|null
      */
-    public function getBrowserFormat() : BrowserFormat;
+    public function getCustomBrowserFormat() : ?BrowserFormat;
 
 
     /**
-     * @param BrowserFormat $browser_format
+     * @param BrowserFormat|null $custom_browser_format
      *
      * @return self
      */
-    public function withBrowserFormat(BrowserFormat $browser_format) : self;
+    public function withCustomBrowserFormat(?BrowserFormat $custom_browser_format = null) : self;
 
 
     /**
@@ -175,17 +175,17 @@ interface Table extends Component, Pluginable
 
 
     /**
-     * @return SettingsStorage
+     * @return SettingsStorage|null
      */
-    public function getUserTableSettingsStorage() : SettingsStorage;
+    public function getCustomUserTableSettingsStorage() : ?SettingsStorage;
 
 
     /**
-     * @param SettingsStorage $user_table_settings_storage
+     * @param SettingsStorage|null $custom_user_table_settings_storage
      *
      * @return self
      */
-    public function withUserTableSettingsStorage(SettingsStorage $user_table_settings_storage) : self;
+    public function withCustomUserTableSettingsStorage(?SettingsStorage $custom_user_table_settings_storage = null) : self;
 
 
     /**

@@ -12,7 +12,6 @@ use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table as TableInterface;
 use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
 use srag\DataTable\Implementation\Format\DefaultBrowserFormat;
-use srag\DataTable\Implementation\UserTableSettings\Storage\DefaultSettingsStorage;
 use srag\DIC\DICTrait;
 use srag\DIC\Plugin\PluginInterface;
 
@@ -57,9 +56,9 @@ class Table implements TableInterface
      */
     protected $filter_fields = [];
     /**
-     * @var BrowserFormat
+     * @var BrowserFormat|null
      */
-    protected $browser_format;
+    protected $custom_browser_format = null;
     /**
      * @var Format[]
      */
@@ -71,7 +70,7 @@ class Table implements TableInterface
     /**
      * @var SettingsStorage
      */
-    protected $user_table_settings_storage;
+    protected $custom_user_table_settings_storage;
 
 
     /**
@@ -90,11 +89,6 @@ class Table implements TableInterface
         $this->columns = $columns;
 
         $this->data_fetcher = $data_fetcher;
-
-        global $DIC; // TODO: !!!
-        $this->browser_format = new DefaultBrowserFormat($DIC);
-
-        $this->user_table_settings_storage = new DefaultSettingsStorage($DIC);
     }
 
 
@@ -266,20 +260,20 @@ class Table implements TableInterface
     /**
      * @inheritDoc
      */
-    public function getBrowserFormat() : BrowserFormat
+    public function getCustomBrowserFormat() : ?BrowserFormat
     {
-        return $this->browser_format;
+        return $this->custom_browser_format;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function withBrowserFormat(BrowserFormat $browser_format) : TableInterface
+    public function withCustomBrowserFormat(?BrowserFormat $custom_browser_format = null) : TableInterface
     {
         $clone = clone $this;
 
-        $clone->browser_format = $browser_format;
+        $clone->custom_browser_format = $custom_browser_format;
 
         return $clone;
     }
@@ -335,20 +329,20 @@ class Table implements TableInterface
     /**
      * @inheritDoc
      */
-    public function getUserTableSettingsStorage() : SettingsStorage
+    public function getCustomUserTableSettingsStorage() : ?SettingsStorage
     {
-        return $this->user_table_settings_storage;
+        return $this->custom_user_table_settings_storage;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function withUserTableSettingsStorage(SettingsStorage $user_table_settings_storage) : TableInterface
+    public function withCustomUserTableSettingsStorage(?SettingsStorage $custom_user_table_settings_storage = null) : TableInterface
     {
         $clone = clone $this;
 
-        $clone->user_table_settings_storage = $user_table_settings_storage;
+        $clone->custom_user_table_settings_storage = $custom_user_table_settings_storage;
 
         return $clone;
     }
