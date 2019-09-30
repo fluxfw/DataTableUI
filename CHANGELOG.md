@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.20.5]
+- check typed array interfaces
+
 ## [0.20.4]
 - check typed array interfaces
 

@@ -13,6 +13,7 @@ use srag\DataTable\Component\Table as TableInterface;
 use srag\DataTable\Component\UserTableSettings\Storage\SettingsStorage;
 use srag\DataTable\Implementation\Format\DefaultBrowserFormat;
 use srag\DataTable\Implementation\UserTableSettings\Storage\DefaultSettingsStorage;
+use srag\DIC\DICTrait;
 use srag\DIC\Plugin\PluginInterface;
 
 /**
@@ -26,6 +27,7 @@ class Table implements TableInterface
 {
 
     use ComponentHelper;
+    use DICTrait;
     /**
      * @var PluginInterface
      */
