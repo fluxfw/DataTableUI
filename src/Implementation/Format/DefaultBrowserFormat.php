@@ -17,10 +17,11 @@ use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Table;
 use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Settings\Sort\SortField as SortFieldInterface;
 use srag\DataTable\Component\Settings\Storage\SettingsStorage;
+use srag\DataTable\Component\Table;
+use srag\DataTable\Component\Table as TableInterface;
 use srag\DataTable\Implementation\Settings\Sort\SortField;
 use srag\DIC\DICTrait;
 use Throwable;
@@ -95,7 +96,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
      */
     public function getInputFormatId(Table $component) : ?string
     {
-        return filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_EXPORT_FORMAT_ID, $component->getTableId()));
+        return filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_EXPORT_FORMAT_ID, $component->getTableId()));
     }
 
 
@@ -154,7 +155,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         if ($column->isSelectable()) {
             $deselect_button = $this->dic->ui()->factory()->button()
                 ->shy($renderer->render($this->glyph_factory->remove()),
-                    self::getActionUrl($component->getActionUrl(), [SettingsStorage::VAR_DESELECT_COLUMN => $column->getKey()], $component->getTableId()));
+                    $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_DESELECT_COLUMN => $column->getKey()], $component->getTableId()));
         }
 
         if ($column->isSortable()) {
@@ -165,7 +166,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                     $sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
                         $this->dic->ui()->factory()->legacy($sort_button),
                         $this->glyph_factory->sortDescending()
-                    ]), self::getActionUrl($component->getActionUrl(), [
+                    ]), $this->getActionUrlWithParams($component->getActionUrl(), [
                         SettingsStorage::VAR_SORT_FIELD           => $column->getKey(),
                         SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortFieldInterface::SORT_DIRECTION_UP
                     ], $component->getTableId()));
@@ -173,7 +174,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                     $sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
                         $this->dic->ui()->factory()->legacy($sort_button),
                         $this->glyph_factory->sortAscending()
-                    ]), self::getActionUrl($component->getActionUrl(), [
+                    ]), $this->getActionUrlWithParams($component->getActionUrl(), [
                         SettingsStorage::VAR_SORT_FIELD           => $column->getKey(),
                         SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortFieldInterface::SORT_DIRECTION_DOWN
                     ], $component->getTableId()));
@@ -181,9 +182,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
                 $remove_sort_button = $this->dic->ui()->factory()->button()->shy($component->getPlugin()
                     ->translate("remove_sort", Table::LANG_MODULE),
-                    self::getActionUrl($component->getActionUrl(), [SettingsStorage::VAR_REMOVE_SORT_FIELD => $column->getKey()], $component->getTableId())); // TODO: Remove sort icon
+                    $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_REMOVE_SORT_FIELD => $column->getKey()], $component->getTableId())); // TODO: Remove sort icon
             } else {
-                $sort_button = $this->dic->ui()->factory()->button()->shy($sort_button, self::getActionUrl($component->getActionUrl(), [
+                $sort_button = $this->dic->ui()->factory()->button()->shy($sort_button, $this->getActionUrlWithParams($component->getActionUrl(), [
                     SettingsStorage::VAR_SORT_FIELD           => $column->getKey(),
                     SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortFieldInterface::SORT_DIRECTION_UP
                 ], $component->getTableId()));
@@ -212,7 +213,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         if (count($component->getMultipleActions()) > 0) {
             $this->tpl->setCurrentBlock("row_checkbox");
 
-            $this->tpl->setVariable("POST_VAR", self::actionParameter(Table::MULTIPLE_SELECT_POST_VAR, $component->getTableId()) . "[]");
+            $this->tpl->setVariable("POST_VAR", $this->actionParameter(Table::MULTIPLE_SELECT_POST_VAR, $component->getTableId()) . "[]");
 
             $this->tpl->setVariable("ROW_ID", $row->getRowId());
 
@@ -232,7 +233,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
             if (self::version()->is60()) {
                 $this->filter_form = $this->dic->uiService()->filter()
-                    ->standard($component->getTableId(), self::getActionUrl($component->getActionUrl(), [], $component->getTableId()), $filter_fields, array_fill(0, count($filter_fields), false),
+                    ->standard($component->getTableId(), $this->getActionUrlWithParams($component->getActionUrl(), [], $component->getTableId()), $filter_fields, array_fill(0, count($filter_fields), false),
                         true, true);
             } else {
                 foreach ($filter_fields as $key => &$field) {
@@ -244,7 +245,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                 }
 
                 $this->filter_form = $this->dic->ui()->factory()->input()->container()->form()
-                    ->standard(self::getActionUrl($component->getActionUrl(), [], $component->getTableId()), [
+                    ->standard($this->getActionUrlWithParams($component->getActionUrl(), [], $component->getTableId()), [
                         "filter" => self::dic()->ui()->factory()->input()->field()->section($filter_fields, $component->getPlugin()->translate("filter", Table::LANG_MODULE))
                     ]);
             }
@@ -259,42 +260,42 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     {
         //if (strtoupper(filter_input(INPUT_SERVER, "REQUEST_METHOD")) === "POST") {
 
-        $sort_field = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
-        $sort_field_direction = intval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
+        $sort_field = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
+        $sort_field_direction = intval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
         if (!empty($sort_field) && !empty($sort_field_direction)) {
             $settings = $settings->addSortField(new SortField($sort_field, $sort_field_direction));
 
             $settings = $settings->withFilterSet(true);
         }
 
-        $remove_sort_field = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_REMOVE_SORT_FIELD, $component->getTableId())));
+        $remove_sort_field = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_REMOVE_SORT_FIELD, $component->getTableId())));
         if (!empty($remove_sort_field)) {
             $settings = $settings->removeSortField($remove_sort_field);
 
             $settings = $settings->withFilterSet(true);
         }
 
-        $rows_count = intval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_ROWS_COUNT, $component->getTableId())));
+        $rows_count = intval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_ROWS_COUNT, $component->getTableId())));
         if (!empty($rows_count)) {
             $settings = $settings->withRowsCount($rows_count);
             $settings = $settings->withCurrentPage(); // Reset current page on row change
         }
 
-        $current_page = filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()));
+        $current_page = filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()));
         if ($current_page !== null) {
             $settings = $settings->withCurrentPage(intval($current_page));
 
             $settings = $settings->withFilterSet(true);
         }
 
-        $select_column = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_SELECT_COLUMN, $component->getTableId())));
+        $select_column = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SELECT_COLUMN, $component->getTableId())));
         if (!empty($select_column)) {
             $settings = $settings->selectColumn($select_column);
 
             $settings = $settings->withFilterSet(true);
         }
 
-        $deselect_column = strval(filter_input(INPUT_GET, self::actionParameter(SettingsStorage::VAR_DESELECT_COLUMN, $component->getTableId())));
+        $deselect_column = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_DESELECT_COLUMN, $component->getTableId())));
         if (!empty($deselect_column)) {
             $settings = $settings->deselectColumn($deselect_column);
 
@@ -381,7 +382,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     protected function getPagesSelector(Table $component, Settings $settings, Data $data) : Component
     {
         return $settings->getPagination($data)
-            ->withTargetURL($component->getActionUrl(), self::actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()));
+            ->withTargetURL($component->getActionUrl(), $this->actionParameter(SettingsStorage::VAR_CURRENT_PAGE, $component->getTableId()));
     }
 
 
@@ -399,7 +400,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                 return $this->dic->ui()->factory()->button()->shy($renderer->render([
                     $this->glyph_factory->add(),
                     $this->dic->ui()->factory()->legacy($column->getTitle())
-                ]), self::getActionUrl($component->getActionUrl(), [SettingsStorage::VAR_SELECT_COLUMN => $column->getKey()], $component->getTableId()));
+                ]), $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_SELECT_COLUMN => $column->getKey()], $component->getTableId()));
             }, array_filter($component->getColumns(), function (Column $column) use ($settings): bool {
                 return ($column->isSelectable() && !in_array($column->getKey(), $settings->getSelectedColumns()));
             })))->withLabel($component->getPlugin()->translate("add_columns", Table::LANG_MODULE));
@@ -424,7 +425,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                     ]));
                 } else {
                     return $this->dic->ui()->factory()->button()
-                        ->shy(strval($count), self::getActionUrl($component->getActionUrl(), [SettingsStorage::VAR_ROWS_COUNT => $count], $component->getTableId()));
+                        ->shy(strval($count), $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_ROWS_COUNT => $count], $component->getTableId()));
                 }
             }, Settings::ROWS_COUNT))->withLabel($component->getPlugin()
                 ->translate("rows_per_page", Table::LANG_MODULE, [$settings->getRowsCount()]));
@@ -441,7 +442,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (Format $format) use ($component): Shy {
             return $this->dic->ui()->factory()->button()
                 ->shy($format->getDisplayTitle($component),
-                    self::getActionUrl($component->getActionUrl(), [SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId()], $component->getTableId()));
+                    $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId()], $component->getTableId()));
         }, $component->getFormats()))->withLabel($component->getPlugin()->translate("export", Table::LANG_MODULE));
     }
 
@@ -502,15 +503,12 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
 
     /**
-     * @param string $action_url
-     * @param string $table_id
-     *
-     * @return string
+     * @inheritDoc
      */
-    public static function getActionUrl(string $action_url, array $params, string $table_id) : string
+    public function getActionUrlWithParams(string $action_url, array $params, string $table_id) : string
     {
         foreach ($params as $key => $value) {
-            $action_url = ilUtil::appendUrlParameterString($action_url, self::actionParameter($key, $table_id) . "=" . $value);
+            $action_url = ilUtil::appendUrlParameterString($action_url, $this->actionParameter($key, $table_id) . "=" . $value);
         }
 
         return $action_url;
@@ -518,13 +516,29 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
 
     /**
-     * @param string $key
-     * @param string $table_id
-     *
-     * @return string
+     * @inheritDoc
      */
-    public static function actionParameter(string $key, string $table_id) : string
+    public function actionParameter(string $key, string $table_id) : string
     {
         return $key . "_" . $table_id;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getActionRowId(string $table_id) : string
+    {
+        return strval(filter_input(INPUT_GET, $this->actionParameter(TableInterface::ACTION_GET_VAR, $table_id)));
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getMultipleActionRowIds(string $table_id) : array
+    {
+        return (filter_input(INPUT_POST, $this->actionParameter(TableInterface::MULTIPLE_SELECT_POST_VAR, $table_id), FILTER_DEFAULT, FILTER_FORCE_ARRAY)
+            ?? []);
     }
 }

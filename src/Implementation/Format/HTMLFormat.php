@@ -7,8 +7,8 @@ use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Table;
 use srag\DataTable\Component\Settings\Settings;
+use srag\DataTable\Component\Table;
 
 /**
  * Class HTMLFormat
@@ -84,18 +84,18 @@ class HTMLFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRows(Table $component, array $columns, Data $data, Settings $settings, Renderer $renderer) : void
+    protected function handleRows(Table $component, array $columns, Data $data, Renderer $renderer) : void
     {
         $this->tpl->setCurrentBlock("body");
 
-        parent::handleRows($component, $columns, $data, $settings, $renderer);
+        parent::handleRows($component, $columns, $data, $renderer);
     }
 
 
     /**
      * @inheritDoc
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Settings $settings, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row, Renderer $renderer) : void
     {
         $tpl = $this->tpl;
 
@@ -105,7 +105,7 @@ class HTMLFormat extends AbstractFormat
 
         $this->tpl->setCurrentBlock("row");
 
-        parent::handleRow($component, $columns, $row, $settings, $renderer);
+        parent::handleRow($component, $columns, $row, $renderer);
 
         $tpl->setVariable("ROW", $this->tpl->get());
 
