@@ -7,8 +7,8 @@ use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Table;
 use srag\DataTable\Component\Settings\Settings;
+use srag\DataTable\Component\Table;
 
 /**
  * Class CSVFormat
@@ -78,9 +78,9 @@ class CSVFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Settings $settings, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row, Renderer $renderer) : void
     {
-        parent::handleRow($component, $columns, $row, $settings, $renderer);
+        parent::handleRow($component, $columns, $row, $renderer);
 
         $this->tpl->addRow();
     }

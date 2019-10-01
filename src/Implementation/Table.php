@@ -9,9 +9,10 @@ use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Table as TableInterface;
 use srag\DataTable\Component\Settings\Storage\SettingsStorage;
+use srag\DataTable\Component\Table as TableInterface;
 use srag\DataTable\Implementation\Format\DefaultBrowserFormat;
+use srag\DataTable\Implementation\Settings\Storage\DefaultSettingsStorage;
 use srag\DIC\DICTrait;
 use srag\DIC\Plugin\PluginInterface;
 
@@ -56,9 +57,9 @@ class Table implements TableInterface
      */
     protected $filter_fields = [];
     /**
-     * @var BrowserFormat|null
+     * @var BrowserFormat
      */
-    protected $custom_browser_format = null;
+    protected $browser_format = null;
     /**
      * @var Format[]
      */
@@ -70,7 +71,7 @@ class Table implements TableInterface
     /**
      * @var SettingsStorage
      */
-    protected $custom_settings_storage;
+    protected $settings_storage;
 
 
     /**
@@ -260,20 +261,26 @@ class Table implements TableInterface
     /**
      * @inheritDoc
      */
-    public function getCustomBrowserFormat() : ?BrowserFormat
+    public function getBrowserFormat() : BrowserFormat
     {
-        return $this->custom_browser_format;
+        if ($this->browser_format === null) {
+            global $DIC; // TODO: !!!
+
+            $this->browser_format = new DefaultBrowserFormat($DIC);
+        }
+
+        return $this->browser_format;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function withCustomBrowserFormat(?BrowserFormat $custom_browser_format = null) : TableInterface
+    public function withBrowserFormat(BrowserFormat $browser_format) : TableInterface
     {
         $clone = clone $this;
 
-        $clone->custom_browser_format = $custom_browser_format;
+        $clone->browser_format = $browser_format;
 
         return $clone;
     }
@@ -329,40 +336,27 @@ class Table implements TableInterface
     /**
      * @inheritDoc
      */
-    public function getCustomSettingsStorage() : ?SettingsStorage
+    public function getSettingsStorage() : SettingsStorage
     {
-        return $this->custom_settings_storage;
+        if ($this->settings_storage === null) {
+            global $DIC; // TODO: !!!
+
+            $this->settings_storage = new DefaultSettingsStorage($DIC);
+        }
+
+        return $this->settings_storage;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function withCustomSettingsStorage(?SettingsStorage $custom_settings_storage = null) : TableInterface
+    public function withSettingsStorage(SettingsStorage $settings_storage) : TableInterface
     {
         $clone = clone $this;
 
-        $clone->custom_settings_storage = $custom_settings_storage;
+        $clone->settings_storage = $settings_storage;
 
         return $clone;
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getActionRowId() : string
-    {
-        return strval(filter_input(INPUT_GET, DefaultBrowserFormat::actionParameter(TableInterface::ACTION_GET_VAR, $this->getTableId())));
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function getMultipleActionRowIds() : array
-    {
-        return (filter_input(INPUT_POST, DefaultBrowserFormat::actionParameter(TableInterface::MULTIPLE_SELECT_POST_VAR, $this->getTableId()), FILTER_DEFAULT, FILTER_FORCE_ARRAY)
-            ?? []);
     }
 }

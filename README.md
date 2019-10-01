@@ -39,12 +39,12 @@ new Table(...);
 
 Get selected action row id
 ```php
-$table->getActionRowId();
+$table->getBrowserFormat()->getActionRowId();
 ```
 
-Get selected mutliple action row ids
+Get multiple selected action row ids
 ```php
-$table->getMultipleActionRowIds();
+$table->getBrowserFormat()->getMultipleActionRowIds();
 ```
 
 ### Requirements

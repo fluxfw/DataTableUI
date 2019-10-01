@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.21.2]
+- Revert 'Move DefaultBrowserFormat and DefaultSettingsStorage to Renderer'
+- Move `getActionRowId` and `getMultipleActionRowIds` to `BrowserFormat`
+
 ## [0.21.1]
 - Revert 'Display only link (instead dropdown) if only one action'
 
