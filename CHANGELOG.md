@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.21.3]
+- Fix
+
 ## [0.21.2]
 - Revert 'Move DefaultBrowserFormat and DefaultSettingsStorage to Renderer'
 - Move `getActionRowId` and `getMultipleActionRowIds` to `BrowserFormat`
