@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.21.4]
+- Use `ilUtil::deliverData`
+- Fix excel import bold header
+
 ## [0.21.3]
 - Fix
 

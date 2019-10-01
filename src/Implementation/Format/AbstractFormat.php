@@ -2,10 +2,9 @@
 
 namespace srag\DataTable\Implementation\Format;
 
-use GuzzleHttp\Psr7\Stream;
 use ILIAS\DI\Container;
 use ILIAS\UI\Renderer;
-use ilMimeTypeUtil;
+use ilUtil;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
@@ -105,17 +104,7 @@ abstract class AbstractFormat implements Format
     {
         $filename = $component->getTitle() . "." . $this->getFileExtension();
 
-        $stream = new Stream(fopen("php://memory", "rw"));
-        $stream->write($data);
-
-        $this->dic->http()->saveResponse($this->dic->http()->response()->withBody($stream)->withHeader("Content-Disposition", 'attachment; filename="'
-            . $filename . '"')// Filename
-        ->withHeader("Content-Type", ilMimeTypeUtil::APPLICATION__OCTET_STREAM)// Force download
-        ->withHeader("Expires", "0")->withHeader("Pragma", "public"));// No cache
-
-        $this->dic->http()->sendResponse();
-
-        exit;
+        ilUtil::deliverData($data, $filename);
     }
 
 
