@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.21.6]
+- Fix reset filter
+
 ## [0.21.5]
 - Apply and reset filter buttons
 - Fix store filter field values

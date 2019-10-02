@@ -316,7 +316,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                         $data = ($this->filter_form->getData() ?? [])["filter"] ?? [];
                     }
                 } catch (Throwable $ex) {
-
+                    $data = [];
                 }
 
                 $settings = $settings->withFilterFieldValues($data);
@@ -354,7 +354,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                     return $renderer->render([
                         $this->dic->ui()->factory()->legacy($matches[1] . $component->getPlugin()->translate("apply_filter", Table::LANG_MODULE) . $matches[3] . "&nbsp;"),
                         $this->dic->ui()->factory()->button()->standard($component->getPlugin()->translate("reset_filter", Table::LANG_MODULE),
-                            $component->getBrowserFormat()->getActionUrlWithParams($component->getActionUrl(), [], $component->getTableId()))
+                            $component->getBrowserFormat()->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_FILTER_FIELD_VALUES => true], $component->getTableId()))
                     ]);
                 }, $filter_form);
         }
