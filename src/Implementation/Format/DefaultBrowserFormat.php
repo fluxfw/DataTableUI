@@ -326,6 +326,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
                     $settings = $settings->withCurrentPage(); // Reset current page on filter change
                 }
+
+                $this->filter_form = null;
             }
         }
 
