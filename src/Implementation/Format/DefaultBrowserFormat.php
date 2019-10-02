@@ -233,7 +233,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
             if (self::version()->is60()) {
                 $this->filter_form = $this->dic->uiService()->filter()
-                    ->standard($component->getTableId(), $this->getActionUrlWithParams($component->getActionUrl(), [], $component->getTableId()), $filter_fields, array_fill(0, count($filter_fields), false),
+                    ->standard($component->getTableId(), $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_FILTER_FIELD_VALUES => true], $component->getTableId()),
+                        $filter_fields,
+                        array_fill(0, count($filter_fields), false),
                         true, true);
             } else {
                 foreach ($filter_fields as $key => &$field) {
@@ -245,7 +247,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                 }
 
                 $this->filter_form = $this->dic->ui()->factory()->input()->container()->form()
-                    ->standard($this->getActionUrlWithParams($component->getActionUrl(), [], $component->getTableId()), [
+                    ->standard($this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_FILTER_FIELD_VALUES => true], $component->getTableId()), [
                         "filter" => self::dic()->ui()->factory()->input()->field()->section($filter_fields, $component->getPlugin()->translate("filter", Table::LANG_MODULE))
                     ]);
             }
@@ -258,8 +260,6 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
      */
     public function handleSettingsInput(Table $component, Settings $settings) : Settings
     {
-        //if (strtoupper(filter_input(INPUT_SERVER, "REQUEST_METHOD")) === "POST") {
-
         $sort_field = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
         $sort_field_direction = intval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
         if (!empty($sort_field) && !empty($sort_field_direction)) {
@@ -303,13 +303,20 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         }
 
         if (count($component->getFilterFields()) > 0) {
-            $this->initFilterForm($component, $settings);
-            try {
-                if (self::version()->is60()) {
-                    $data = $this->dic->uiService()->filter()->getData($this->filter_form) ?? [];
-                } else {
-                    $this->filter_form = $this->filter_form->withRequest($this->dic->http()->request());
-                    $data = ($this->filter_form->getData() ?? [])["filter"] ?? [];
+            $filter_field_values = boolval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_FILTER_FIELD_VALUES, $component->getTableId())));
+            if ($filter_field_values) {
+
+                $this->initFilterForm($component, $settings);
+
+                try {
+                    if (self::version()->is60()) {
+                        $data = $this->dic->uiService()->filter()->getData($this->filter_form) ?? [];
+                    } else {
+                        $this->filter_form = $this->filter_form->withRequest($this->dic->http()->request());
+                        $data = ($this->filter_form->getData() ?? [])["filter"] ?? [];
+                    }
+                } catch (Throwable $ex) {
+
                 }
 
                 $settings = $settings->withFilterFieldValues($data);
@@ -319,8 +326,6 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
                     $settings = $settings->withCurrentPage(); // Reset current page on filter change
                 }
-            } catch (Throwable $ex) {
-
             }
         }
 
@@ -342,6 +347,17 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         $this->initFilterForm($component, $settings);
 
         $filter_form = $renderer->render($this->filter_form);
+
+        if (!self::version()->is60()) {
+            $filter_form = preg_replace_callback('/(<button class="btn btn-default" +data-action="#" id="[a-z0-9_]+">)(.+)(<\/button>)/',
+                function (array $matches) use ($renderer, $component): string {
+                    return $renderer->render([
+                        $this->dic->ui()->factory()->legacy($matches[1] . $component->getPlugin()->translate("apply_filter", Table::LANG_MODULE) . $matches[3] . "&nbsp;"),
+                        $this->dic->ui()->factory()->button()->standard($component->getPlugin()->translate("reset_filter", Table::LANG_MODULE),
+                            $component->getBrowserFormat()->getActionUrlWithParams($component->getActionUrl(), [], $component->getTableId()))
+                    ]);
+                }, $filter_form);
+        }
 
         $this->tpl->setCurrentBlock("filter");
 

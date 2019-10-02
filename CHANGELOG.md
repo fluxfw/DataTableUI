@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.21.5]
+- Apply and reset filter buttons
+- Fix store filter field values
+
 ## [0.21.4]
 - Use `ilUtil::deliverData`
 - Fix excel import bold header
