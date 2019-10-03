@@ -2,11 +2,10 @@
 
 namespace srag\DataTable\Component\Format;
 
-use ILIAS\DI\Container;
 use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Table;
 use srag\DataTable\Component\Settings\Settings;
+use srag\DataTable\Component\Table;
 
 /**
  * Interface Format
@@ -46,14 +45,6 @@ interface Format
      * @var int
      */
     const OUTPUT_TYPE_DOWNLOAD = 2;
-
-
-    /**
-     * Format constructor
-     *
-     * @param Container $dic
-     */
-    public function __construct(Container $dic);
 
 
     /**

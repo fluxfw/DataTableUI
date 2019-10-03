@@ -40,14 +40,6 @@ interface Settings
 
 
     /**
-     * Settings constructor
-     *
-     * @param Pagination $pagination
-     */
-    public function __construct(Pagination $pagination);
-
-
-    /**
      * @param mixed[] $key
      *
      * @return array
