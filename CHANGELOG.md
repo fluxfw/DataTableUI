@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.21.8]
+- Remove constructor from interface
+
 ## [0.21.7]
 - Fix reset filter
 

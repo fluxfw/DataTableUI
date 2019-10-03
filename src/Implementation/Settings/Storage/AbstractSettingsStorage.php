@@ -4,10 +4,10 @@ namespace srag\DataTable\Implementation\Settings\Storage;
 
 use ILIAS\DI\Container;
 use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Table;
 use srag\DataTable\Component\Settings\Settings as SettingsInterface;
 use srag\DataTable\Component\Settings\Sort\SortField as SortFieldInterface;
 use srag\DataTable\Component\Settings\Storage\SettingsStorage;
+use srag\DataTable\Component\Table;
 use srag\DataTable\Implementation\Settings\Sort\SortField;
 
 /**
@@ -27,7 +27,9 @@ abstract class AbstractSettingsStorage implements SettingsStorage
 
 
     /**
-     * @inheritDoc
+     * AbstractSettingsStorage constructor
+     *
+     * @param Container $dic
      */
     public function __construct(Container $dic)
     {

@@ -2,7 +2,6 @@
 
 namespace srag\DataTable\Component\Column\Formater;
 
-use ILIAS\DI\Container;
 use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
@@ -17,14 +16,6 @@ use srag\DataTable\Component\Format\Format;
  */
 interface Formater
 {
-
-    /**
-     * Formater constructor
-     *
-     * @param Container $dic
-     */
-    public function __construct(Container $dic);
-
 
     /**
      * @param Format   $format

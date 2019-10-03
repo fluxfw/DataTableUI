@@ -2,10 +2,9 @@
 
 namespace srag\DataTable\Component\Data\Fetcher;
 
-use ILIAS\DI\Container;
 use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Table;
 use srag\DataTable\Component\Settings\Settings;
+use srag\DataTable\Component\Table;
 
 /**
  * Interface DataFetcher
@@ -16,14 +15,6 @@ use srag\DataTable\Component\Settings\Settings;
  */
 interface DataFetcher
 {
-
-    /**
-     * DataFetcher constructor
-     *
-     * @param Container $dic
-     */
-    public function __construct(Container $dic);
-
 
     /**
      * @param Settings $settings

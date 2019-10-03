@@ -2,7 +2,6 @@
 
 namespace srag\DataTable\Component\Column;
 
-use ILIAS\DI\Container;
 use srag\DataTable\Component\Column\Formater\Formater;
 use srag\DataTable\Component\Settings\Sort\SortField;
 
@@ -15,16 +14,6 @@ use srag\DataTable\Component\Settings\Sort\SortField;
  */
 interface Column
 {
-
-    /**
-     * Column constructor
-     *
-     * @param Container $dic
-     * @param string    $key
-     * @param string    $title
-     */
-    public function __construct(Container $dic, string $key, string $title);
-
 
     /**
      * @return string

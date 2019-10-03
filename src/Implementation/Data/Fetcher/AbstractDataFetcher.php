@@ -23,7 +23,9 @@ abstract class AbstractDataFetcher implements DataFetcher
 
 
     /**
-     * @inheritDoc
+     * AbstractDataFetcher constructor
+     *
+     * @param Container $dic
      */
     public function __construct(Container $dic)
     {

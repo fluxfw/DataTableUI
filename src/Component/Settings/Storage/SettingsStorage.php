@@ -2,7 +2,6 @@
 
 namespace srag\DataTable\Component\Settings\Storage;
 
-use ILIAS\DI\Container;
 use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Table;
 
@@ -71,14 +70,6 @@ interface SettingsStorage
             self::VAR_FILTER_FIELD_VALUES,
             self::VAR_SELECTED_COLUMNS
         ];
-
-
-    /**
-     * SettingsStorage constructor
-     *
-     * @param Container $dic
-     */
-    public function __construct(Container $dic);
 
 
     /**
