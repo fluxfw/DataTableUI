@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.21.9]
+- Allows `$data` to be `null` and remove create `Data` instance in `Renderer`
+
 ## [0.21.8]
 - Remove constructor from interface
 
