@@ -153,7 +153,7 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
      *
      * @return string
      */
-    protected function getQuery(Settings $settings, $max_count = false) : string
+    protected function getQuery(Settings $settings, bool $max_count = false) : string
     {
         $sql = ' FROM object_data';
 
@@ -173,9 +173,8 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
                     }, $settings->getSortFields()));
             }
 
-            if (!empty($settings->getLimitStart()) && !empty($settings->getLimitEnd())) {
-                $sql .= ' LIMIT ' . $this->dic->database()->quote($settings->getLimitStart(), ilDBConstants::T_INTEGER) . ','
-                    . $this->dic->database()->quote($settings->getLimitEnd(), ilDBConstants::T_INTEGER);
+            if (!empty($settings->getOffset()) && !empty($settings->getRowsCount())) {
+                $this->dic->database()->setLimit($settings->getRowsCount(), $settings->getOffset());
             }
         }
 

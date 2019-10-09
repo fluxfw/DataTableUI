@@ -105,7 +105,7 @@ class BaseExampleDataFetcher extends AbstractDataFetcher
 
         $max_count = count($data);
 
-        $data = array_slice($data, $settings->getLimitStart(), $settings->getRowsCount());
+        $data = array_slice($data, $settings->getOffset(), $settings->getRowsCount());
 
         $data = array_map(function (stdClass $row) : RowData {
             return new PropertyRowData(strval($row->column1), $row);
