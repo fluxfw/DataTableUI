@@ -473,7 +473,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     protected function handleDisplayCount(Table $component, Settings $settings, ?Data $data) : void
     {
         $count = $component->getPlugin()->translate("count", Table::LANG_MODULE, [
-            ($data !== null && $data->getDataCount() > 0 ? ($settings->getLimitStart() + 1) : 0),
+            ($data !== null && $data->getDataCount() > 0 ? ($settings->getOffset() + 1) : 0),
             ($data === null ? 0 : $data->getMaxCount())
         ]);
 

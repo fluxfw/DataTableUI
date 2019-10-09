@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.21.10]
+- Remove not needed `getLimitEnd` and rename `getLimitStart` to `getOffset`
+
 ## [0.21.9]
 - Allows `$data` to be `null` and remove create `Data` instance in `Renderer`
 
