@@ -31,11 +31,7 @@ abstract class AbstractActionColumn extends Column implements ActionColumnInterf
 
 
     /**
-     * AbstractActionColumn constructor
-     *
-     * @param Container $dic
-     * @param string    $key
-     * @param string    $title
+     * @inheritDoc
      */
     public function __construct(Container $dic, string $key, string $title)
     {
