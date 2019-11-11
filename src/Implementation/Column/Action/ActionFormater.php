@@ -46,7 +46,9 @@ class ActionFormater extends AbstractFormater
         return $renderer->render($this->dic->ui()->factory()->dropdown()
             ->standard(array_map(function (Shy $button) use ($format, $row, $table_id): Shy {
                 return Closure::bind(function () use ($button, $format, $row, $table_id)/*:void*/ {
-                    $this->action = $format->getActionUrlWithParams($this->getAction(), [Table::ACTION_GET_VAR => $row->getRowId()], $table_id);
+                    if (empty($this->triggered_signals("click"))) {
+                        $this->action = $format->getActionUrlWithParams($this->getAction(), [Table::ACTION_GET_VAR => $row->getRowId()], $table_id);
+                    }
 
                     return $this;
                 }, $button, Button::class)();
