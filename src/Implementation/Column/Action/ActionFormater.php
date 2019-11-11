@@ -2,7 +2,9 @@
 
 namespace srag\DataTable\Implementation\Column\Action;
 
+use Closure;
 use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Implementation\Component\Button\Button;
 use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Action\ActionColumn;
 use srag\DataTable\Component\Column\Column;
@@ -42,9 +44,12 @@ class ActionFormater extends AbstractFormater
         $actions = $column->getActions($row);
 
         return $renderer->render($this->dic->ui()->factory()->dropdown()
-            ->standard(array_map(function (string $title, string $action) use ($format, $row, $table_id): Shy {
-                return $this->dic->ui()->factory()->button()
-                    ->shy($title, $format->getActionUrlWithParams($action, [Table::ACTION_GET_VAR => $row->getRowId()], $table_id));
-            }, array_keys($actions), $actions))->withLabel($column->getTitle()));
+            ->standard(array_map(function (Shy $button) use ($format, $row, $table_id): Shy {
+                return Closure::bind(function () use ($button, $format, $row, $table_id)/*:void*/ {
+                    $this->action = $format->getActionUrlWithParams($this->getAction(), [Table::ACTION_GET_VAR => $row->getRowId()], $table_id);
+
+                    return $this;
+                }, $button, Button::class)();
+            }, $actions))->withLabel($column->getTitle()));
     }
 }

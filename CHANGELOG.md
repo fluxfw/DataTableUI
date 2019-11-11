@@ -1,5 +1,8 @@
 # Changelog
 
+## [x]
+- `getActions` to buttons
+
 ## [0.21.10]
 - Remove not needed `getLimitEnd` and rename `getLimitStart` to `getOffset`
 

@@ -110,7 +110,7 @@ class AdvancedExampleActionColumns extends AbstractActionColumn
         $action_url = $this->dic->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
         return [
-            "Action" => $action_url
+            $this->dic->ui()->factory()->button()->shy("Action", $action_url)
         ];
     }
 }

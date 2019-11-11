@@ -2,6 +2,7 @@
 
 namespace srag\DataTable\Component\Column\Action;
 
+use ILIAS\UI\Component\Button\Shy;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
 
@@ -18,7 +19,7 @@ interface ActionColumn extends Column
     /**
      * @param RowData $row
      *
-     * @return string[]
+     * @return Shy[]
      */
     public function getActions(RowData $row) : array;
 }
