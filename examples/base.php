@@ -21,7 +21,7 @@ function base() : string
 
     $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
-    $table = new Table("example_datatable_actions", $action_url, "Example data table with actions", [
+    $table = new Table("example_datatable_actions", $action_url, "Example data table", [
         new Column($DIC, "column1", "Column 1"),
         new Column($DIC, "column2", "Column 2"),
         new Column($DIC, "column3", "Column 3")
