@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\DataTable\Component\Column\Formater;
+namespace srag\DataTable\Component\Column\Formatter;
 
 use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
@@ -8,13 +8,13 @@ use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
 
 /**
- * Interface Formater
+ * Interface Formatter
  *
- * @package srag\DataTable\Component\Column\Formater
+ * @package srag\DataTable\Component\Column\Formatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-interface Formater
+interface Formatter
 {
 
     /**

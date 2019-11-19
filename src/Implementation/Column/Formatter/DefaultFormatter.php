@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\DataTable\Implementation\Column\Formater;
+namespace srag\DataTable\Implementation\Column\Formatter;
 
 use ilExcel;
 use ILIAS\UI\Renderer;
@@ -9,13 +9,13 @@ use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
 
 /**
- * Class DefaultFormater
+ * Class DefaultFormatter
  *
- * @package srag\DataTable\Implementation\Column\Formater
+ * @package srag\DataTable\Implementation\Column\Formatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class DefaultFormater extends AbstractFormater
+class DefaultFormatter extends AbstractFormatter
 {
 
     /**

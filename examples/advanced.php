@@ -7,9 +7,10 @@ use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Settings\Sort\SortField;
-use srag\DataTable\Implementation\Column\Action\AbstractActionColumn;
 use srag\DataTable\Implementation\Column\Column;
-use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
+use srag\DataTable\Implementation\Column\Formatter\AbstractActionsFormatter;
+use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
+use srag\DataTable\Implementation\Column\Formatter\LinkColumnFormatter;
 use srag\DataTable\Implementation\Data\Data;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
 use srag\DataTable\Implementation\Data\Row\PropertyRowData;
@@ -32,10 +33,10 @@ function advanced() : string
 
     $table = (new Table("example_datatable_advanced", $action_url, "Advanced example data table", [
         (new Column($DIC, "obj_id", "Id"))->withDefaultSelected(false),
-        (new Column($DIC, "title", "Title"))->withDefaultSort(true),
-        (new Column($DIC, "type", "Type"))->withFormater(new AdvancedExampleFormater($DIC)),
+        (new Column($DIC, "title", "Title"))->withFormatter(new LinkColumnFormatter($DIC))->withDefaultSort(true),
+        (new Column($DIC, "type", "Type"))->withFormatter(new AdvancedExampleFormatter($DIC)),
         (new Column($DIC, "description", "Description"))->withDefaultSelected(false)->withSortable(false),
-        new AdvancedExampleActionColumns($DIC, "actions", "Actions")
+        (new Column($DIC, "actions", "Actions"))->withFormatter(new AdvancedExampleActionsFormatter($DIC))
     ], new AdvancedExampleDataFetcher($DIC)
     ))->withFilterFields([
         "title" => $DIC->ui()->factory()->input()->field()->text("Title"),
@@ -65,11 +66,11 @@ function advanced() : string
 }
 
 /**
- * Class AdvancedExampleFormater
+ * Class AdvancedExampleFormatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class AdvancedExampleFormater extends DefaultFormater
+class AdvancedExampleFormatter extends DefaultFormatter
 {
 
     /**
@@ -95,11 +96,11 @@ class AdvancedExampleFormater extends DefaultFormater
 }
 
 /**
- * Class AdvancedExampleActionColumns
+ * Class AdvancedExampleActionsFormatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class AdvancedExampleActionColumns extends AbstractActionColumn
+class AdvancedExampleActionsFormatter extends AbstractActionsFormatter
 {
 
     /**
@@ -110,7 +111,7 @@ class AdvancedExampleActionColumns extends AbstractActionColumn
         $action_url = $this->dic->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
         return [
-            "Action" => $action_url
+            $this->dic->ui()->factory()->button()->shy("Action", $action_url)
         ];
     }
 }
@@ -134,6 +135,8 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
 
         $rows = [];
         while (!empty($row = $this->dic->database()->fetchObject($result))) {
+            $row->title_link = ilLink::_getLink(current(ilObject::_getAllReferences($row->obj_id)));
+
             $rows[] = new PropertyRowData(strval($row->obj_id), $row);
         }
 
