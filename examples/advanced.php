@@ -33,7 +33,7 @@ function advanced() : string
 
     $table = (new Table("example_datatable_advanced", $action_url, "Advanced example data table", [
         (new Column($DIC, "obj_id", "Id"))->withDefaultSelected(false),
-        ((new Column($DIC, "title", "Title")))->withFormatter(new LinkColumnFormatter($DIC))->withDefaultSort(true),
+        (new Column($DIC, "title", "Title"))->withFormatter(new LinkColumnFormatter($DIC))->withDefaultSort(true),
         (new Column($DIC, "type", "Type"))->withFormatter(new AdvancedExampleFormatter($DIC)),
         (new Column($DIC, "description", "Description"))->withDefaultSelected(false)->withSortable(false),
         (new Column($DIC, "actions", "Actions"))->withFormatter(new AdvancedExampleActionsFormatter($DIC))
