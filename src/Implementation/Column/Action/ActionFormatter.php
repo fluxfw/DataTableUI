@@ -10,16 +10,16 @@ use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table;
-use srag\DataTable\Implementation\Column\Formater\AbstractFormater;
+use srag\DataTable\Implementation\Column\Formatter\AbstractFormatter;
 
 /**
- * Class ActionFormater
+ * Class ActionFormatter
  *
  * @package srag\DataTable\Implementation\Column\Action
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ActionFormater extends AbstractFormater
+class ActionFormatter extends AbstractFormatter
 {
 
     /**

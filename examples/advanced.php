@@ -9,7 +9,7 @@ use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Settings\Sort\SortField;
 use srag\DataTable\Implementation\Column\Action\AbstractActionColumn;
 use srag\DataTable\Implementation\Column\Column;
-use srag\DataTable\Implementation\Column\Formater\DefaultFormater;
+use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
 use srag\DataTable\Implementation\Data\Data;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
 use srag\DataTable\Implementation\Data\Row\PropertyRowData;
@@ -33,7 +33,7 @@ function advanced() : string
     $table = (new Table("example_datatable_advanced", $action_url, "Advanced example data table", [
         (new Column($DIC, "obj_id", "Id"))->withDefaultSelected(false),
         (new Column($DIC, "title", "Title"))->withDefaultSort(true),
-        (new Column($DIC, "type", "Type"))->withFormater(new AdvancedExampleFormater($DIC)),
+        (new Column($DIC, "type", "Type"))->withFormatter(new AdvancedExampleFormatter($DIC)),
         (new Column($DIC, "description", "Description"))->withDefaultSelected(false)->withSortable(false),
         new AdvancedExampleActionColumns($DIC, "actions", "Actions")
     ], new AdvancedExampleDataFetcher($DIC)
@@ -65,11 +65,11 @@ function advanced() : string
 }
 
 /**
- * Class AdvancedExampleFormater
+ * Class AdvancedExampleFormatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class AdvancedExampleFormater extends DefaultFormater
+class AdvancedExampleFormatter extends DefaultFormatter
 {
 
     /**

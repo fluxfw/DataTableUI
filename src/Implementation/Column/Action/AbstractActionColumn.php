@@ -37,6 +37,6 @@ abstract class AbstractActionColumn extends Column implements ActionColumnInterf
     {
         parent::__construct($dic, $key, $title);
 
-        $this->formater = new ActionFormater($this->dic);
+        $this->formatter = new ActionFormatter($this->dic);
     }
 }
