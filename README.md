@@ -1,4 +1,4 @@
-ILIAS 6.0 Table Data UI
+ILIAS Data Table UI Component
 
 ### Usage
 
