@@ -1,10 +1,10 @@
 # Changelog
 
-## [x]
+## [0.22.0]
 - Fix typo in `Formatter`
 - Include some formatters
 - Add `StaticDataFetcher`
-- Change an actions column (Only `ActionsFormatter`)
+- Change on actions column (Only `ActionsFormatter`)
 
 ## [0.21.10]
 - Remove not needed `getLimitEnd` and rename `getLimitStart` to `getOffset`
