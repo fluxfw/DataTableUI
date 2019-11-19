@@ -1,18 +1,18 @@
 <?php
 
-namespace srag\DataTable\Implementation\Column\Formater;
+namespace srag\DataTable\Implementation\Column\Formatter;
 
 use ILIAS\DI\Container;
-use srag\DataTable\Component\Column\Formater\Formater;
+use srag\DataTable\Component\Column\Formatter\Formatter;
 
 /**
- * Class AbstractFormater
+ * Class AbstractFormatter
  *
- * @package srag\DataTable\Implementation\Column\Formater
+ * @package srag\DataTable\Implementation\Column\Formatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-abstract class AbstractFormater implements Formater
+abstract class AbstractFormatter implements Formatter
 {
 
     /**
@@ -22,7 +22,7 @@ abstract class AbstractFormater implements Formater
 
 
     /**
-     * AbstractFormater constructor
+     * AbstractFormatter constructor
      *
      * @param Container $dic
      */

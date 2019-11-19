@@ -2,7 +2,7 @@
 
 namespace srag\DataTable\Component\Column;
 
-use srag\DataTable\Component\Column\Formater\Formater;
+use srag\DataTable\Component\Column\Formatter\Formatter;
 use srag\DataTable\Component\Settings\Sort\SortField;
 
 /**
@@ -44,17 +44,17 @@ interface Column
 
 
     /**
-     * @return Formater
+     * @return Formatter
      */
-    public function getFormater() : Formater;
+    public function getFormatter() : Formatter;
 
 
     /**
-     * @param Formater $formater
+     * @param Formatter $formatter
      *
      * @return self
      */
-    public function withFormater(Formater $formater) : self;
+    public function withFormatter(Formatter $formatter) : self;
 
 
     /**
