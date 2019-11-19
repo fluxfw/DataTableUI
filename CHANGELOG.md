@@ -1,6 +1,9 @@
 # Changelog
 
 ## [x]
+- Fix typo in `Formatter`
+- Include some formatters
+- Add `StaticDataFetcher`
 - `getActions` to buttons
 
 ## [0.21.10]
