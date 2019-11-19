@@ -1,48 +1,34 @@
 <?php
 
-namespace srag\DataTable\Implementation\Column\Action;
+namespace srag\DataTable\Implementation\Column\Formatter;
 
 use Closure;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Implementation\Component\Button\Button;
 use ILIAS\UI\Renderer;
-use srag\DataTable\Component\Column\Action\ActionColumn;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Table;
-use srag\DataTable\Implementation\Column\Formatter\AbstractFormatter;
 
 /**
- * Class ActionFormatter
+ * Class AbstractActionsFormatter
  *
- * @package srag\DataTable\Implementation\Column\Action
+ * @package srag\DataTable\Implementation\Column\Formatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class ActionFormatter extends AbstractFormatter
+abstract class AbstractActionsFormatter extends DefaultFormatter
 {
-
-    /**
-     * @inheritDoc
-     */
-    public function formatHeaderCell(Format $format, Column $column, string $table_id, Renderer $renderer) : string
-    {
-        return $column->getTitle();
-    }
-
 
     /**
      * @inheritDoc
      *
      * @param BrowserFormat $format
-     * @param ActionColumn  $column
      */
     public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer) : string
     {
-        $actions = $column->getActions($row);
-
         return $renderer->render($this->dic->ui()->factory()->dropdown()
             ->standard(array_map(function (Shy $button) use ($format, $row, $table_id): Shy {
                 return Closure::bind(function () use ($button, $format, $row, $table_id)/*:void*/ {
@@ -52,6 +38,14 @@ class ActionFormatter extends AbstractFormatter
 
                     return $this;
                 }, $button, Button::class)();
-            }, $actions))->withLabel($column->getTitle()));
+            }, $this->getActions($row)))->withLabel($column->getTitle()));
     }
+
+
+    /**
+     * @param RowData $row
+     *
+     * @return Shy[]
+     */
+    protected abstract function getActions(RowData $row) : array;
 }

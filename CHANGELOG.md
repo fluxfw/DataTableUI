@@ -4,7 +4,7 @@
 - Fix typo in `Formatter`
 - Include some formatters
 - Add `StaticDataFetcher`
-- `getActions` to buttons
+- Change an actions column (Only `ActionsFormatter`)
 
 ## [0.21.10]
 - Remove not needed `getLimitEnd` and rename `getLimitStart` to `getOffset`

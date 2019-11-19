@@ -6,6 +6,7 @@ use ILIAS\DI\Container;
 use srag\DataTable\Component\Column\Column as ColumnInterface;
 use srag\DataTable\Component\Column\Formatter\Formatter;
 use srag\DataTable\Component\Settings\Sort\SortField;
+use srag\DataTable\Implementation\Column\Formatter\AbstractActionsFormatter;
 use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
 
 /**
@@ -136,6 +137,12 @@ class Column implements ColumnInterface
         $clone = clone $this;
 
         $clone->formatter = $formatter;
+
+        if ($clone->formatter instanceof AbstractActionsFormatter) {
+            $clone->sortable = false;
+            $clone->selectable = false;
+            $clone->exportable = false;
+        }
 
         return $clone;
     }
