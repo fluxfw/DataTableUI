@@ -27,7 +27,7 @@ function base() : string
         new Column($DIC, "column1", "Column 1"),
         new Column($DIC, "column2", "Column 2"),
         new Column($DIC, "column3", "Column 3")
-    ], new StaticDataFetcher($DIC, $data));
+    ], new StaticDataFetcher($DIC, $data, "column1"));
 
     return $DIC->ui()->renderer()->render($table);
 }

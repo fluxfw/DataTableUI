@@ -25,18 +25,24 @@ class StaticDataFetcher extends AbstractDataFetcher
      * @var object[]
      */
     protected $data;
+    /**
+     * @var string
+     */
+    protected $id_key;
 
 
     /**
      * @inheritDoc
      *
      * @param object[] $data
+     * @param string   $id_key
      */
-    public function __construct(Container $dic, array $data)
+    public function __construct(Container $dic, array $data, string $id_key)
     {
         parent::__construct($dic);
 
         $this->data = $data;
+        $this->id_key = $id_key;
     }
 
 
@@ -102,7 +108,7 @@ class StaticDataFetcher extends AbstractDataFetcher
         $data = array_slice($data, $settings->getOffset(), $settings->getRowsCount());
 
         $data = array_map(function (stdClass $row) : RowData {
-            return new PropertyRowData(strval($row->column1), $row);
+            return new PropertyRowData(strval($row->{$this->id_key}), $row);
         }, $data);
 
         return new Data($data, $max_count);
