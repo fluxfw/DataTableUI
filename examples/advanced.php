@@ -10,6 +10,7 @@ use srag\DataTable\Component\Settings\Sort\SortField;
 use srag\DataTable\Implementation\Column\Column;
 use srag\DataTable\Implementation\Column\Formatter\AbstractActionsFormatter;
 use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
+use srag\DataTable\Implementation\Column\Formatter\LanguageVariableFormatter;
 use srag\DataTable\Implementation\Column\Formatter\LinkColumnFormatter;
 use srag\DataTable\Implementation\Data\Data;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
@@ -34,7 +35,8 @@ function advanced() : string
     $table = (new Table("example_datatable_advanced", $action_url, "Advanced example data table", [
         (new Column($DIC, "obj_id", "Id"))->withDefaultSelected(false),
         (new Column($DIC, "title", "Title"))->withFormatter(new LinkColumnFormatter($DIC))->withDefaultSort(true),
-        (new Column($DIC, "type", "Type"))->withFormatter(new AdvancedExampleFormatter($DIC)),
+        (new Column($DIC, "type", "Type"))->withFormatter(new LanguageVariableFormatter($DIC, "obj")),
+        (new Column($DIC, "type_icon", "Type icon"))->withFormatter(new AdvancedExampleFormatter($DIC)),
         (new Column($DIC, "description", "Description"))->withDefaultSelected(false)->withSortable(false),
         (new Column($DIC, "actions", "Actions"))->withFormatter(new AdvancedExampleActionsFormatter($DIC))
     ], new AdvancedExampleDataFetcher($DIC)
@@ -135,6 +137,8 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
 
         $rows = [];
         while (!empty($row = $this->dic->database()->fetchObject($result))) {
+            $row->type_icon = $row->type;
+
             $row->title_link = ilLink::_getLink(current(ilObject::_getAllReferences($row->obj_id)));
 
             $rows[] = new PropertyRowData(strval($row->obj_id), $row);
