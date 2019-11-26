@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.23.1]
+- Fix `StaticDataFetcher`
+
 ## [0.23.0]
 - `LanguageVariableFormatter`
 
