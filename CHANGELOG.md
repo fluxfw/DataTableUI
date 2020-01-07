@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.23.2]
+- Fix typo in `Formatter`
+
 ## [0.23.1]
 - Fix `StaticDataFetcher`
 

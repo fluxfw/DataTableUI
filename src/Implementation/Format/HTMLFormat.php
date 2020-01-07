@@ -73,9 +73,9 @@ class HTMLFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
+    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
     {
-        $this->tpl->setVariable("HEADER", $formated_column);
+        $this->tpl->setVariable("HEADER", $formatted_column);
 
         $this->tpl->parseCurrentBlock();
     }
@@ -127,9 +127,9 @@ class HTMLFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRowColumn(string $formated_row_column) : void
+    protected function handleRowColumn(string $formatted_row_column) : void
     {
-        $this->tpl->setVariable("COLUMN", $formated_row_column);
+        $this->tpl->setVariable("COLUMN", $formatted_row_column);
 
         $this->tpl->parseCurrentBlock();
     }
