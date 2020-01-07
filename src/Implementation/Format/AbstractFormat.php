@@ -179,7 +179,7 @@ abstract class AbstractFormat implements Format
 
 
     /**
-     * @param string   $formated_column
+     * @param string   $formatted_column
      * @param Table    $component
      * @param Column   $column
      * @param Settings $settings
@@ -187,7 +187,7 @@ abstract class AbstractFormat implements Format
      *
      * @return mixed
      */
-    protected abstract function handleColumn(string $formated_column, Table $component, Column $column, Settings $settings, Renderer $renderer);
+    protected abstract function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings, Renderer $renderer);
 
 
     /**
@@ -222,9 +222,9 @@ abstract class AbstractFormat implements Format
 
 
     /**
-     * @param string $formated_row_column
+     * @param string $formatted_row_column
      */
-    protected abstract function handleRowColumn(string $formated_row_column);
+    protected abstract function handleRowColumn(string $formatted_row_column);
 
 
     /**

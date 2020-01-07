@@ -146,10 +146,10 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
+    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
     {
         $deselect_button = $this->dic->ui()->factory()->legacy("");
-        $sort_button = $formated_column;
+        $sort_button = $formatted_column;
         $remove_sort_button = $this->dic->ui()->factory()->legacy("");
 
         if ($column->isSelectable()) {
@@ -193,13 +193,13 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
             $sort_button = $this->dic->ui()->factory()->legacy($sort_button);
         }
 
-        $formated_column = $renderer->render([
+        $formatted_column = $renderer->render([
             $deselect_button,
             $sort_button,
             $remove_sort_button
         ]);
 
-        parent::handleColumn($formated_column, $component, $column, $settings, $renderer);
+        parent::handleColumn($formatted_column, $component, $column, $settings, $renderer);
     }
 
 

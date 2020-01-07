@@ -92,9 +92,9 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
+    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
     {
-        $this->tpl->setCell($this->current_row, $this->current_col, $formated_column);
+        $this->tpl->setCell($this->current_row, $this->current_col, $formatted_column);
 
         $this->current_col++;
     }
@@ -116,9 +116,9 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRowColumn(string $formated_row_column) : void
+    protected function handleRowColumn(string $formatted_row_column) : void
     {
-        $this->tpl->setCell($this->current_row, $this->current_col, $formated_row_column);
+        $this->tpl->setCell($this->current_row, $this->current_col, $formatted_row_column);
 
         $this->current_col++;
     }

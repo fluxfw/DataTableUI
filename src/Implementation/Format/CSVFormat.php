@@ -69,9 +69,9 @@ class CSVFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formated_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
+    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
     {
-        $this->tpl->addColumn($formated_column);
+        $this->tpl->addColumn($formatted_column);
     }
 
 
@@ -89,9 +89,9 @@ class CSVFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRowColumn(string $formated_row_column) : void
+    protected function handleRowColumn(string $formatted_row_column) : void
     {
-        $this->tpl->addColumn($formated_row_column);
+        $this->tpl->addColumn($formatted_row_column);
     }
 
 
