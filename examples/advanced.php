@@ -113,7 +113,7 @@ class AdvancedExampleActionsFormatter extends AbstractActionsFormatter
         $action_url = $this->dic->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
         return [
-            $this->dic->ui()->factory()->button()->shy("Action", $action_url)
+            $this->dic->ui()->factory()->link()->standard("Action", $action_url)
         ];
     }
 }
