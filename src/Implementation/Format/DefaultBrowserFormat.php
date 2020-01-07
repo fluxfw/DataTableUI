@@ -3,11 +3,11 @@
 namespace srag\DataTable\Implementation\Format;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Glyph\Factory as GlyphFactory54;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterStandard;
 use ILIAS\UI\Component\Input\Container\Form\Standard as FilterStandard54;
+use ILIAS\UI\Component\Link\Standard;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Renderer;
 use ilUtil;
@@ -414,7 +414,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     protected function getColumnsSelector(Table $component, Settings $settings, Renderer $renderer) : Component
     {
         return $this->dic->ui()->factory()->dropdown()
-            ->standard(array_map(function (Column $column) use ($component, $settings, $renderer): Shy {
+            ->standard(array_map(function (Column $column) use ($component, $settings, $renderer): Standard {
                 return $this->dic->ui()->factory()->link()->standard($renderer->render([
                     $this->glyph_factory->add(),
                     $this->dic->ui()->factory()->legacy($column->getTitle())
@@ -457,10 +457,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
      */
     protected function getExportsSelector(Table $component) : Component
     {
-        return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (Format $format) use ($component): Shy {
-            return $this->dic->ui()->factory()->button()
-                ->shy($format->getDisplayTitle($component),
-                    $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId()], $component->getTableId()));
+        return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (Format $format) use ($component): Standard {
+            return $this->dic->ui()->factory()->link()->standard($format->getDisplayTitle($component),
+                $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId()], $component->getTableId()));
         }, $component->getFormats()))->withLabel($component->getPlugin()->translate("export", Table::LANG_MODULE));
     }
 
@@ -504,7 +503,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         $multiple_actions = [
             $this->dic->ui()->factory()->legacy($tpl_checkbox->get()),
             $this->dic->ui()->factory()->legacy($component->getPlugin()->translate("select_all", Table::LANG_MODULE)),
-            $this->dic->ui()->factory()->dropdown()->standard(array_map(function (string $title, string $action) : Shy {
+            $this->dic->ui()->factory()->dropdown()->standard(array_map(function (string $title, string $action) : Standard {
                 return $this->dic->ui()->factory()->link()->standard($title, $action);
             }, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel($component->getPlugin()
                 ->translate("multiple_actions", Table::LANG_MODULE))
