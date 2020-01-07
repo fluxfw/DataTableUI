@@ -3,11 +3,11 @@
 namespace srag\DataTable\Implementation\Format;
 
 use ILIAS\DI\Container;
-use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Glyph\Factory as GlyphFactory54;
 use ILIAS\UI\Component\Input\Container\Filter\Standard as FilterStandard;
 use ILIAS\UI\Component\Input\Container\Form\Standard as FilterStandard54;
+use ILIAS\UI\Component\Link\Standard;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ILIAS\UI\Renderer;
 use ilUtil;
@@ -163,7 +163,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
 
             if ($sort_field !== null) {
                 if ($sort_field->getSortFieldDirection() === SortFieldInterface::SORT_DIRECTION_DOWN) {
-                    $sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
+                    $sort_button = $this->dic->ui()->factory()->link()->standard($renderer->render([
                         $this->dic->ui()->factory()->legacy($sort_button),
                         $this->glyph_factory->sortDescending()
                     ]), $this->getActionUrlWithParams($component->getActionUrl(), [
@@ -171,7 +171,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                         SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortFieldInterface::SORT_DIRECTION_UP
                     ], $component->getTableId()));
                 } else {
-                    $sort_button = $this->dic->ui()->factory()->button()->shy($renderer->render([
+                    $sort_button = $this->dic->ui()->factory()->link()->standard($renderer->render([
                         $this->dic->ui()->factory()->legacy($sort_button),
                         $this->glyph_factory->sortAscending()
                     ]), $this->getActionUrlWithParams($component->getActionUrl(), [
@@ -180,11 +180,11 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                     ], $component->getTableId()));
                 }
 
-                $remove_sort_button = $this->dic->ui()->factory()->button()->shy($component->getPlugin()
+                $remove_sort_button = $this->dic->ui()->factory()->link()->standard($component->getPlugin()
                     ->translate("remove_sort", Table::LANG_MODULE),
                     $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_REMOVE_SORT_FIELD => $column->getKey()], $component->getTableId())); // TODO: Remove sort icon
             } else {
-                $sort_button = $this->dic->ui()->factory()->button()->shy($sort_button, $this->getActionUrlWithParams($component->getActionUrl(), [
+                $sort_button = $this->dic->ui()->factory()->link()->standard($sort_button, $this->getActionUrlWithParams($component->getActionUrl(), [
                     SettingsStorage::VAR_SORT_FIELD           => $column->getKey(),
                     SettingsStorage::VAR_SORT_FIELD_DIRECTION => SortFieldInterface::SORT_DIRECTION_UP
                 ], $component->getTableId()));
@@ -414,8 +414,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     protected function getColumnsSelector(Table $component, Settings $settings, Renderer $renderer) : Component
     {
         return $this->dic->ui()->factory()->dropdown()
-            ->standard(array_map(function (Column $column) use ($component, $settings, $renderer): Shy {
-                return $this->dic->ui()->factory()->button()->shy($renderer->render([
+            ->standard(array_map(function (Column $column) use ($component, $settings, $renderer): Standard {
+                return $this->dic->ui()->factory()->link()->standard($renderer->render([
                     $this->glyph_factory->add(),
                     $this->dic->ui()->factory()->legacy($column->getTitle())
                 ]), $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_SELECT_COLUMN => $column->getKey()], $component->getTableId()));
@@ -457,10 +457,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
      */
     protected function getExportsSelector(Table $component) : Component
     {
-        return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (Format $format) use ($component): Shy {
-            return $this->dic->ui()->factory()->button()
-                ->shy($format->getDisplayTitle($component),
-                    $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId()], $component->getTableId()));
+        return $this->dic->ui()->factory()->dropdown()->standard(array_map(function (Format $format) use ($component): Standard {
+            return $this->dic->ui()->factory()->link()->standard($format->getDisplayTitle($component),
+                $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_EXPORT_FORMAT_ID => $format->getFormatId()], $component->getTableId()));
         }, $component->getFormats()))->withLabel($component->getPlugin()->translate("export", Table::LANG_MODULE));
     }
 
@@ -504,8 +503,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         $multiple_actions = [
             $this->dic->ui()->factory()->legacy($tpl_checkbox->get()),
             $this->dic->ui()->factory()->legacy($component->getPlugin()->translate("select_all", Table::LANG_MODULE)),
-            $this->dic->ui()->factory()->dropdown()->standard(array_map(function (string $title, string $action) : Shy {
-                return $this->dic->ui()->factory()->button()->shy($title, $action);
+            $this->dic->ui()->factory()->dropdown()->standard(array_map(function (string $title, string $action) : Standard {
+                return $this->dic->ui()->factory()->link()->standard($title, $action);
             }, array_keys($component->getMultipleActions()), $component->getMultipleActions()))->withLabel($component->getPlugin()
                 ->translate("multiple_actions", Table::LANG_MODULE))
         ];

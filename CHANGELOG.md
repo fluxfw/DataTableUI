@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.23.3]
+- Fix dropdown usability
+
 ## [0.23.2]
 - Fix typo in `Formatter`
 
