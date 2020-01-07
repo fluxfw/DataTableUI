@@ -11,9 +11,9 @@ $(document).ready(() => {
 
         // Form
         $(".datatable_multiple_actions a[href]", table).click(function (e) {
-            e.stopImmediatePropagation(); // Prevents to execute the button action as get
+            e.preventDefault(); // Prevents to execute the button action as get
 
-            const action = this.dataset.action;
+            const action = this.href;
 
             // Instead create a form and send the selected checkboxs in the background as post
             const $form = $(`<form action="${action}" method="post"></form>`);
