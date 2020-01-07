@@ -153,9 +153,8 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         $remove_sort_button = $this->dic->ui()->factory()->legacy("");
 
         if ($column->isSelectable()) {
-            $deselect_button = $this->dic->ui()->factory()->button()
-                ->shy($renderer->render($this->glyph_factory->remove()),
-                    $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_DESELECT_COLUMN => $column->getKey()], $component->getTableId()));
+            $deselect_button = $this->dic->ui()->factory()->link()->standard($renderer->render($this->glyph_factory->remove()),
+                $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_DESELECT_COLUMN => $column->getKey()], $component->getTableId()));
         }
 
         if ($column->isSortable()) {
@@ -442,8 +441,10 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
                         $this->dic->ui()->factory()->legacy(strval($count))
                     ]));
                 } else {
-                    return $this->dic->ui()->factory()->button()
-                        ->shy(strval($count), $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_ROWS_COUNT => $count], $component->getTableId()));
+                    return $this->dic->ui()
+                        ->factory()
+                        ->link()
+                        ->standard(strval($count), $this->getActionUrlWithParams($component->getActionUrl(), [SettingsStorage::VAR_ROWS_COUNT => $count], $component->getTableId()));
                 }
             }, Settings::ROWS_COUNT))->withLabel($component->getPlugin()
                 ->translate("rows_per_page", Table::LANG_MODULE, [$settings->getRowsCount()]));
