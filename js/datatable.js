@@ -10,7 +10,7 @@ $(document).ready(() => {
         });
 
         // Form
-        $(".datatable_multiple_actions .btn[data-action]", table).click(function (e) {
+        $(".datatable_multiple_actions a[href]", table).click(function (e) {
             e.stopImmediatePropagation(); // Prevents to execute the button action as get
 
             const action = this.dataset.action;
