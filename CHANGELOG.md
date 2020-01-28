@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.23.7]
+- Validate column keys from url input
+
 ## [0.23.6]
 - Fix
 
