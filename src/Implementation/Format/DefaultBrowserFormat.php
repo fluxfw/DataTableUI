@@ -261,14 +261,14 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
     {
         $sort_field = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
         $sort_field_direction = intval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
-        if ($this->ensureColumnKey($component, $sort_field) && !empty($sort_field_direction)) {
+        if ($this->validateColumnKey($component, $sort_field) && !empty($sort_field_direction)) {
             $settings = $settings->addSortField(new SortField($sort_field, $sort_field_direction));
 
             $settings = $settings->withFilterSet(true);
         }
 
         $remove_sort_field = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_REMOVE_SORT_FIELD, $component->getTableId())));
-        if ($this->ensureColumnKey($component, $remove_sort_field)) {
+        if ($this->validateColumnKey($component, $remove_sort_field)) {
             $settings = $settings->removeSortField($remove_sort_field);
 
             $settings = $settings->withFilterSet(true);
@@ -288,14 +288,14 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         }
 
         $select_column = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SELECT_COLUMN, $component->getTableId())));
-        if ($this->ensureColumnKey($component, $select_column)) {
+        if ($this->validateColumnKey($component, $select_column)) {
             $settings = $settings->selectColumn($select_column);
 
             $settings = $settings->withFilterSet(true);
         }
 
         $deselect_column = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_DESELECT_COLUMN, $component->getTableId())));
-        if ($this->ensureColumnKey($component, $deselect_column)) {
+        if ($this->validateColumnKey($component, $deselect_column)) {
             $settings = $settings->deselectColumn($deselect_column);
 
             $settings = $settings->withFilterSet(true);
@@ -526,7 +526,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
      *
      * @return bool
      */
-    protected function ensureColumnKey(TableInterface $component, string $key) : bool
+    protected function validateColumnKey(TableInterface $component, string $key) : bool
     {
         return (!empty($key)
             && !empty(array_filter($component->getColumns(), function (Column $column) use ($key): bool {
