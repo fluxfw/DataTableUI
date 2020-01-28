@@ -212,9 +212,9 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         if (count($component->getMultipleActions()) > 0) {
             $this->tpl->setCurrentBlock("row_checkbox");
 
-            $this->tpl->setVariable("POST_VAR", $this->actionParameter(Table::MULTIPLE_SELECT_POST_VAR, $component->getTableId()) . "[]");
+            $this->tpl->setVariable("POST_VAR", htmlspecialchars($this->actionParameter(Table::MULTIPLE_SELECT_POST_VAR, $component->getTableId()) . "[]"));
 
-            $this->tpl->setVariable("ROW_ID", $row->getRowId());
+            $this->tpl->setVariable("ROW_ID", htmlspecialchars($row->getRowId()));
 
             $this->tpl->parseCurrentBlock();
         }
@@ -478,11 +478,11 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         ]);
 
         $this->tpl->setCurrentBlock("count_top");
-        $this->tpl->setVariable("COUNT_TOP", $count);
+        $this->tpl->setVariable("COUNT_TOP", htmlspecialchars($count));
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock("count_bottom");
-        $this->tpl->setVariable("COUNT_BOTTOM", $count);
+        $this->tpl->setVariable("COUNT_BOTTOM", htmlspecialchars($count));
         $this->tpl->parseCurrentBlock();
     }
 

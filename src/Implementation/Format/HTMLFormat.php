@@ -51,9 +51,9 @@ class HTMLFormat extends AbstractFormat
     {
         $this->tpl = ($this->get_template)("tpl.datatable.html");
 
-        $this->tpl->setVariable("ID", $component->getTableId());
+        $this->tpl->setVariable("ID", htmlspecialchars($component->getTableId()));
 
-        $this->tpl->setVariable("TITLE", $component->getTitle());
+        $this->tpl->setVariable("TITLE", htmlspecialchars($component->getTitle()));
 
         $this->handleNoDataText($data, $component);
     }
@@ -153,7 +153,7 @@ class HTMLFormat extends AbstractFormat
         if ($data === null || $data->getDataCount() === 0) {
             $this->tpl->setCurrentBlock("no_data");
 
-            $this->tpl->setVariable("NO_DATA_TEXT", $component->getDataFetcher()->getNoDataText($component));
+            $this->tpl->setVariable("NO_DATA_TEXT", htmlspecialchars($component->getDataFetcher()->getNoDataText($component)));
 
             $this->tpl->parseCurrentBlock();
         }
