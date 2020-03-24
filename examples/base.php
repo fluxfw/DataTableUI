@@ -1,16 +1,13 @@
 <?php
 
-use srag\DataTable\Implementation\Column\Column;
-use srag\DataTable\Implementation\Data\Fetcher\StaticDataFetcher;
-use srag\DataTable\Implementation\Table;
+use srag\DataTable\Implementation\Factory;
+use srag\DIC\DICStatic;
 
 /**
  * @return string
  */
 function base() : string
 {
-    global $DIC;
-
     $data = array_map(function (int $index) : stdClass {
         return (object) [
             "column1" => $index,
@@ -19,15 +16,15 @@ function base() : string
         ];
     }, range(0, 25));
 
-    $DIC->ctrl()->saveParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id");
+    DICStatic::dic()->ctrl()->saveParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id");
 
-    $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
+    $action_url = DICStatic::dic()->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
-    $table = new Table("example_datatable_actions", $action_url, "Example data table", [
-        new Column($DIC, "column1", "Column 1"),
-        new Column($DIC, "column2", "Column 2"),
-        new Column($DIC, "column3", "Column 3")
-    ], new StaticDataFetcher($DIC, $data, "column1"));
+    $table = Factory::getInstance()->table("example_datatable_actions", $action_url, "Example data table", [
+        Factory::getInstance()->column("column1", "Column 1"),
+        Factory::getInstance()->column("column2", "Column 2"),
+        Factory::getInstance()->column("column3", "Column 3")
+    ], Factory::getInstance()->staticDataFetcher($data, "column1"));
 
-    return $DIC->ui()->renderer()->render($table);
+    return DICStatic::output()->getHTML($table);
 }

@@ -2,12 +2,9 @@
 
 namespace srag\DataTable\Implementation\Settings\Storage;
 
-use ILIAS\DI\Container;
 use ilTablePropertiesStorage;
-use srag\DataTable\Component\Settings\Settings as SettingsInterface;
-use srag\DataTable\Component\Settings\Sort\SortField as SortFieldInterface;
-use srag\DataTable\Implementation\Settings\Settings;
-use srag\DataTable\Implementation\Settings\Sort\SortField;
+use srag\DataTable\Component\Settings\Settings;
+use srag\DataTable\Component\Settings\Sort\SortField;
 
 /**
  * Class DefaultSettingsStorage
@@ -28,9 +25,9 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
     /**
      * @inheritDoc
      */
-    public function __construct(Container $dic)
+    public function __construct()
     {
-        parent::__construct($dic);
+        parent::__construct();
 
         $this->properties_storage = new ilTablePropertiesStorage();
         $this->properties_storage->properties = array_reduce(self::VARS, function (array $properties, string $property) : array {
@@ -44,9 +41,9 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
     /**
      * @inheritDoc
      */
-    public function read(string $table_id, int $user_id) : SettingsInterface
+    public function read(string $table_id, int $user_id) : Settings
     {
-        $settings = new Settings($this->dic->ui()->factory()->viewControl()->pagination());
+        $settings = self::dataTable()->settings(self::dic()->ui()->factory()->viewControl()->pagination());
 
         foreach (self::VARS as $property) {
             $value = json_decode($this->properties_storage->getProperty($table_id, $user_id, $property) ?? "", true);
@@ -54,8 +51,8 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
             if (!empty($value)) {
                 switch ($property) {
                     case self::VAR_SORT_FIELDS:
-                        $settings = $settings->withSortFields(array_map(function (array $sort_field) : SortFieldInterface {
-                            return new SortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
+                        $settings = $settings->withSortFields(array_map(function (array $sort_field) : SortField {
+                            return self::dataTable()->sortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
                         }, $value));
                         break;
 
@@ -74,7 +71,7 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
     /**
      * @inheritDoc
      */
-    public function store(SettingsInterface $settings, string $table_id, int $user_id) : void
+    public function store(Settings $settings, string $table_id, int $user_id) : void
     {
         foreach (self::VARS as $property) {
             $value = "";

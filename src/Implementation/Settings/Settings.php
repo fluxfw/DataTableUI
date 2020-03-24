@@ -7,6 +7,8 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Settings\Settings as SettingsInterface;
 use srag\DataTable\Component\Settings\Sort\SortField;
+use srag\DataTable\Utils\DataTableTrait;
+use srag\DIC\DICTrait;
 
 /**
  * Class Settings
@@ -19,6 +21,8 @@ class Settings implements SettingsInterface
 {
 
     use ComponentHelper;
+    use DICTrait;
+    use DataTableTrait;
     /**
      * @var Pagination
      */

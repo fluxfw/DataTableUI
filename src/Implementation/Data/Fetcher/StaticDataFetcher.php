@@ -2,13 +2,10 @@
 
 namespace srag\DataTable\Implementation\Data\Fetcher;
 
-use ILIAS\DI\Container;
-use srag\DataTable\Component\Data\Data as DataInterface;
+use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Settings\Sort\SortField;
-use srag\DataTable\Implementation\Data\Data;
-use srag\DataTable\Implementation\Data\Row\PropertyRowData;
 use stdClass;
 
 /**
@@ -37,9 +34,9 @@ class StaticDataFetcher extends AbstractDataFetcher
      * @param object[] $data
      * @param string   $id_key
      */
-    public function __construct(Container $dic, array $data, string $id_key)
+    public function __construct(array $data, string $id_key)
     {
-        parent::__construct($dic);
+        parent::__construct();
 
         $this->data = $data;
         $this->id_key = $id_key;
@@ -49,7 +46,7 @@ class StaticDataFetcher extends AbstractDataFetcher
     /**
      * @inheritDoc
      */
-    public function fetchData(Settings $settings) : DataInterface
+    public function fetchData(Settings $settings) : Data
     {
         $data = array_filter($this->data, function (stdClass $data) use ($settings): bool {
             $match = true;
@@ -108,9 +105,9 @@ class StaticDataFetcher extends AbstractDataFetcher
         $data = array_slice($data, $settings->getOffset(), $settings->getRowsCount());
 
         $data = array_map(function (stdClass $row) : RowData {
-            return new PropertyRowData(strval($row->{$this->id_key}), $row);
+            return self::dataTable()->propertyRowData(strval($row->{$this->id_key}), $row);
         }, $data);
 
-        return new Data($data, $max_count);
+        return self::dataTable()->data($data, $max_count);
     }
 }

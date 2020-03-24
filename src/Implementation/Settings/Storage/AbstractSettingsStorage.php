@@ -2,13 +2,13 @@
 
 namespace srag\DataTable\Implementation\Settings\Storage;
 
-use ILIAS\DI\Container;
 use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Settings\Settings as SettingsInterface;
-use srag\DataTable\Component\Settings\Sort\SortField as SortFieldInterface;
+use srag\DataTable\Component\Settings\Settings;
+use srag\DataTable\Component\Settings\Sort\SortField;
 use srag\DataTable\Component\Settings\Storage\SettingsStorage;
 use srag\DataTable\Component\Table;
-use srag\DataTable\Implementation\Settings\Sort\SortField;
+use srag\DataTable\Utils\DataTableTrait;
+use srag\DIC\DICTrait;
 
 /**
  * Class AbstractSettingsStorage
@@ -20,31 +20,27 @@ use srag\DataTable\Implementation\Settings\Sort\SortField;
 abstract class AbstractSettingsStorage implements SettingsStorage
 {
 
-    /**
-     * @var Container
-     */
-    protected $dic;
+    use DICTrait;
+    use DataTableTrait;
 
 
     /**
      * AbstractSettingsStorage constructor
-     *
-     * @param Container $dic
      */
-    public function __construct(Container $dic)
+    public function __construct()
     {
-        $this->dic = $dic;
+
     }
 
 
     /**
      * @inheritDoc
      */
-    public function handleDefaultSettings(SettingsInterface $settings, Table $component) : SettingsInterface
+    public function handleDefaultSettings(Settings $settings, Table $component) : Settings
     {
         if (!$settings->isFilterSet() && empty($settings->getSortFields())) {
-            $settings = $settings->withSortFields(array_map(function (Column $column) use ($component): SortFieldInterface {
-                return new SortField($column->getKey(), $column->getDefaultSortDirection());
+            $settings = $settings->withSortFields(array_map(function (Column $column) use ($component): SortField {
+                return self::dataTable()->sortField($column->getKey(), $column->getDefaultSortDirection());
             }, array_filter($component->getColumns(), function (Column $column) : bool {
                 return ($column->isSortable() && $column->isDefaultSort());
             })));

@@ -2,7 +2,6 @@
 
 namespace srag\DataTable\Implementation\Column\Formatter;
 
-use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
@@ -20,7 +19,7 @@ class LinkColumnFormatter extends DefaultFormatter
     /**
      * @inheritDoc
      */
-    public function formatRowCell(Format $format, $title, Column $column, RowData $row, string $table_id, Renderer $renderer) : string
+    public function formatRowCell(Format $format, $title, Column $column, RowData $row, string $table_id) : string
     {
         $link = $row($column->getKey() . "_link");
 
@@ -28,6 +27,6 @@ class LinkColumnFormatter extends DefaultFormatter
             return $title;
         }
 
-        return $renderer->render($this->dic->ui()->factory()->link()->standard($title, $link));
+        return self::output()->getHTML(self::dic()->ui()->factory()->link()->standard($title, $link));
     }
 }

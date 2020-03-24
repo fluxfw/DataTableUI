@@ -2,8 +2,9 @@
 
 namespace srag\DataTable\Implementation\Column\Formatter;
 
-use ILIAS\DI\Container;
 use srag\DataTable\Component\Column\Formatter\Formatter;
+use srag\DataTable\Utils\DataTableTrait;
+use srag\DIC\DICTrait;
 
 /**
  * Class AbstractFormatter
@@ -15,19 +16,15 @@ use srag\DataTable\Component\Column\Formatter\Formatter;
 abstract class AbstractFormatter implements Formatter
 {
 
-    /**
-     * @var Container
-     */
-    protected $dic;
+    use DICTrait;
+    use DataTableTrait;
 
 
     /**
      * AbstractFormatter constructor
-     *
-     * @param Container $dic
      */
-    public function __construct(Container $dic)
+    public function __construct()
     {
-        $this->dic = $dic;
+
     }
 }

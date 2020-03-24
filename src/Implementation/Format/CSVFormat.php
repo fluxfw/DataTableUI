@@ -3,7 +3,6 @@
 namespace srag\DataTable\Implementation\Format;
 
 use ilCSVWriter;
-use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
@@ -47,7 +46,7 @@ class CSVFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, ?Data $data, Settings $settings, Renderer $renderer) : void
+    protected function initTemplate(Table $component, ?Data $data, Settings $settings) : void
     {
         $this->tpl = new ilCSVWriter();
 
@@ -58,9 +57,9 @@ class CSVFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumns(Table $component, array $columns, Settings $settings, Renderer $renderer) : void
+    protected function handleColumns(Table $component, array $columns, Settings $settings) : void
     {
-        parent::handleColumns($component, $columns, $settings, $renderer);
+        parent::handleColumns($component, $columns, $settings);
 
         $this->tpl->addRow();
     }
@@ -69,7 +68,7 @@ class CSVFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
+    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings) : void
     {
         $this->tpl->addColumn($formatted_column);
     }
@@ -78,9 +77,9 @@ class CSVFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row) : void
     {
-        parent::handleRow($component, $columns, $row, $renderer);
+        parent::handleRow($component, $columns, $row);
 
         $this->tpl->addRow();
     }

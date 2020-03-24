@@ -11,8 +11,7 @@ use srag\DataTable\Component\Format\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Settings\Storage\SettingsStorage;
 use srag\DataTable\Component\Table as TableInterface;
-use srag\DataTable\Implementation\Format\DefaultBrowserFormat;
-use srag\DataTable\Implementation\Settings\Storage\DefaultSettingsStorage;
+use srag\DataTable\Utils\DataTableTrait;
 use srag\DIC\DICTrait;
 use srag\DIC\Plugin\PluginInterface;
 
@@ -28,6 +27,7 @@ class Table implements TableInterface
 
     use ComponentHelper;
     use DICTrait;
+    use DataTableTrait;
     /**
      * @var PluginInterface
      */
@@ -59,7 +59,7 @@ class Table implements TableInterface
     /**
      * @var BrowserFormat
      */
-    protected $browser_format = null;
+    protected $browser_format;
     /**
      * @var Format[]
      */
@@ -270,9 +270,7 @@ class Table implements TableInterface
     public function getBrowserFormat() : BrowserFormat
     {
         if ($this->browser_format === null) {
-            global $DIC; // TODO: !!!
-
-            $this->browser_format = new DefaultBrowserFormat($DIC);
+            $this->browser_format = self::dataTable()->defaultBrowserFormat();
         }
 
         return $this->browser_format;
@@ -345,9 +343,7 @@ class Table implements TableInterface
     public function getSettingsStorage() : SettingsStorage
     {
         if ($this->settings_storage === null) {
-            global $DIC; // TODO: !!!
-
-            $this->settings_storage = new DefaultSettingsStorage($DIC);
+            $this->settings_storage = self::dataTable()->defaultSettingsStorage();
         }
 
         return $this->settings_storage;

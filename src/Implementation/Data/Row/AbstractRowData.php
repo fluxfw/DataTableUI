@@ -3,6 +3,8 @@
 namespace srag\DataTable\Implementation\Data\Row;
 
 use srag\DataTable\Component\Data\Row\RowData;
+use srag\DataTable\Utils\DataTableTrait;
+use srag\DIC\DICTrait;
 
 /**
  * Class AbstractRowData
@@ -14,6 +16,8 @@ use srag\DataTable\Component\Data\Row\RowData;
 abstract class AbstractRowData implements RowData
 {
 
+    use DICTrait;
+    use DataTableTrait;
     /**
      * @var string
      */
