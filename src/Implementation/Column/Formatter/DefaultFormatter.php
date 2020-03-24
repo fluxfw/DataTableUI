@@ -3,7 +3,6 @@
 namespace srag\DataTable\Implementation\Column\Formatter;
 
 use ilExcel;
-use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
@@ -21,7 +20,7 @@ class DefaultFormatter extends AbstractFormatter
     /**
      * @inheritDoc
      */
-    public function formatHeaderCell(Format $format, Column $column, string $table_id, Renderer $renderer) : string
+    public function formatHeaderCell(Format $format, Column $column, string $table_id) : string
     {
         $title = $column->getTitle();
 
@@ -47,7 +46,7 @@ class DefaultFormatter extends AbstractFormatter
     /**
      * @inheritDoc
      */
-    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer) : string
+    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id) : string
     {
         $value = strval($value);
 

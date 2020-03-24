@@ -2,8 +2,6 @@
 
 namespace srag\DataTable\Implementation\Format;
 
-use ILIAS\DI\Container;
-use ILIAS\UI\Renderer;
 use ilUtil;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
@@ -11,6 +9,8 @@ use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Table;
+use srag\DataTable\Utils\DataTableTrait;
+use srag\DIC\DICTrait;
 
 /**
  * Class AbstractFormat
@@ -22,10 +22,8 @@ use srag\DataTable\Component\Table;
 abstract class AbstractFormat implements Format
 {
 
-    /**
-     * @var Container
-     */
-    protected $dic;
+    use DICTrait;
+    use DataTableTrait;
     /**
      * @var object
      */
@@ -38,12 +36,10 @@ abstract class AbstractFormat implements Format
 
     /**
      * AbstractFormat constructor
-     *
-     * @param Container $dic
      */
-    public function __construct(Container $dic)
+    public function __construct()
     {
-        $this->dic = $dic;
+
     }
 
 
@@ -83,17 +79,17 @@ abstract class AbstractFormat implements Format
     /**
      * @inheritDoc
      */
-    public function render(callable $get_template, Table $component, ?Data $data, Settings $settings, Renderer $renderer) : string
+    public function render(callable $get_template, Table $component, ?Data $data, Settings $settings) : string
     {
         $this->get_template = $get_template;
 
-        $this->initTemplate($component, $data, $settings, $renderer);
+        $this->initTemplate($component, $data, $settings);
 
         $columns = $this->getColumns($component, $settings);
 
-        $this->handleColumns($component, $columns, $settings, $renderer);
+        $this->handleColumns($component, $columns, $settings);
 
-        $this->handleRows($component, $columns, $data, $renderer);
+        $this->handleRows($component, $columns, $data);
 
         return $this->renderTemplate($component);
     }
@@ -158,22 +154,19 @@ abstract class AbstractFormat implements Format
      * @param Table     $component
      * @param Data|null $data
      * @param Settings  $settings
-     * @param Renderer  $renderer
      */
-    protected abstract function initTemplate(Table $component, ?Data $data, Settings $settings, Renderer $renderer) : void;
+    protected abstract function initTemplate(Table $component, ?Data $data, Settings $settings) : void;
 
 
     /**
      * @param Table    $component
      * @param Column[] $columns
      * @param Settings $settings
-     * @param Renderer $renderer
      */
-    protected function handleColumns(Table $component, array $columns, Settings $settings, Renderer $renderer) : void
+    protected function handleColumns(Table $component, array $columns, Settings $settings) : void
     {
         foreach ($columns as $column) {
-            $this->handleColumn($column->getFormatter()
-                ->formatHeaderCell($this, $column, $component->getTableId(), $renderer), $component, $column, $settings, $renderer);
+            $this->handleColumn($column->getFormatter()->formatHeaderCell($this, $column, $component->getTableId()), $component, $column, $settings);
         }
     }
 
@@ -183,24 +176,22 @@ abstract class AbstractFormat implements Format
      * @param Table    $component
      * @param Column   $column
      * @param Settings $settings
-     * @param Renderer $renderer
      *
      * @return mixed
      */
-    protected abstract function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings, Renderer $renderer);
+    protected abstract function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings);
 
 
     /**
      * @param Table     $component
      * @param Column[]  $columns
      * @param Data|null $data
-     * @param Renderer  $renderer
      */
-    protected function handleRows(Table $component, array $columns, ?Data $data, Renderer $renderer) : void
+    protected function handleRows(Table $component, array $columns, ?Data $data) : void
     {
         if ($data !== null) {
             foreach ($data->getData() as $row) {
-                $this->handleRow($component, $columns, $row, $renderer);
+                $this->handleRow($component, $columns, $row);
             }
         }
     }
@@ -210,13 +201,11 @@ abstract class AbstractFormat implements Format
      * @param Table    $component
      * @param Column[] $columns
      * @param RowData  $row
-     * @param Renderer $renderer
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row) : void
     {
         foreach ($columns as $column) {
-            $this->handleRowColumn($column->getFormatter()
-                ->formatRowCell($this, $row($column->getKey()), $column, $row, $component->getTableId(), $renderer));
+            $this->handleRowColumn($column->getFormatter()->formatRowCell($this, $row($column->getKey()), $column, $row, $component->getTableId()));
         }
     }
 

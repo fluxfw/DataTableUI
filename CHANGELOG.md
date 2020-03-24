@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.24.0]
+- Refactoring
+
 ## [0.23.9]
 - Readme
 

@@ -2,7 +2,6 @@
 
 namespace srag\DataTable\Implementation\Column\Formatter;
 
-use ILIAS\UI\Renderer;
 use ilLearningProgressBaseGUI;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
@@ -21,17 +20,17 @@ class LearningProgressFormatter extends DefaultFormatter
     /**
      * @inheritDoc
      */
-    public function formatRowCell(Format $format, $status, Column $column, RowData $row, string $table_id, Renderer $renderer) : string
+    public function formatRowCell(Format $format, $status, Column $column, RowData $row, string $table_id) : string
     {
         $img = ilLearningProgressBaseGUI::_getImagePathForStatus($status);
         $text = ilLearningProgressBaseGUI::_getStatusText($status);
 
-        return $this->dic->ui()->renderer()->render([
-            $this->dic->ui()
+        return self::output()->getHTML([
+            self::dic()->ui()
                 ->factory()
                 ->icon()
                 ->custom($img, $text),
-            $this->dic->ui()->factory()->legacy($text)
+            self::dic()->ui()->factory()->legacy($text)
         ]);
     }
 }

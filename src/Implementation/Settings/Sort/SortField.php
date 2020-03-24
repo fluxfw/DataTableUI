@@ -4,6 +4,8 @@ namespace srag\DataTable\Implementation\Settings\Sort;
 
 use srag\DataTable\Component\Settings\Sort\SortField as SortFieldInterface;
 use srag\DataTable\Component\Settings\Storage\SettingsStorage;
+use srag\DataTable\Utils\DataTableTrait;
+use srag\DIC\DICTrait;
 use stdClass;
 
 /**
@@ -16,6 +18,8 @@ use stdClass;
 class SortField implements SortFieldInterface
 {
 
+    use DICTrait;
+    use DataTableTrait;
     /**
      * @var string
      */

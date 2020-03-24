@@ -3,7 +3,6 @@
 namespace srag\DataTable\Implementation\Format;
 
 use ilExcel;
-use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
@@ -55,7 +54,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, ?Data $data, Settings $settings, Renderer $renderer) : void
+    protected function initTemplate(Table $component, ?Data $data, Settings $settings) : void
     {
         $this->tpl = new ilExcel();
 
@@ -79,11 +78,11 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumns(Table $component, array $columns, Settings $settings, Renderer $renderer) : void
+    protected function handleColumns(Table $component, array $columns, Settings $settings) : void
     {
         $this->current_col = 0;
 
-        parent::handleColumns($component, $columns, $settings, $renderer);
+        parent::handleColumns($component, $columns, $settings);
 
         $this->current_row++;
     }
@@ -92,7 +91,7 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
+    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings) : void
     {
         $this->tpl->setCell($this->current_row, $this->current_col, $formatted_column);
 
@@ -103,11 +102,11 @@ class ExcelFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row) : void
     {
         $this->current_col = 0;
 
-        parent::handleRow($component, $columns, $row, $renderer);
+        parent::handleRow($component, $columns, $row);
 
         $this->current_row++;
     }

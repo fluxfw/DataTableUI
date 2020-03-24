@@ -4,7 +4,6 @@ namespace srag\DataTable\Implementation\Column\Formatter;
 
 use ilDatePresentation;
 use ilDateTime;
-use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
@@ -22,7 +21,7 @@ class DateColumnFormatter extends DefaultFormatter
     /**
      * @inheritDoc
      */
-    public function formatRowCell(Format $format, $date, Column $column, RowData $row, string $table_id, Renderer $renderer) : string
+    public function formatRowCell(Format $format, $date, Column $column, RowData $row, string $table_id) : string
     {
         if (empty($date)) {
             return "";

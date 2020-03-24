@@ -107,13 +107,13 @@ interface Table extends Component, Pluginable
 
 
     /**
-     * @return FilterInput|FilterInput54[]
+     * @return FilterInput[]|FilterInput54[]
      */
     public function getFilterFields() : array;
 
 
     /**
-     * @param FilterInput|FilterInput54[] $filter_fields
+     * @param FilterInput[]|FilterInput54[] $filter_fields
      *
      * @return self
      */

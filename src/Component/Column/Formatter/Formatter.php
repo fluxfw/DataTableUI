@@ -2,7 +2,6 @@
 
 namespace srag\DataTable\Component\Column\Formatter;
 
-use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
@@ -18,25 +17,23 @@ interface Formatter
 {
 
     /**
-     * @param Format   $format
-     * @param Column   $column
-     * @param string   $table_id
-     * @param Renderer $renderer
+     * @param Format $format
+     * @param Column $column
+     * @param string $table_id
      *
      * @return string
      */
-    public function formatHeaderCell(Format $format, Column $column, string $table_id, Renderer $renderer) : string;
+    public function formatHeaderCell(Format $format, Column $column, string $table_id) : string;
 
 
     /**
-     * @param Format   $format
-     * @param mixed    $value
-     * @param Column   $column
-     * @param RowData  $row
-     * @param string   $table_id
-     * @param Renderer $renderer
+     * @param Format  $format
+     * @param mixed   $value
+     * @param Column  $column
+     * @param RowData $row
+     * @param string  $table_id
      *
      * @return string
      */
-    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer) : string;
+    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id) : string;
 }

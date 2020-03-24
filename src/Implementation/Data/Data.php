@@ -5,6 +5,8 @@ namespace srag\DataTable\Implementation\Data;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\DataTable\Component\Data\Data as DataInterface;
 use srag\DataTable\Component\Data\Row\RowData;
+use srag\DataTable\Utils\DataTableTrait;
+use srag\DIC\DICTrait;
 
 /**
  * Class Data
@@ -17,6 +19,8 @@ class Data implements DataInterface
 {
 
     use ComponentHelper;
+    use DICTrait;
+    use DataTableTrait;
     /**
      * @var RowData[]
      */

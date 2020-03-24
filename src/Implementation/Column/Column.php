@@ -2,12 +2,12 @@
 
 namespace srag\DataTable\Implementation\Column;
 
-use ILIAS\DI\Container;
 use srag\DataTable\Component\Column\Column as ColumnInterface;
+use srag\DataTable\Component\Column\Formatter\ActionsFormatter;
 use srag\DataTable\Component\Column\Formatter\Formatter;
 use srag\DataTable\Component\Settings\Sort\SortField;
-use srag\DataTable\Implementation\Column\Formatter\AbstractActionsFormatter;
-use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
+use srag\DataTable\Utils\DataTableTrait;
+use srag\DIC\DICTrait;
 
 /**
  * Class Column
@@ -19,10 +19,8 @@ use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
 class Column implements ColumnInterface
 {
 
-    /**
-     * @var Container
-     */
-    protected $dic;
+    use DICTrait;
+    use DataTableTrait;
     /**
      * @var string
      */
@@ -64,15 +62,11 @@ class Column implements ColumnInterface
     /**
      * @inheritDoc
      */
-    public function __construct(Container $dic, string $key, string $title)
+    public function __construct(string $key, string $title)
     {
-        $this->dic = $dic;
-
         $this->key = $key;
 
         $this->title = $title;
-
-        $this->formatter = new DefaultFormatter($this->dic);
     }
 
 
@@ -125,6 +119,10 @@ class Column implements ColumnInterface
      */
     public function getFormatter() : Formatter
     {
+        if ($this->formatter === null) {
+            $this->formatter = self::dataTable()->defaultFormatter();
+        }
+
         return $this->formatter;
     }
 
@@ -138,7 +136,7 @@ class Column implements ColumnInterface
 
         $clone->formatter = $formatter;
 
-        if ($clone->formatter instanceof AbstractActionsFormatter) {
+        if ($clone->formatter instanceof ActionsFormatter) {
             $clone->sortable = false;
             $clone->selectable = false;
             $clone->exportable = false;

@@ -1,70 +1,59 @@
 <?php
 
-use ILIAS\UI\Renderer;
-use srag\DataTable\Component\Column\Column as ColumnInterface;
-use srag\DataTable\Component\Data\Data as DataInterface;
+use srag\DataTable\Component\Column\Column;
+use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Settings\Sort\SortField;
-use srag\DataTable\Implementation\Column\Column;
 use srag\DataTable\Implementation\Column\Formatter\AbstractActionsFormatter;
 use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
-use srag\DataTable\Implementation\Column\Formatter\LanguageVariableFormatter;
-use srag\DataTable\Implementation\Column\Formatter\LinkColumnFormatter;
-use srag\DataTable\Implementation\Data\Data;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
-use srag\DataTable\Implementation\Data\Row\PropertyRowData;
-use srag\DataTable\Implementation\Format\CSVFormat;
-use srag\DataTable\Implementation\Format\ExcelFormat;
-use srag\DataTable\Implementation\Format\HTMLFormat;
-use srag\DataTable\Implementation\Format\PDFFormat;
-use srag\DataTable\Implementation\Table;
+use srag\DataTable\Implementation\Factory;
+use srag\DIC\DICStatic;
 
 /**
  * @return string
  */
 function advanced() : string
 {
-    global $DIC;
+    DICStatic::dic()->ctrl()->saveParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id");
 
-    $DIC->ctrl()->saveParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id");
+    $action_url = DICStatic::dic()->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
-    $action_url = $DIC->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
-
-    $table = (new Table("example_datatable_advanced", $action_url, "Advanced example data table", [
-        (new Column($DIC, "obj_id", "Id"))->withDefaultSelected(false),
-        (new Column($DIC, "title", "Title"))->withFormatter(new LinkColumnFormatter($DIC))->withDefaultSort(true),
-        (new Column($DIC, "type", "Type"))->withFormatter(new LanguageVariableFormatter($DIC, "obj")),
-        (new Column($DIC, "type_icon", "Type icon"))->withFormatter(new AdvancedExampleFormatter($DIC)),
-        (new Column($DIC, "description", "Description"))->withDefaultSelected(false)->withSortable(false),
-        (new Column($DIC, "actions", "Actions"))->withFormatter(new AdvancedExampleActionsFormatter($DIC))
-    ], new AdvancedExampleDataFetcher($DIC)
-    ))->withFilterFields([
-        "title" => $DIC->ui()->factory()->input()->field()->text("Title"),
-        "type"  => $DIC->ui()->factory()->input()->field()->text("Type")
+    $table = Factory::getInstance()->table("example_datatable_advanced", $action_url, "Advanced example data table", [
+        Factory::getInstance()->column("obj_id", "Id")->withDefaultSelected(false),
+        Factory::getInstance()->column("title", "Title")->withFormatter(Factory::getInstance()->linkColumnFormatter())->withDefaultSort(true),
+        Factory::getInstance()->column("type", "Type")->withFormatter(Factory::getInstance()->languageVariableFormatter("obj")),
+        Factory::getInstance()->column("type_icon", "Type icon")->withFormatter(new AdvancedExampleFormatter()),
+        Factory::getInstance()->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
+        Factory::getInstance()->column("actions", "Actions")->withFormatter(new AdvancedExampleActionsFormatter())
+    ], new AdvancedExampleDataFetcher()
+    )->withFilterFields([
+        "title" => DICStatic::dic()->ui()->factory()->input()->field()->text("Title"),
+        "type"  => DICStatic::dic()->ui()->factory()->input()->field()->text("Type")
     ])->withFormats([
-        new CSVFormat($DIC),
-        new ExcelFormat($DIC),
-        new PDFFormat($DIC),
-        new HTMLFormat($DIC)
+        Factory::getInstance()->csvFormat(),
+        Factory::getInstance()->excelFormat(),
+        Factory::getInstance()->pdfFormat(),
+        Factory::getInstance()->htmlFormat()
     ])->withMultipleActions([
         "Action" => $action_url
     ]);
 
-    $info_text = $DIC->ui()->factory()->legacy("");
+    $info_text = DICStatic::dic()->ui()->factory()->legacy("");
 
     $action_row_id = $table->getBrowserFormat()->getActionRowId($table->getTableId());
     if ($action_row_id !== "") {
-        $info_text = $info_text = $DIC->ui()->factory()->messageBox()->info("Row id: " . $action_row_id);
+        $info_text = $info_text = DICStatic::dic()->ui()->factory()->messageBox()->info("Row id: " . $action_row_id);
     }
 
     $mutliple_action_row_ids = $table->getBrowserFormat()->getMultipleActionRowIds($table->getTableId());
     if (!empty($mutliple_action_row_ids)) {
-        $info_text = $DIC->ui()->factory()->messageBox()->info("Row ids: " . implode(", ", $mutliple_action_row_ids));
+        $info_text = DICStatic::dic()->ui()->factory()->messageBox()->info("Row ids: " . implode(", ", $mutliple_action_row_ids));
     }
 
-    return $DIC->ui()->renderer()->render([$info_text, $table]);
+    return DICStatic::output()->getHTML([$info_text, $table]);
 }
 
 /**
@@ -78,17 +67,17 @@ class AdvancedExampleFormatter extends DefaultFormatter
     /**
      * @inheritDoc
      */
-    public function formatRowCell(Format $format, $value, ColumnInterface $column, RowData $row, string $table_id, Renderer $renderer) : string
+    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id) : string
     {
-        $type = parent::formatRowCell($format, $value, $column, $row, $table_id, $renderer);
+        $type = parent::formatRowCell($format, $value, $column, $row, $table_id);
 
         switch ($format->getFormatId()) {
             case Format::FORMAT_BROWSER:
             case Format::FORMAT_PDF:
             case Format::FORMAT_HTML:
-                return $renderer->render([
-                    $this->dic->ui()->factory()->symbol()->icon()->custom(ilObject::_getIcon($row->getRowId(), "small"), $type),
-                    $this->dic->ui()->factory()->legacy($type)
+                return self::output()->getHTML([
+                    self::dic()->ui()->factory()->symbol()->icon()->custom(ilObject::_getIcon($row->getRowId(), "small"), $type),
+                    self::dic()->ui()->factory()->legacy($type)
                 ]);
 
             default:
@@ -110,10 +99,10 @@ class AdvancedExampleActionsFormatter extends AbstractActionsFormatter
      */
     public function getActions(RowData $row) : array
     {
-        $action_url = $this->dic->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
+        $action_url = self::dic()->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
         return [
-            $this->dic->ui()->factory()->link()->standard("Action", $action_url)
+            self::dic()->ui()->factory()->link()->standard("Action", $action_url)
         ];
     }
 }
@@ -129,28 +118,28 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
     /**
      * @inheritDoc
      */
-    public function fetchData(Settings $settings) : DataInterface
+    public function fetchData(Settings $settings) : Data
     {
         $sql = 'SELECT *' . $this->getQuery($settings);
 
-        $result = $this->dic->database()->query($sql);
+        $result = self::dic()->database()->query($sql);
 
         $rows = [];
-        while (!empty($row = $this->dic->database()->fetchObject($result))) {
+        while (!empty($row = self::dic()->database()->fetchObject($result))) {
             $row->type_icon = $row->type;
 
             $row->title_link = ilLink::_getLink(current(ilObject::_getAllReferences($row->obj_id)));
 
-            $rows[] = new PropertyRowData(strval($row->obj_id), $row);
+            $rows[] = self::dataTable()->propertyRowData(strval($row->obj_id), $row);
         }
 
         $sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($settings, true);
 
-        $result = $this->dic->database()->query($sql);
+        $result = self::dic()->database()->query($sql);
 
         $max_count = intval($result->fetchAssoc()["count"]);
 
-        return new Data($rows, $max_count);
+        return self::dataTable()->data($rows, $max_count);
     }
 
 
@@ -168,20 +157,20 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
 
         if (!empty($field_values)) {
             $sql .= ' WHERE ' . implode(' AND ', array_map(function (string $key, string $value) : string {
-                    return $this->dic->database()->like($key, ilDBConstants::T_TEXT, '%' . $value . '%');
+                    return self::dic()->database()->like($key, ilDBConstants::T_TEXT, '%' . $value . '%');
                 }, array_keys($field_values), $field_values));
         }
 
         if (!$max_count) {
             if (!empty($settings->getSortFields())) {
                 $sql .= ' ORDER BY ' . implode(", ", array_map(function (SortField $sort_field) : string {
-                        return $this->dic->database()->quoteIdentifier($sort_field->getSortField()) . ' ' . ($sort_field->getSortFieldDirection()
+                        return self::dic()->database()->quoteIdentifier($sort_field->getSortField()) . ' ' . ($sort_field->getSortFieldDirection()
                             === SortField::SORT_DIRECTION_DOWN ? 'DESC' : 'ASC');
                     }, $settings->getSortFields()));
             }
 
             if (!empty($settings->getOffset()) && !empty($settings->getRowsCount())) {
-                $this->dic->database()->setLimit($settings->getRowsCount(), $settings->getOffset());
+                self::dic()->database()->setLimit($settings->getRowsCount(), $settings->getOffset());
             }
         }
 

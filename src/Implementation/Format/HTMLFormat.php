@@ -3,7 +3,6 @@
 namespace srag\DataTable\Implementation\Format;
 
 use ILIAS\UI\Implementation\Render\Template;
-use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
@@ -47,7 +46,7 @@ class HTMLFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function initTemplate(Table $component, ?Data $data, Settings $settings, Renderer $renderer) : void
+    protected function initTemplate(Table $component, ?Data $data, Settings $settings) : void
     {
         $this->tpl = ($this->get_template)("tpl.datatable.html");
 
@@ -62,18 +61,18 @@ class HTMLFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleColumns(Table $component, array $columns, Settings $settings, Renderer $renderer) : void
+    protected function handleColumns(Table $component, array $columns, Settings $settings) : void
     {
         $this->tpl->setCurrentBlock("header");
 
-        parent::handleColumns($component, $columns, $settings, $renderer);
+        parent::handleColumns($component, $columns, $settings);
     }
 
 
     /**
      * @inheritDoc
      */
-    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings, Renderer $renderer) : void
+    protected function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings) : void
     {
         $this->tpl->setVariable("HEADER", $formatted_column);
 
@@ -84,18 +83,18 @@ class HTMLFormat extends AbstractFormat
     /**
      * @inheritDoc
      */
-    protected function handleRows(Table $component, array $columns, ?Data $data, Renderer $renderer) : void
+    protected function handleRows(Table $component, array $columns, ?Data $data) : void
     {
         $this->tpl->setCurrentBlock("body");
 
-        parent::handleRows($component, $columns, $data, $renderer);
+        parent::handleRows($component, $columns, $data);
     }
 
 
     /**
      * @inheritDoc
      */
-    protected function handleRow(Table $component, array $columns, RowData $row, Renderer $renderer) : void
+    protected function handleRow(Table $component, array $columns, RowData $row) : void
     {
         $tpl = $this->tpl;
 
@@ -105,9 +104,9 @@ class HTMLFormat extends AbstractFormat
 
         $this->tpl->setCurrentBlock("row");
 
-        parent::handleRow($component, $columns, $row, $renderer);
+        parent::handleRow($component, $columns, $row);
 
-        $tpl->setVariable("ROW", $this->tpl->get());
+        $tpl->setVariable("ROW", self::output()->getHTML($this->tpl));
 
         $tpl->parseCurrentBlock();
 
@@ -140,7 +139,7 @@ class HTMLFormat extends AbstractFormat
      */
     protected function renderTemplate(Table $component) : string
     {
-        return $this->tpl->get();
+        return self::output()->getHTML($this->tpl);
     }
 
 

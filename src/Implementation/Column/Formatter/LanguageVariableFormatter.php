@@ -2,8 +2,6 @@
 
 namespace srag\DataTable\Implementation\Column\Formatter;
 
-use ILIAS\DI\Container;
-use ILIAS\UI\Renderer;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
@@ -28,11 +26,11 @@ class LanguageVariableFormatter extends DefaultFormatter
     /**
      * @inheritDoc
      *
-     * @param string $prefix Prefix or language module
+     * @param string $prefix
      */
-    public function __construct(Container $dic, string $prefix)
+    public function __construct(string $prefix)
     {
-        parent::__construct($dic);
+        parent::__construct();
 
         $this->prefix = $prefix;
     }
@@ -41,7 +39,7 @@ class LanguageVariableFormatter extends DefaultFormatter
     /**
      * @inheritDoc
      */
-    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id, Renderer $renderer) : string
+    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id) : string
     {
         $value = strval($value);
 
@@ -50,9 +48,9 @@ class LanguageVariableFormatter extends DefaultFormatter
                 $value = rtrim($this->prefix, "_") . "_" . $value;
             }
 
-            $value = $this->dic->language()->txt($value);
+            $value = self::dic()->language()->txt($value);
         }
 
-        return parent::formatRowCell($format, $value, $column, $row, $table_id, $renderer);
+        return parent::formatRowCell($format, $value, $column, $row, $table_id);
     }
 }

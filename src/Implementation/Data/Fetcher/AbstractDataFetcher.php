@@ -2,9 +2,10 @@
 
 namespace srag\DataTable\Implementation\Data\Fetcher;
 
-use ILIAS\DI\Container;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
 use srag\DataTable\Component\Table;
+use srag\DataTable\Utils\DataTableTrait;
+use srag\DIC\DICTrait;
 
 /**
  * Class AbstractDataFetcher
@@ -16,20 +17,16 @@ use srag\DataTable\Component\Table;
 abstract class AbstractDataFetcher implements DataFetcher
 {
 
-    /**
-     * @var Container
-     */
-    protected $dic;
+    use DICTrait;
+    use DataTableTrait;
 
 
     /**
      * AbstractDataFetcher constructor
-     *
-     * @param Container $dic
      */
-    public function __construct(Container $dic)
+    public function __construct()
     {
-        $this->dic = $dic;
+
     }
 
 
