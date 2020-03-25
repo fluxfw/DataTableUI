@@ -10,13 +10,13 @@ use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Table;
 
 /**
- * Class CSVFormat
+ * Class CsvFormat
  *
  * @package srag\DataTable\Implementation\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class CSVFormat extends AbstractFormat
+class CsvFormat extends AbstractFormat
 {
 
     /**

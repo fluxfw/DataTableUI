@@ -10,13 +10,13 @@ use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Table;
 
 /**
- * Class HTMLFormat
+ * Class HtmlFormat
  *
  * @package srag\DataTable\Implementation\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class HTMLFormat extends AbstractFormat
+class HtmlFormat extends AbstractFormat
 {
 
     /**

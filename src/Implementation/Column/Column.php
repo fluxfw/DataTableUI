@@ -3,7 +3,7 @@
 namespace srag\DataTable\Implementation\Column;
 
 use srag\DataTable\Component\Column\Column as ColumnInterface;
-use srag\DataTable\Component\Column\Formatter\ActionsFormatter;
+use srag\DataTable\Component\Column\Formatter\Actions\ActionsFormatter;
 use srag\DataTable\Component\Column\Formatter\Formatter;
 use srag\DataTable\Component\Settings\Sort\SortField;
 use srag\DataTable\Utils\DataTableTrait;
@@ -120,7 +120,7 @@ class Column implements ColumnInterface
     public function getFormatter() : Formatter
     {
         if ($this->formatter === null) {
-            $this->formatter = self::dataTable()->defaultFormatter();
+            $this->formatter = self::dataTable()->column()->formatter()->default();
         }
 
         return $this->formatter;
