@@ -63,7 +63,7 @@ class Factory implements FactoryInterface
      */
     public function csv() : Format
     {
-        return new CSVFormat();
+        return new CsvFormat();
     }
 
 
@@ -81,7 +81,7 @@ class Factory implements FactoryInterface
      */
     public function html() : Format
     {
-        return new HTMLFormat();
+        return new HtmlFormat();
     }
 
 
@@ -90,6 +90,6 @@ class Factory implements FactoryInterface
      */
     public function pdf() : Format
     {
-        return new PDFFormat();
+        return new PdfFormat();
     }
 }

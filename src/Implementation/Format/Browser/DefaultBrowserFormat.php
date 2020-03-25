@@ -19,7 +19,7 @@ use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Settings\Sort\SortField;
 use srag\DataTable\Component\Settings\Storage\SettingsStorage;
 use srag\DataTable\Component\Table;
-use srag\DataTable\Implementation\Format\HTMLFormat;
+use srag\DataTable\Implementation\Format\HtmlFormat;
 use Throwable;
 
 /**
@@ -29,7 +29,7 @@ use Throwable;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
+class DefaultBrowserFormat extends HtmlFormat implements BrowserFormat
 {
 
     /**

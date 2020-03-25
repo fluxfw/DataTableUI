@@ -6,13 +6,13 @@ use ilHtmlToPdfTransformerFactory;
 use srag\DataTable\Component\Table;
 
 /**
- * Class PDFFormat
+ * Class PdfFormat
  *
  * @package srag\DataTable\Implementation\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class PDFFormat extends HTMLFormat
+class PdfFormat extends HtmlFormat
 {
 
     /**
