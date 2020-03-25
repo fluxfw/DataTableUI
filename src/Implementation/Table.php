@@ -7,7 +7,7 @@ use ILIAS\UI\Component\Input\Field\Input as FilterInput54;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\Format\BrowserFormat;
+use srag\DataTable\Component\Format\Browser\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Settings\Storage\SettingsStorage;
 use srag\DataTable\Component\Table as TableInterface;
@@ -270,7 +270,7 @@ class Table implements TableInterface
     public function getBrowserFormat() : BrowserFormat
     {
         if ($this->browser_format === null) {
-            $this->browser_format = self::dataTable()->defaultBrowserFormat();
+            $this->browser_format = self::dataTable()->format()->browser()->default();
         }
 
         return $this->browser_format;
@@ -343,7 +343,7 @@ class Table implements TableInterface
     public function getSettingsStorage() : SettingsStorage
     {
         if ($this->settings_storage === null) {
-            $this->settings_storage = self::dataTable()->defaultSettingsStorage();
+            $this->settings_storage = self::dataTable()->settings()->storage()->default();
         }
 
         return $this->settings_storage;

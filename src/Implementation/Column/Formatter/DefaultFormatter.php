@@ -25,8 +25,8 @@ class DefaultFormatter extends AbstractFormatter
         $title = $column->getTitle();
 
         switch ($format->getFormatId()) {
-            case Format::FORMAT_PDF:
-                return "<b>{$title}</b>";
+            case Format::FORMAT_CSV:
+                return $title;
 
             case Format::FORMAT_EXCEL:
                 /**
@@ -37,8 +37,11 @@ class DefaultFormatter extends AbstractFormatter
 
                 return $title;
 
+            case Format::FORMAT_PDF:
+                return "<b>" . htmlspecialchars($title) . "</b>";
+
             default:
-                return $title;
+                return htmlspecialchars($title);
         }
     }
 
@@ -52,11 +55,13 @@ class DefaultFormatter extends AbstractFormatter
 
         switch ($format->getFormatId()) {
             case Format::FORMAT_BROWSER:
+            case Format::FORMAT_HTML:
+            case Format::FORMAT_PDF:
                 if ($value === "") {
                     $value = "&nbsp;";
                 }
 
-                return $value;
+                return htmlspecialchars($value);
 
             default:
                 return $value;

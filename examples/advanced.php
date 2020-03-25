@@ -6,7 +6,7 @@ use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Settings\Sort\SortField;
-use srag\DataTable\Implementation\Column\Formatter\AbstractActionsFormatter;
+use srag\DataTable\Implementation\Column\Formatter\Actions\AbstractActionsFormatter;
 use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
 use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
 use srag\DataTable\Implementation\Factory;
@@ -22,21 +22,21 @@ function advanced() : string
     $action_url = DICStatic::dic()->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
     $table = Factory::getInstance()->table("example_datatable_advanced", $action_url, "Advanced example data table", [
-        Factory::getInstance()->column("obj_id", "Id")->withDefaultSelected(false),
-        Factory::getInstance()->column("title", "Title")->withFormatter(Factory::getInstance()->linkColumnFormatter())->withDefaultSort(true),
-        Factory::getInstance()->column("type", "Type")->withFormatter(Factory::getInstance()->languageVariableFormatter("obj")),
-        Factory::getInstance()->column("type_icon", "Type icon")->withFormatter(new AdvancedExampleFormatter()),
-        Factory::getInstance()->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
-        Factory::getInstance()->column("actions", "Actions")->withFormatter(new AdvancedExampleActionsFormatter())
+        Factory::getInstance()->column()->column("obj_id", "Id")->withDefaultSelected(false),
+        Factory::getInstance()->column()->column("title", "Title")->withFormatter(Factory::getInstance()->column()->formatter()->link())->withDefaultSort(true),
+        Factory::getInstance()->column()->column("type", "Type")->withFormatter(Factory::getInstance()->column()->formatter()->languageVariable("obj")),
+        Factory::getInstance()->column()->column("type_icon", "Type icon")->withFormatter(new AdvancedExampleFormatter()),
+        Factory::getInstance()->column()->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
+        Factory::getInstance()->column()->column("actions", "Actions")->withFormatter(new AdvancedExampleActionsFormatter())
     ], new AdvancedExampleDataFetcher()
     )->withFilterFields([
         "title" => DICStatic::dic()->ui()->factory()->input()->field()->text("Title"),
         "type"  => DICStatic::dic()->ui()->factory()->input()->field()->text("Type")
     ])->withFormats([
-        Factory::getInstance()->csvFormat(),
-        Factory::getInstance()->excelFormat(),
-        Factory::getInstance()->pdfFormat(),
-        Factory::getInstance()->htmlFormat()
+        Factory::getInstance()->format()->csv(),
+        Factory::getInstance()->format()->excel(),
+        Factory::getInstance()->format()->pdf(),
+        Factory::getInstance()->format()->html()
     ])->withMultipleActions([
         "Action" => $action_url
     ]);
@@ -130,7 +130,7 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
 
             $row->title_link = ilLink::_getLink(current(ilObject::_getAllReferences($row->obj_id)));
 
-            $rows[] = self::dataTable()->propertyRowData(strval($row->obj_id), $row);
+            $rows[] = self::dataTable()->data()->row()->property(strval($row->obj_id), $row);
         }
 
         $sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($settings, true);
@@ -139,7 +139,7 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
 
         $max_count = intval($result->fetchAssoc()["count"]);
 
-        return self::dataTable()->data($rows, $max_count);
+        return self::dataTable()->data()->data($rows, $max_count);
     }
 
 

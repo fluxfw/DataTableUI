@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\DataTable\Implementation\Format;
+namespace srag\DataTable\Implementation\Format\Browser;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Glyph\Factory as GlyphFactory54;
@@ -13,18 +13,19 @@ use LogicException;
 use srag\DataTable\Component\Column\Column;
 use srag\DataTable\Component\Data\Data;
 use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Format\BrowserFormat;
+use srag\DataTable\Component\Format\Browser\BrowserFormat;
 use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Settings\Sort\SortField;
 use srag\DataTable\Component\Settings\Storage\SettingsStorage;
 use srag\DataTable\Component\Table;
+use srag\DataTable\Implementation\Format\HTMLFormat;
 use Throwable;
 
 /**
  * Class DefaultBrowserFormat
  *
- * @package srag\DataTable\Implementation\Format
+ * @package srag\DataTable\Implementation\Format\Browser
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -256,7 +257,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         $sort_field = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
         $sort_field_direction = intval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
         if ($this->validateColumnKey($component, $sort_field) && !empty($sort_field_direction)) {
-            $settings = $settings->addSortField(self::dataTable()->sortField($sort_field, $sort_field_direction));
+            $settings = $settings->addSortField(self::dataTable()->settings()->sort()->sortField($sort_field, $sort_field_direction));
 
             $settings = $settings->withFilterSet(true);
         }
@@ -343,7 +344,7 @@ class DefaultBrowserFormat extends HTMLFormat implements BrowserFormat
         $filter_form = self::output()->getHTML($this->filter_form);
 
         if (!self::version()->is60()) {
-            $filter_form = preg_replace_callback('/(<button class="btn btn-default" +data-action="#" id="[a-z0-9_]+">)(.+)(<\/button>)/',
+            $filter_form = preg_replace_callback('/(<button\s+class\s*=\s*"btn btn-default"\s+data-action\s*=\s*"#"\s+id\s*=\s*"[a-z0-9_]+"\s*>)(.+)(<\/button\s*>)/',
                 function (array $matches) use ($component): string {
                     return self::output()->getHTML([
                         self::dic()->ui()->factory()->legacy($matches[1] . $component->getPlugin()->translate("apply_filter", Table::LANG_MODULE) . $matches[3] . "&nbsp;"),

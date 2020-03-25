@@ -21,10 +21,10 @@ function base() : string
     $action_url = DICStatic::dic()->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
 
     $table = Factory::getInstance()->table("example_datatable_actions", $action_url, "Example data table", [
-        Factory::getInstance()->column("column1", "Column 1"),
-        Factory::getInstance()->column("column2", "Column 2"),
-        Factory::getInstance()->column("column3", "Column 3")
-    ], Factory::getInstance()->staticDataFetcher($data, "column1"));
+        Factory::getInstance()->column()->column("column1", "Column 1"),
+        Factory::getInstance()->column()->column("column2", "Column 2"),
+        Factory::getInstance()->column()->column("column3", "Column 3")
+    ], Factory::getInstance()->data()->fetcher()->staticData($data, "column1"));
 
     return DICStatic::output()->getHTML($table);
 }

@@ -1,14 +1,15 @@
 <?php
 
-namespace srag\DataTable\Component\Format;
+namespace srag\DataTable\Component\Format\Browser;
 
+use srag\DataTable\Component\Format\Format;
 use srag\DataTable\Component\Settings\Settings;
 use srag\DataTable\Component\Table;
 
 /**
  * Interface BrowserFormat
  *
- * @package srag\DataTable\Component\Format
+ * @package srag\DataTable\Component\Format\Browser
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

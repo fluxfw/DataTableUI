@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.25.0]
+- Refactoring
+- `ChainGetterFormatter`
+
 ## [0.24.0]
 - Refactoring
 

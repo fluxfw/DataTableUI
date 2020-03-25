@@ -43,7 +43,7 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
      */
     public function read(string $table_id, int $user_id) : Settings
     {
-        $settings = self::dataTable()->settings(self::dic()->ui()->factory()->viewControl()->pagination());
+        $settings = self::dataTable()->settings()->settings(self::dic()->ui()->factory()->viewControl()->pagination());
 
         foreach (self::VARS as $property) {
             $value = json_decode($this->properties_storage->getProperty($table_id, $user_id, $property) ?? "", true);
@@ -52,7 +52,7 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
                 switch ($property) {
                     case self::VAR_SORT_FIELDS:
                         $settings = $settings->withSortFields(array_map(function (array $sort_field) : SortField {
-                            return self::dataTable()->sortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
+                            return self::dataTable()->settings()->sort()->sortField($sort_field[self::VAR_SORT_FIELD], $sort_field[self::VAR_SORT_FIELD_DIRECTION]);
                         }, $value));
                         break;
 

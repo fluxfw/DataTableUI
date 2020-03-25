@@ -9,13 +9,13 @@ use srag\DataTable\Component\Data\Row\RowData;
 use srag\DataTable\Component\Format\Format;
 
 /**
- * Class DateColumnFormatter
+ * Class DateFormatter
  *
  * @package srag\DataTable\Implementation\Column\Formatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class DateColumnFormatter extends DefaultFormatter
+class DateFormatter extends DefaultFormatter
 {
 
     /**
