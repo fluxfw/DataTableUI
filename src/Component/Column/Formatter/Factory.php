@@ -31,6 +31,12 @@ interface Factory
     /**
      * @return Formatter
      */
+    public function check() : Formatter;
+
+
+    /**
+     * @return Formatter
+     */
     public function date() : Formatter;
 
 

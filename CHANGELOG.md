@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.26.0]
+- Refactoring
+- `CheckFormatter`
+- `SortFormatter`
+
 ## [0.25.0]
 - Refactoring
 - `ChainGetterFormatter`

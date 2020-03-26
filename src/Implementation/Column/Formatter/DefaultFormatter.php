@@ -57,8 +57,8 @@ class DefaultFormatter extends AbstractFormatter
             case Format::FORMAT_BROWSER:
             case Format::FORMAT_HTML:
             case Format::FORMAT_PDF:
-                if ($value === "") {
-                    $value = "&nbsp;";
+                if (empty($value)) {
+                    return "&nbsp;";
                 }
 
                 return htmlspecialchars($value);
