@@ -70,6 +70,15 @@ class Factory implements FactoryInterface
     /**
      * @inheritDoc
      */
+    public function check() : Formatter
+    {
+        return new CheckFormatter();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function date() : Formatter
     {
         return new DateFormatter();

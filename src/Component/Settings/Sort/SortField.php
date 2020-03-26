@@ -46,7 +46,7 @@ interface SortField extends JsonSerializable
 
 
     /**
-     * @param string $sort_field_direction
+     * @param int $sort_field_direction
      *
      * @return self
      */

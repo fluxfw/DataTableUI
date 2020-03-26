@@ -23,8 +23,17 @@ use srag\DIC\Plugin\PluginInterface;
 interface Table extends Component, Pluginable
 {
 
+    /**
+     * @var string
+     */
     const ACTION_GET_VAR = "row_id";
+    /**
+     * @var string
+     */
     const MULTIPLE_SELECT_POST_VAR = "selected_row_ids";
+    /**
+     * @var string
+     */
     const LANG_MODULE = "datatable";
 
 
