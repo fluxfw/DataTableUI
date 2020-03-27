@@ -1,20 +1,20 @@
 <?php
 
-namespace srag\DataTable\Implementation\Data;
+namespace srag\DataTableUI\Implementation\Data;
 
-use srag\DataTable\Component\Data\Data as DataInterface;
-use srag\DataTable\Component\Data\Factory as FactoryInterface;
-use srag\DataTable\Component\Data\Fetcher\Factory as FetcherFactoryInterface;
-use srag\DataTable\Component\Data\Row\Factory as RowFactoryInterface;
-use srag\DataTable\Implementation\Data\Fetcher\Factory as FetcherFactory;
-use srag\DataTable\Implementation\Data\Row\Factory as RowFactory;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Data\Data as DataInterface;
+use srag\DataTableUI\Component\Data\Factory as FactoryInterface;
+use srag\DataTableUI\Component\Data\Fetcher\Factory as FetcherFactoryInterface;
+use srag\DataTableUI\Component\Data\Row\Factory as RowFactoryInterface;
+use srag\DataTableUI\Implementation\Data\Fetcher\Factory as FetcherFactory;
+use srag\DataTableUI\Implementation\Data\Row\Factory as RowFactory;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class Factory
  *
- * @package srag\DataTable\Implementation\Data
+ * @package srag\DataTableUI\Implementation\Data
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -22,7 +22,7 @@ class Factory implements FactoryInterface
 {
 
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var self|null
      */

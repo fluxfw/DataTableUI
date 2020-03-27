@@ -1,23 +1,22 @@
 <?php
 
-namespace srag\DataTable\Implementation;
+namespace srag\DataTableUI\Implementation;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
-use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Settings\Settings;
-use srag\DataTable\Component\Table;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Data\Data;
+use srag\DataTableUI\Component\Format\Format;
+use srag\DataTableUI\Component\Settings\Settings;
+use srag\DataTableUI\Component\Table;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class Renderer
  *
- * @package srag\DataTable\Implementation
+ * @package srag\DataTableUI\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -25,7 +24,7 @@ class Renderer extends AbstractComponentRenderer
 {
 
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
 
 
     /**
@@ -83,9 +82,9 @@ class Renderer extends AbstractComponentRenderer
         $dir = __DIR__;
         $dir = "./" . substr($dir, strpos($dir, "/Customizing/") + 1) . "/../..";
 
-        $registry->register($dir . "/css/datatable.css");
+        $registry->register($dir . "/css/datatableui.css");
 
-        $registry->register($dir . "/js/datatable.min.js");
+        $registry->register($dir . "/js/datatableui.min.js");
     }
 
 
@@ -138,9 +137,7 @@ class Renderer extends AbstractComponentRenderer
             $format = $component->getBrowserFormat();
         }
 
-        $rendered_data = $format->render(function (string $name, bool $purge_unfilled_vars = true, bool $purge_unused_blocks = true) : Template {
-            return $this->getTemplate($name, $purge_unfilled_vars, $purge_unused_blocks);
-        }, $component, $data, $settings);
+        $rendered_data = $format->render($component, $data, $settings);
 
         switch ($format->getOutputType()) {
             case Format::OUTPUT_TYPE_DOWNLOAD:

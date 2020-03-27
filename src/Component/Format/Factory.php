@@ -1,13 +1,13 @@
 <?php
 
-namespace srag\DataTable\Component\Format;
+namespace srag\DataTableUI\Component\Format;
 
-use srag\DataTable\Component\Format\Browser\Factory as BrowserFactory;
+use srag\DataTableUI\Component\Format\Browser\Factory as BrowserFactory;
 
 /**
  * Interface Factory
  *
- * @package srag\DataTable\Component\Format
+ * @package srag\DataTableUI\Component\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

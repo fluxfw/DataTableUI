@@ -1,21 +1,21 @@
 <?php
 
-namespace srag\DataTable\Implementation\Settings;
+namespace srag\DataTableUI\Implementation\Settings;
 
 use ILIAS\UI\Component\ViewControl\Pagination;
-use srag\DataTable\Component\Settings\Factory as FactoryInterface;
-use srag\DataTable\Component\Settings\Settings as SettingsInterface;
-use srag\DataTable\Component\Settings\Sort\Factory as SortFactoryInterface;
-use srag\DataTable\Component\Settings\Storage\Factory as StorageFactoryInterface;
-use srag\DataTable\Implementation\Settings\Sort\Factory as SortFactory;
-use srag\DataTable\Implementation\Settings\Storage\Factory as StorageFactory;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Settings\Factory as FactoryInterface;
+use srag\DataTableUI\Component\Settings\Settings as SettingsInterface;
+use srag\DataTableUI\Component\Settings\Sort\Factory as SortFactoryInterface;
+use srag\DataTableUI\Component\Settings\Storage\Factory as StorageFactoryInterface;
+use srag\DataTableUI\Implementation\Settings\Sort\Factory as SortFactory;
+use srag\DataTableUI\Implementation\Settings\Storage\Factory as StorageFactory;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class Factory
  *
- * @package srag\DataTable\Implementation\Settings
+ * @package srag\DataTableUI\Implementation\Settings
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -23,7 +23,7 @@ class Factory implements FactoryInterface
 {
 
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var self|null
      */

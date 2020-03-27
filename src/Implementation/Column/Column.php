@@ -1,18 +1,18 @@
 <?php
 
-namespace srag\DataTable\Implementation\Column;
+namespace srag\DataTableUI\Implementation\Column;
 
-use srag\DataTable\Component\Column\Column as ColumnInterface;
-use srag\DataTable\Component\Column\Formatter\Actions\ActionsFormatter;
-use srag\DataTable\Component\Column\Formatter\Formatter;
-use srag\DataTable\Component\Settings\Sort\SortField;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Column\Column as ColumnInterface;
+use srag\DataTableUI\Component\Column\Formatter\Actions\ActionsFormatter;
+use srag\DataTableUI\Component\Column\Formatter\Formatter;
+use srag\DataTableUI\Component\Settings\Sort\SortField;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class Column
  *
- * @package srag\DataTable\Implementation\Column
+ * @package srag\DataTableUI\Implementation\Column
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -20,7 +20,7 @@ class Column implements ColumnInterface
 {
 
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var string
      */
@@ -120,7 +120,7 @@ class Column implements ColumnInterface
     public function getFormatter() : Formatter
     {
         if ($this->formatter === null) {
-            $this->formatter = self::dataTable()->column()->formatter()->default();
+            $this->formatter = self::dataTableUI()->column()->formatter()->default();
         }
 
         return $this->formatter;

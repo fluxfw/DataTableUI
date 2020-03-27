@@ -1,11 +1,11 @@
 <?php
 
-namespace srag\DataTable\Component\Format\Browser;
+namespace srag\DataTableUI\Component\Format\Browser;
 
 /**
  * Interface Factory
  *
- * @package srag\DataTable\Component\Format\Browser
+ * @package srag\DataTableUI\Component\Format\Browser
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

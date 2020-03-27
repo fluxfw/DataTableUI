@@ -1,21 +1,21 @@
 <?php
 
-namespace srag\DataTable\Implementation\Format;
+namespace srag\DataTableUI\Implementation\Format;
 
 use ilUtil;
-use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Settings\Settings;
-use srag\DataTable\Component\Table;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Data\Data;
+use srag\DataTableUI\Component\Data\Row\RowData;
+use srag\DataTableUI\Component\Format\Format;
+use srag\DataTableUI\Component\Settings\Settings;
+use srag\DataTableUI\Component\Table;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class AbstractFormat
  *
- * @package srag\DataTable\Implementation\Format
+ * @package srag\DataTableUI\Implementation\Format
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -23,15 +23,11 @@ abstract class AbstractFormat implements Format
 {
 
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var object
      */
     protected $tpl;
-    /**
-     * @var callable
-     */
-    protected $get_template;
 
 
     /**
@@ -79,10 +75,8 @@ abstract class AbstractFormat implements Format
     /**
      * @inheritDoc
      */
-    public function render(callable $get_template, Table $component, ?Data $data, Settings $settings) : string
+    public function render(Table $component, ?Data $data, Settings $settings) : string
     {
-        $this->get_template = $get_template;
-
         $this->initTemplate($component, $data, $settings);
 
         $columns = $this->getColumns($component, $settings);
@@ -176,10 +170,8 @@ abstract class AbstractFormat implements Format
      * @param Table    $component
      * @param Column   $column
      * @param Settings $settings
-     *
-     * @return mixed
      */
-    protected abstract function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings);
+    protected abstract function handleColumn(string $formatted_column, Table $component, Column $column, Settings $settings) : void;
 
 
     /**

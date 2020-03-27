@@ -1,17 +1,17 @@
 <?php
 
-namespace srag\DataTable\Implementation\Data;
+namespace srag\DataTableUI\Implementation\Data;
 
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use srag\DataTable\Component\Data\Data as DataInterface;
-use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Data\Data as DataInterface;
+use srag\DataTableUI\Component\Data\Row\RowData;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class Data
  *
- * @package srag\DataTable\Implementation\Data
+ * @package srag\DataTableUI\Implementation\Data
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -20,7 +20,7 @@ class Data implements DataInterface
 
     use ComponentHelper;
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var RowData[]
      */

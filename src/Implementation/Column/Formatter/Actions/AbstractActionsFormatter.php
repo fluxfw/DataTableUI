@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\DataTable\Implementation\Column\Formatter\Actions;
+namespace srag\DataTableUI\Implementation\Column\Formatter\Actions;
 
 use Closure;
 use ILIAS\UI\Component\Button\Shy;
@@ -8,18 +8,18 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Link\Standard as StandardInterface;
 use ILIAS\UI\Implementation\Component\Button\Button;
 use ILIAS\UI\Implementation\Component\Link\Standard;
-use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Column\Formatter\Actions\ActionsFormatter;
-use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Format\Browser\BrowserFormat;
-use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Table;
-use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
+use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Column\Formatter\Actions\ActionsFormatter;
+use srag\DataTableUI\Component\Data\Row\RowData;
+use srag\DataTableUI\Component\Format\Browser\BrowserFormat;
+use srag\DataTableUI\Component\Format\Format;
+use srag\DataTableUI\Component\Table;
+use srag\DataTableUI\Implementation\Column\Formatter\DefaultFormatter;
 
 /**
  * Class AbstractActionsFormatter
  *
- * @package srag\DataTable\Implementation\Column\Formatter\Actions
+ * @package srag\DataTableUI\Implementation\Column\Formatter\Actions
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

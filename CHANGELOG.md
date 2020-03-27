@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.27.0]
+- Refactoring
+- `AbstractTableBuilder`
+
 ## [0.26.0]
 - Refactoring
 - `CheckFormatter`
