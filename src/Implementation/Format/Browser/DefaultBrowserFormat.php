@@ -1,6 +1,6 @@
 <?php
 
-namespace srag\DataTable\Implementation\Format\Browser;
+namespace srag\DataTableUI\Implementation\Format\Browser;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Glyph\Factory as GlyphFactory54;
@@ -10,22 +10,23 @@ use ILIAS\UI\Component\Link\Standard;
 use ILIAS\UI\Component\Symbol\Glyph\Factory as GlyphFactory;
 use ilUtil;
 use LogicException;
-use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Format\Browser\BrowserFormat;
-use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Settings\Settings;
-use srag\DataTable\Component\Settings\Sort\SortField;
-use srag\DataTable\Component\Settings\Storage\SettingsStorage;
-use srag\DataTable\Component\Table;
-use srag\DataTable\Implementation\Format\HtmlFormat;
+use srag\CustomInputGUIs\Template\Template;
+use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Data\Data;
+use srag\DataTableUI\Component\Data\Row\RowData;
+use srag\DataTableUI\Component\Format\Browser\BrowserFormat;
+use srag\DataTableUI\Component\Format\Format;
+use srag\DataTableUI\Component\Settings\Settings;
+use srag\DataTableUI\Component\Settings\Sort\SortField;
+use srag\DataTableUI\Component\Settings\Storage\SettingsStorage;
+use srag\DataTableUI\Component\Table;
+use srag\DataTableUI\Implementation\Format\HtmlFormat;
 use Throwable;
 
 /**
  * Class DefaultBrowserFormat
  *
- * @package srag\DataTable\Implementation\Format\Browser
+ * @package srag\DataTableUI\Implementation\Format\Browser
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -129,7 +130,7 @@ class DefaultBrowserFormat extends HtmlFormat implements BrowserFormat
         if (count($component->getMultipleActions()) > 0) {
             $this->tpl->setCurrentBlock("header");
 
-            $this->tpl->setVariable("HEADER", "");
+            $this->tpl->setVariableEscaped("HEADER", "");
 
             $this->tpl->parseCurrentBlock();
         }
@@ -207,9 +208,9 @@ class DefaultBrowserFormat extends HtmlFormat implements BrowserFormat
         if (count($component->getMultipleActions()) > 0) {
             $this->tpl->setCurrentBlock("row_checkbox");
 
-            $this->tpl->setVariable("POST_VAR", htmlspecialchars($this->actionParameter(Table::MULTIPLE_SELECT_POST_VAR, $component->getTableId()) . "[]"));
+            $this->tpl->setVariableEscaped("POST_VAR", $this->actionParameter(Table::MULTIPLE_SELECT_POST_VAR, $component->getTableId()) . "[]");
 
-            $this->tpl->setVariable("ROW_ID", htmlspecialchars($row->getRowId()));
+            $this->tpl->setVariableEscaped("ROW_ID", $row->getRowId());
 
             $this->tpl->parseCurrentBlock();
         }
@@ -257,7 +258,7 @@ class DefaultBrowserFormat extends HtmlFormat implements BrowserFormat
         $sort_field = strval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD, $component->getTableId())));
         $sort_field_direction = intval(filter_input(INPUT_GET, $this->actionParameter(SettingsStorage::VAR_SORT_FIELD_DIRECTION, $component->getTableId())));
         if ($this->validateColumnKey($component, $sort_field) && !empty($sort_field_direction)) {
-            $settings = $settings->addSortField(self::dataTable()->settings()->sort()->sortField($sort_field, $sort_field_direction));
+            $settings = $settings->addSortField(self::dataTableUI()->settings()->sort()->sortField($sort_field, $sort_field_direction));
 
             $settings = $settings->withFilterSet(true);
         }
@@ -469,11 +470,11 @@ class DefaultBrowserFormat extends HtmlFormat implements BrowserFormat
         ]);
 
         $this->tpl->setCurrentBlock("count_top");
-        $this->tpl->setVariable("COUNT_TOP", htmlspecialchars($count));
+        $this->tpl->setVariableEscaped("COUNT_TOP", $count);
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock("count_bottom");
-        $this->tpl->setVariable("COUNT_BOTTOM", htmlspecialchars($count));
+        $this->tpl->setVariableEscaped("COUNT_BOTTOM", $count);
         $this->tpl->parseCurrentBlock();
     }
 
@@ -487,7 +488,7 @@ class DefaultBrowserFormat extends HtmlFormat implements BrowserFormat
             return;
         }
 
-        $tpl_checkbox = ($this->get_template)("tpl.datatablerow.html", true, false);
+        $tpl_checkbox = new Template(__DIR__ . "/../../../../templates/tpl.datatableui_row.html", true, false);
 
         $tpl_checkbox->setCurrentBlock("row_checkbox");
 

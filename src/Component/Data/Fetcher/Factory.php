@@ -1,11 +1,11 @@
 <?php
 
-namespace srag\DataTable\Component\Data\Fetcher;
+namespace srag\DataTableUI\Component\Data\Fetcher;
 
 /**
  * Interface Factory
  *
- * @package srag\DataTable\Component\Data\Fetcher
+ * @package srag\DataTableUI\Component\Data\Fetcher
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\DataTable\Component\Settings;
+namespace srag\DataTableUI\Component\Settings;
 
 use ILIAS\UI\Component\ViewControl\Pagination;
-use srag\DataTable\Component\Settings\Sort\Factory as SortFactory;
-use srag\DataTable\Component\Settings\Storage\Factory as StorageFactory;
+use srag\DataTableUI\Component\Settings\Sort\Factory as SortFactory;
+use srag\DataTableUI\Component\Settings\Storage\Factory as StorageFactory;
 
 /**
  * Interface Factory
  *
- * @package srag\DataTable\Component\Settings
+ * @package srag\DataTableUI\Component\Settings
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\DataTable\Component\Data\Fetcher;
+namespace srag\DataTableUI\Component\Data\Fetcher;
 
-use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Settings\Settings;
-use srag\DataTable\Component\Table;
+use srag\DataTableUI\Component\Data\Data;
+use srag\DataTableUI\Component\Settings\Settings;
+use srag\DataTableUI\Component\Table;
 
 /**
  * Interface DataFetcher
  *
- * @package srag\DataTable\Component\Data\Fetcher
+ * @package srag\DataTableUI\Component\Data\Fetcher
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

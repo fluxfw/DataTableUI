@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\DataTable\Component\Data;
+namespace srag\DataTableUI\Component\Data;
 
-use srag\DataTable\Component\Data\Fetcher\Factory as FetcherFactory;
-use srag\DataTable\Component\Data\Row\Factory as RowFactory;
-use srag\DataTable\Component\Data\Row\RowData;
+use srag\DataTableUI\Component\Data\Fetcher\Factory as FetcherFactory;
+use srag\DataTableUI\Component\Data\Row\Factory as RowFactory;
+use srag\DataTableUI\Component\Data\Row\RowData;
 
 /**
  * Interface Factory
  *
- * @package srag\DataTable\Component\Data
+ * @package srag\DataTableUI\Component\Data
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

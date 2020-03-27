@@ -1,6 +1,6 @@
 {
   "name": "srag/datatable",
-  "description": "ILIAS 6.0 Data Table UI",
+  "description": "ILIAS Data Table UI Component",
   "type": "library",
   "keywords": [
     "ILIAS",
@@ -27,7 +27,7 @@
   },
   "autoload": {
     "psr-4": {
-      "srag\\DataTable\\": "src/"
+      "srag\\DataTableUI\\": "src/"
     }
   },
   "config": {

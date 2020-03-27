@@ -1,24 +1,24 @@
 <?php
 
-namespace srag\DataTable\Implementation;
+namespace srag\DataTableUI\Implementation;
 
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Component\Input\Field\Input as FilterInput54;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\Format\Browser\BrowserFormat;
-use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Settings\Storage\SettingsStorage;
-use srag\DataTable\Component\Table as TableInterface;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Data\Fetcher\DataFetcher;
+use srag\DataTableUI\Component\Format\Browser\BrowserFormat;
+use srag\DataTableUI\Component\Format\Format;
+use srag\DataTableUI\Component\Settings\Storage\SettingsStorage;
+use srag\DataTableUI\Component\Table as TableInterface;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 use srag\DIC\Plugin\PluginInterface;
 
 /**
  * Class Table
  *
- * @package srag\DataTable\Implementation
+ * @package srag\DataTableUI\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -27,7 +27,7 @@ class Table implements TableInterface
 
     use ComponentHelper;
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var PluginInterface
      */
@@ -270,7 +270,7 @@ class Table implements TableInterface
     public function getBrowserFormat() : BrowserFormat
     {
         if ($this->browser_format === null) {
-            $this->browser_format = self::dataTable()->format()->browser()->default();
+            $this->browser_format = self::dataTableUI()->format()->browser()->default();
         }
 
         return $this->browser_format;
@@ -343,7 +343,7 @@ class Table implements TableInterface
     public function getSettingsStorage() : SettingsStorage
     {
         if ($this->settings_storage === null) {
-            $this->settings_storage = self::dataTable()->settings()->storage()->default();
+            $this->settings_storage = self::dataTableUI()->settings()->storage()->default();
         }
 
         return $this->settings_storage;

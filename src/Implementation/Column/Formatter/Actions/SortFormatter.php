@@ -1,17 +1,17 @@
 <?php
 
-namespace srag\DataTable\Implementation\Column\Formatter\Actions;
+namespace srag\DataTableUI\Implementation\Column\Formatter\Actions;
 
 use srag\CustomInputGUIs\Waiter\Waiter;
-use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Table;
+use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Data\Row\RowData;
+use srag\DataTableUI\Component\Format\Format;
+use srag\DataTableUI\Component\Table;
 
 /**
  * Class SortFormatter
  *
- * @package srag\DataTable\Implementation\Column\Formatter\Actions
+ * @package srag\DataTableUI\Implementation\Column\Formatter\Actions
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -48,8 +48,14 @@ class SortFormatter extends AbstractActionsFormatter
      */
     public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id) : string
     {
+        if (self::version()->is60()) {
+            $glyph_factory = self::dic()->ui()->factory()->symbol()->glyph();
+        } else {
+            $glyph_factory = self::dic()->ui()->factory()->glyph();
+        }
+
         return self::output()->getHTML([
-            self::dic()->ui()->factory()->glyph()->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($format, $row, $table_id): string {
+            $glyph_factory->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($format, $row, $table_id): string {
                 Waiter::init(Waiter::TYPE_WAITER);
 
                 return '
@@ -66,7 +72,7 @@ class SortFormatter extends AbstractActionsFormatter
                 });
             });';
             }),
-            self::dic()->ui()->factory()->glyph()->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($format, $row, $table_id) : string {
+            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($format, $row, $table_id) : string {
                 return '
             $("#' . $id . '").click(function () {
                 il.waiter.show();

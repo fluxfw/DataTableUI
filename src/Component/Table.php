@@ -1,22 +1,22 @@
 <?php
 
-namespace srag\DataTable\Component;
+namespace srag\DataTableUI\Component;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\FilterInput;
 use ILIAS\UI\Component\Input\Field\Input as FilterInput54;
-use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\Format\Browser\BrowserFormat;
-use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Settings\Storage\SettingsStorage;
+use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Data\Fetcher\DataFetcher;
+use srag\DataTableUI\Component\Format\Browser\BrowserFormat;
+use srag\DataTableUI\Component\Format\Format;
+use srag\DataTableUI\Component\Settings\Storage\SettingsStorage;
 use srag\DIC\Plugin\Pluginable;
 use srag\DIC\Plugin\PluginInterface;
 
 /**
  * Interface Table
  *
- * @package srag\DataTable\Component
+ * @package srag\DataTableUI\Component
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -34,7 +34,7 @@ interface Table extends Component, Pluginable
     /**
      * @var string
      */
-    const LANG_MODULE = "datatable";
+    const LANG_MODULE = "datatableui";
 
 
     /**

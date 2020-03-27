@@ -1,15 +1,16 @@
 <?php
 
-use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Format\Format;
-use srag\DataTable\Component\Settings\Settings;
-use srag\DataTable\Component\Settings\Sort\SortField;
-use srag\DataTable\Implementation\Column\Formatter\Actions\AbstractActionsFormatter;
-use srag\DataTable\Implementation\Column\Formatter\DefaultFormatter;
-use srag\DataTable\Implementation\Data\Fetcher\AbstractDataFetcher;
-use srag\DataTable\Implementation\Factory;
+use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Data\Data;
+use srag\DataTableUI\Component\Data\Row\RowData;
+use srag\DataTableUI\Component\Format\Format;
+use srag\DataTableUI\Component\Settings\Settings;
+use srag\DataTableUI\Component\Settings\Sort\SortField;
+use srag\DataTableUI\Component\Table;
+use srag\DataTableUI\Implementation\Column\Formatter\Actions\AbstractActionsFormatter;
+use srag\DataTableUI\Implementation\Column\Formatter\DefaultFormatter;
+use srag\DataTableUI\Implementation\Data\Fetcher\AbstractDataFetcher;
+use srag\DataTableUI\Implementation\Utils\AbstractTableBuilder;
 use srag\DIC\DICStatic;
 
 /**
@@ -17,49 +18,87 @@ use srag\DIC\DICStatic;
  */
 function advanced() : string
 {
-    DICStatic::dic()->ctrl()->saveParameterByClass(ilSystemStyleDocumentationGUI::class, "node_id");
+    $table = new AdvancedExampleTableBuilder(new ilSystemStyleDocumentationGUI());
 
-    $action_url = DICStatic::dic()->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
+    return DICStatic::output()->getHTML($table);
+}
 
-    $table = Factory::getInstance()->table("example_datatable_advanced", $action_url, "Advanced example data table", [
-        Factory::getInstance()->column()->column("obj_id", "Id")->withDefaultSelected(false),
-        Factory::getInstance()->column()->column("title", "Title")->withFormatter(Factory::getInstance()->column()->formatter()->link())->withDefaultSort(true),
-        Factory::getInstance()->column()->column("type", "Type")->withFormatter(Factory::getInstance()->column()->formatter()->languageVariable("obj")),
-        Factory::getInstance()->column()->column("type_icon", "Type icon")->withFormatter(new AdvancedExampleFormatter()),
-        Factory::getInstance()->column()->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
-        Factory::getInstance()->column()->column("actions", "Actions")->withFormatter(new AdvancedExampleActionsFormatter())
-    ], new AdvancedExampleDataFetcher()
-    )->withFilterFields([
-        "title" => DICStatic::dic()->ui()->factory()->input()->field()->text("Title"),
-        "type"  => DICStatic::dic()->ui()->factory()->input()->field()->text("Type")
-    ])->withFormats([
-        Factory::getInstance()->format()->csv(),
-        Factory::getInstance()->format()->excel(),
-        Factory::getInstance()->format()->pdf(),
-        Factory::getInstance()->format()->html()
-    ])->withMultipleActions([
-        "Action" => $action_url
-    ]);
+/**
+ * Class AdvancedExampleTableBuilder
+ *
+ * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ */
+class AdvancedExampleTableBuilder extends AbstractTableBuilder
+{
 
-    $info_text = DICStatic::dic()->ui()->factory()->legacy("");
-
-    $action_row_id = $table->getBrowserFormat()->getActionRowId($table->getTableId());
-    if ($action_row_id !== "") {
-        $info_text = $info_text = DICStatic::dic()->ui()->factory()->messageBox()->info("Row id: " . $action_row_id);
+    /**
+     * @inheritDoc
+     *
+     * @param ilSystemStyleDocumentationGUI $parent
+     */
+    public function __construct(ilSystemStyleDocumentationGUI $parent)
+    {
+        parent::__construct($parent);
     }
 
-    $mutliple_action_row_ids = $table->getBrowserFormat()->getMultipleActionRowIds($table->getTableId());
-    if (!empty($mutliple_action_row_ids)) {
-        $info_text = DICStatic::dic()->ui()->factory()->messageBox()->info("Row ids: " . implode(", ", $mutliple_action_row_ids));
+
+    /**
+     * @inheritDoc
+     */
+    protected function buildTable() : Table
+    {
+        self::dic()->ctrl()->saveParameter($this->parent, "node_id");
+        $action_url = self::dic()->ctrl()->getLinkTarget($this->parent, "", "", false, false);
+
+        $table = self::dataTableUI()->table("example_datatableui_advanced", $action_url, "Advanced example data table", [
+            self::dataTableUI()->column()->column("obj_id", "Id")->withDefaultSelected(false),
+            self::dataTableUI()->column()->column("title", "Title")->withFormatter(self::dataTableUI()->column()->formatter()->link())->withDefaultSort(true),
+            self::dataTableUI()->column()->column("type", "Type")->withFormatter(self::dataTableUI()->column()->formatter()->languageVariable("obj")),
+            self::dataTableUI()->column()->column("type_icon", "Type icon")->withFormatter(new AdvancedExampleFormatter()),
+            self::dataTableUI()->column()->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
+            self::dataTableUI()->column()->column("actions", "Actions")->withFormatter(new AdvancedExampleActionsFormatter($action_url))
+        ], new AdvancedExampleDataFetcher()
+        )->withFilterFields([
+            "title" => self::dic()->ui()->factory()->input()->field()->text("Title"),
+            "type"  => self::dic()->ui()->factory()->input()->field()->text("Type")
+        ])->withFormats([
+            self::dataTableUI()->format()->csv(),
+            self::dataTableUI()->format()->excel(),
+            self::dataTableUI()->format()->pdf(),
+            self::dataTableUI()->format()->html()
+        ])->withMultipleActions([
+            "Action" => $action_url
+        ]);
+
+        return $table;
     }
 
-    return DICStatic::output()->getHTML([$info_text, $table]);
+
+    /**
+     * @inheritDoc
+     */
+    public function render() : string
+    {
+        $info_text = "";
+
+        $action_row_id = $this->getTable()->getBrowserFormat()->getActionRowId($this->getTable()->getTableId());
+        if ($action_row_id !== "") {
+            $info_text = $info_text = self::dic()->ui()->factory()->messageBox()->info("Row id: " . $action_row_id);
+        }
+
+        $mutliple_action_row_ids = $this->getTable()->getBrowserFormat()->getMultipleActionRowIds($this->getTable()->getTableId());
+        if (!empty($mutliple_action_row_ids)) {
+            $info_text = self::dic()->ui()->factory()->messageBox()->info("Row ids: " . implode(", ", $mutliple_action_row_ids));
+        }
+
+        return self::output()->getHTML([$info_text, parent::render()]);
+    }
 }
 
 /**
  * Class AdvancedExampleFormatter
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class AdvancedExampleFormatter extends DefaultFormatter
 {
@@ -89,20 +128,37 @@ class AdvancedExampleFormatter extends DefaultFormatter
 /**
  * Class AdvancedExampleActionsFormatter
  *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class AdvancedExampleActionsFormatter extends AbstractActionsFormatter
 {
+
+    /**
+     * @var string
+     */
+    protected $action_url;
+
+
+    /**
+     * @inheritDoc
+     *
+     * @param string $action_url
+     */
+    public function __construct(string $action_url)
+    {
+        $this->action_url = $action_url;
+
+        parent::__construct();
+    }
+
 
     /**
      * @inheritDoc
      */
     public function getActions(RowData $row) : array
     {
-        $action_url = self::dic()->ctrl()->getLinkTargetByClass(ilSystemStyleDocumentationGUI::class, "", "", false, false);
-
         return [
-            self::dic()->ui()->factory()->link()->standard("Action", $action_url)
+            self::dic()->ui()->factory()->link()->standard("Action", $this->action_url)
         ];
     }
 }
@@ -130,7 +186,7 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
 
             $row->title_link = ilLink::_getLink(current(ilObject::_getAllReferences($row->obj_id)));
 
-            $rows[] = self::dataTable()->data()->row()->property(strval($row->obj_id), $row);
+            $rows[] = self::dataTableUI()->data()->row()->property(strval($row->obj_id), $row);
         }
 
         $sql = 'SELECT COUNT(obj_id) AS count' . $this->getQuery($settings, true);
@@ -139,7 +195,7 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
 
         $max_count = intval($result->fetchAssoc()["count"]);
 
-        return self::dataTable()->data()->data($rows, $max_count);
+        return self::dataTableUI()->data()->data($rows, $max_count);
     }
 
 

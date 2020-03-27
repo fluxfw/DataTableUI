@@ -1,19 +1,19 @@
 <?php
 
-namespace srag\DataTable\Implementation\Settings;
+namespace srag\DataTableUI\Implementation\Settings;
 
 use ILIAS\UI\Component\ViewControl\Pagination;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
-use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Settings\Settings as SettingsInterface;
-use srag\DataTable\Component\Settings\Sort\SortField;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Data\Data;
+use srag\DataTableUI\Component\Settings\Settings as SettingsInterface;
+use srag\DataTableUI\Component\Settings\Sort\SortField;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class Settings
  *
- * @package srag\DataTable\Implementation\Settings
+ * @package srag\DataTableUI\Implementation\Settings
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -22,7 +22,7 @@ class Settings implements SettingsInterface
 
     use ComponentHelper;
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var Pagination
      */

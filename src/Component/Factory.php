@@ -1,19 +1,19 @@
 <?php
 
-namespace srag\DataTable\Component;
+namespace srag\DataTableUI\Component;
 
-use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Column\Factory as ColumnFactory;
-use srag\DataTable\Component\Data\Factory as DataFactory;
-use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\Format\Factory as FormatFactory;
-use srag\DataTable\Component\Settings\Factory as SettingsFactory;
+use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Column\Factory as ColumnFactory;
+use srag\DataTableUI\Component\Data\Factory as DataFactory;
+use srag\DataTableUI\Component\Data\Fetcher\DataFetcher;
+use srag\DataTableUI\Component\Format\Factory as FormatFactory;
+use srag\DataTableUI\Component\Settings\Factory as SettingsFactory;
 use srag\DIC\Plugin\PluginInterface;
 
 /**
  * Interface Factory
  *
- * @package srag\DataTable\Component
+ * @package srag\DataTableUI\Component
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -27,19 +27,19 @@ interface Factory
 
 
     /**
-     * @return ColumnFactory
+     * @return DataFactory
      */
     public function data() : DataFactory;
 
 
     /**
-     * @return ColumnFactory
+     * @return FormatFactory
      */
     public function format() : FormatFactory;
 
 
     /**
-     * @return ColumnFactory
+     * @return SettingsFactory
      */
     public function settings() : SettingsFactory;
 

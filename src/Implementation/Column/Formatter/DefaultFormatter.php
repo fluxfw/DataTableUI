@@ -1,16 +1,16 @@
 <?php
 
-namespace srag\DataTable\Implementation\Column\Formatter;
+namespace srag\DataTableUI\Implementation\Column\Formatter;
 
 use ilExcel;
-use srag\DataTable\Component\Column\Column;
-use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Format\Format;
+use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Data\Row\RowData;
+use srag\DataTableUI\Component\Format\Format;
 
 /**
  * Class DefaultFormatter
  *
- * @package srag\DataTable\Implementation\Column\Formatter
+ * @package srag\DataTableUI\Implementation\Column\Formatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */

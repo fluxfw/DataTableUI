@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\DataTable\Implementation\Data\Row;
+namespace srag\DataTableUI\Implementation\Data\Row;
 
-use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Data\Row\RowData;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class AbstractRowData
  *
- * @package srag\DataTable\Implementation\Data\Row
+ * @package srag\DataTableUI\Implementation\Data\Row
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -17,7 +17,7 @@ abstract class AbstractRowData implements RowData
 {
 
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var string
      */

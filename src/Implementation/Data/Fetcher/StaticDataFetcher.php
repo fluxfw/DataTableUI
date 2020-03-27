@@ -1,17 +1,17 @@
 <?php
 
-namespace srag\DataTable\Implementation\Data\Fetcher;
+namespace srag\DataTableUI\Implementation\Data\Fetcher;
 
-use srag\DataTable\Component\Data\Data;
-use srag\DataTable\Component\Data\Row\RowData;
-use srag\DataTable\Component\Settings\Settings;
-use srag\DataTable\Component\Settings\Sort\SortField;
+use srag\DataTableUI\Component\Data\Data;
+use srag\DataTableUI\Component\Data\Row\RowData;
+use srag\DataTableUI\Component\Settings\Settings;
+use srag\DataTableUI\Component\Settings\Sort\SortField;
 use stdClass;
 
 /**
  * Class StaticDataFetcher
  *
- * @package srag\DataTable\Implementation\Data\Fetcher
+ * @package srag\DataTableUI\Implementation\Data\Fetcher
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -105,9 +105,9 @@ class StaticDataFetcher extends AbstractDataFetcher
         $data = array_slice($data, $settings->getOffset(), $settings->getRowsCount());
 
         $data = array_map(function (stdClass $row) : RowData {
-            return self::dataTable()->data()->row()->property(strval($row->{$this->id_key}), $row);
+            return self::dataTableUI()->data()->row()->property(strval($row->{$this->id_key}), $row);
         }, $data);
 
-        return self::dataTable()->data()->data($data, $max_count);
+        return self::dataTableUI()->data()->data($data, $max_count);
     }
 }

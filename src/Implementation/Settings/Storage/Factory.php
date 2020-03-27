@@ -1,16 +1,16 @@
 <?php
 
-namespace srag\DataTable\Implementation\Settings\Storage;
+namespace srag\DataTableUI\Implementation\Settings\Storage;
 
-use srag\DataTable\Component\Settings\Storage\Factory as FactoryInterface;
-use srag\DataTable\Component\Settings\Storage\SettingsStorage;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Settings\Storage\Factory as FactoryInterface;
+use srag\DataTableUI\Component\Settings\Storage\SettingsStorage;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class Factory
  *
- * @package srag\DataTable\Implementation\Settings\Storage
+ * @package srag\DataTableUI\Implementation\Settings\Storage
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -18,7 +18,7 @@ class Factory implements FactoryInterface
 {
 
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var self|null
      */

@@ -1,16 +1,16 @@
 $(document).ready(() => {
-    $(".datatable").each(function () {
+    $(".datatableui").each(function () {
         const table = this;
 
         const post_var = $("table input:checkbox", table).prop("name").slice(0, -2); // slice removes [] from the end
 
         // Select all
-        $(".datatable_multiple_actions input:checkbox", table).change(function () {
+        $(".datatableui_multiple_actions input:checkbox", table).change(function () {
             il.Util.setChecked(table.id, post_var, this.checked);
         });
 
         // Form
-        $(".datatable_multiple_actions a[href]", table).click(function (e) {
+        $(".datatableui_multiple_actions a[href]", table).click(function (e) {
             e.preventDefault(); // Prevents to execute the button action as get
 
             const action = this.href;

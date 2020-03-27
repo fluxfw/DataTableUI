@@ -1,15 +1,15 @@
 <?php
 
-namespace srag\DataTable\Implementation\Column\Formatter;
+namespace srag\DataTableUI\Implementation\Column\Formatter;
 
-use srag\DataTable\Component\Column\Formatter\Formatter;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Column\Formatter\Formatter;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 
 /**
  * Class AbstractFormatter
  *
- * @package srag\DataTable\Implementation\Column\Formatter
+ * @package srag\DataTableUI\Implementation\Column\Formatter
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -17,7 +17,7 @@ abstract class AbstractFormatter implements Formatter
 {
 
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
 
 
     /**

@@ -1,19 +1,19 @@
 <?php
 
-namespace srag\DataTable\Implementation;
+namespace srag\DataTableUI\Implementation;
 
-use srag\DataTable\Component\Column\Factory as ColumnFactoryInterface;
-use srag\DataTable\Component\Data\Factory as DataFactoryInterface;
-use srag\DataTable\Component\Data\Fetcher\DataFetcher;
-use srag\DataTable\Component\Factory as FactoryInterface;
-use srag\DataTable\Component\Format\Factory as FormatFactoryInterface;
-use srag\DataTable\Component\Settings\Factory as SettingsFactoryInterface;
-use srag\DataTable\Component\Table as TableInterface;
-use srag\DataTable\Implementation\Column\Factory as ColumnFactory;
-use srag\DataTable\Implementation\Data\Factory as DataFactory;
-use srag\DataTable\Implementation\Format\Factory as FormatFactory;
-use srag\DataTable\Implementation\Settings\Factory as SettingsFactory;
-use srag\DataTable\Utils\DataTableTrait;
+use srag\DataTableUI\Component\Column\Factory as ColumnFactoryInterface;
+use srag\DataTableUI\Component\Data\Factory as DataFactoryInterface;
+use srag\DataTableUI\Component\Data\Fetcher\DataFetcher;
+use srag\DataTableUI\Component\Factory as FactoryInterface;
+use srag\DataTableUI\Component\Format\Factory as FormatFactoryInterface;
+use srag\DataTableUI\Component\Settings\Factory as SettingsFactoryInterface;
+use srag\DataTableUI\Component\Table as TableInterface;
+use srag\DataTableUI\Implementation\Column\Factory as ColumnFactory;
+use srag\DataTableUI\Implementation\Data\Factory as DataFactory;
+use srag\DataTableUI\Implementation\Format\Factory as FormatFactory;
+use srag\DataTableUI\Implementation\Settings\Factory as SettingsFactory;
+use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 use srag\DIC\Plugin\PluginInterface;
 use srag\DIC\Util\LibraryLanguageInstaller;
@@ -21,7 +21,7 @@ use srag\DIC\Util\LibraryLanguageInstaller;
 /**
  * Class Factory
  *
- * @package srag\DataTable\Implementation
+ * @package srag\DataTableUI\Implementation
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
@@ -29,7 +29,7 @@ class Factory implements FactoryInterface
 {
 
     use DICTrait;
-    use DataTableTrait;
+    use DataTableUITrait;
     /**
      * @var self|null
      */

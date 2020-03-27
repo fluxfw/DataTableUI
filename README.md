@@ -21,16 +21,18 @@ So I recommand to use [srag/librariesnamespacechanger](https://packagist.org/pac
 You can use this library with PHP 7.0 by using the `PHP72Backport` from [srag/librariesnamespacechanger](https://packagist.org/packages/srag/librariesnamespacechanger)
 
 #### Using trait
-Your class in this you want to use DataTable needs to use the trait `DataTableTrait`
+Your class in this you want to use DataTableUI needs to use the trait `DataTableUITrait`
 ```php
 ...
-use srag\DataTable\x\Utils\DataTableTrait;
+use srag\DataTableUI\x\Implementation\Utils\DataTableUITrait;
 ...
 class x {
 ...
-use DataTableTrait;
+use DataTableUITrait;
 ...
 ```
+
+You can also use `AbstractTableBuilder` for build your table
 
 #### Languages
 Expand you plugin class for installing languages of the library to your plugin
@@ -42,7 +44,7 @@ Expand you plugin class for installing languages of the library to your plugin
     public function updateLanguages(/*?array*/ $a_lang_keys = null)/*:void*/ {
 		parent::updateLanguages($a_lang_keys);
 
-		self::dataTable()->installLanguages(self::plugin());
+		self::dataTableUI()->installLanguages(self::plugin());
 	}
 ...
 ```
@@ -51,7 +53,7 @@ Expand you plugin class for installing languages of the library to your plugin
 In your code
 ```php
 ...
-self::dataTable()->table(...)->withPlugin(self::plugin());
+self::dataTableUI()->table(...)->withPlugin(self::plugin());
 ...
 ```
 
