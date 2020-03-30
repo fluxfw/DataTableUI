@@ -2,6 +2,8 @@
 
 namespace srag\DataTableUI\Implementation\Data\Row;
 
+use srag\CustomInputGUIs\PropertyFormGUI\Items\Items;
+
 /**
  * Class GetterRowData
  *
@@ -13,29 +15,10 @@ class GetterRowData extends AbstractRowData
 {
 
     /**
-     * @param string $string
-     *
-     * @return string
-     */
-    protected function strToCamelCase(string $string) : string
-    {
-        return str_replace("_", "", ucwords($string, "_"));
-    }
-
-
-    /**
      * @inheritDoc
      */
     public function __invoke(string $key)
     {
-        if (method_exists($this->getOriginalData(), $method = "get" . $this->strToCamelCase($key))) {
-            return $this->getOriginalData()->{$method}();
-        }
-
-        if (method_exists($this->getOriginalData(), $method = "is" . $this->strToCamelCase($key))) {
-            return $this->getOriginalData()->{$method}();
-        }
-
-        return null;
+        return Items::getter($this->getOriginalData(), $key);
     }
 }

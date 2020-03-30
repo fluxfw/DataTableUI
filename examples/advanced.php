@@ -7,7 +7,6 @@ use srag\DataTableUI\Component\Format\Format;
 use srag\DataTableUI\Component\Settings\Settings;
 use srag\DataTableUI\Component\Settings\Sort\SortField;
 use srag\DataTableUI\Component\Table;
-use srag\DataTableUI\Implementation\Column\Formatter\Actions\AbstractActionsFormatter;
 use srag\DataTableUI\Implementation\Column\Formatter\DefaultFormatter;
 use srag\DataTableUI\Implementation\Data\Fetcher\AbstractDataFetcher;
 use srag\DataTableUI\Implementation\Utils\AbstractTableBuilder;
@@ -56,8 +55,8 @@ class AdvancedExampleTableBuilder extends AbstractTableBuilder
             self::dataTableUI()->column()->column("type", "Type")->withFormatter(self::dataTableUI()->column()->formatter()->languageVariable("obj")),
             self::dataTableUI()->column()->column("type_icon", "Type icon")->withFormatter(new AdvancedExampleFormatter()),
             self::dataTableUI()->column()->column("description", "Description")->withDefaultSelected(false)->withSortable(false),
-            self::dataTableUI()->column()->column("actions", "Actions")->withFormatter(new AdvancedExampleActionsFormatter($action_url))
-        ], new AdvancedExampleDataFetcher()
+            self::dataTableUI()->column()->column("actions", "Actions")->withFormatter(self::dataTableUI()->column()->formatter()->actions()->actionsDropdown())
+        ], new AdvancedExampleDataFetcher($action_url)
         )->withFilterFields([
             "title" => self::dic()->ui()->factory()->input()->field()->text("Title"),
             "type"  => self::dic()->ui()->factory()->input()->field()->text("Type")
@@ -126,11 +125,11 @@ class AdvancedExampleFormatter extends DefaultFormatter
 }
 
 /**
- * Class AdvancedExampleActionsFormatter
+ * Class AdvancedExampleDataFetcher
  *
- * @author studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
+ * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class AdvancedExampleActionsFormatter extends AbstractActionsFormatter
+class AdvancedExampleDataFetcher extends AbstractDataFetcher
 {
 
     /**
@@ -155,25 +154,6 @@ class AdvancedExampleActionsFormatter extends AbstractActionsFormatter
     /**
      * @inheritDoc
      */
-    public function getActions(RowData $row) : array
-    {
-        return [
-            self::dic()->ui()->factory()->link()->standard("Action", $this->action_url)
-        ];
-    }
-}
-
-/**
- * Class AdvancedExampleDataFetcher
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- */
-class AdvancedExampleDataFetcher extends AbstractDataFetcher
-{
-
-    /**
-     * @inheritDoc
-     */
     public function fetchData(Settings $settings) : Data
     {
         $sql = 'SELECT *' . $this->getQuery($settings);
@@ -185,6 +165,10 @@ class AdvancedExampleDataFetcher extends AbstractDataFetcher
             $row->type_icon = $row->type;
 
             $row->title_link = ilLink::_getLink(current(ilObject::_getAllReferences($row->obj_id)));
+
+            $row->actions = [
+                self::dic()->ui()->factory()->link()->standard("Action", $this->action_url)
+            ];
 
             $rows[] = self::dataTableUI()->data()->row()->property(strval($row->obj_id), $row);
         }

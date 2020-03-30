@@ -41,7 +41,7 @@ class ChainGetterFormatter extends DefaultFormatter
      */
     public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id) : string
     {
-        $value = $row->getOriginalData();
+        $value = $row(array_shift($this->chain));
 
         foreach ($this->chain as $chain) {
             $value = Items::getter($value, $chain);

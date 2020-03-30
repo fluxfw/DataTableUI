@@ -4,9 +4,11 @@ namespace srag\DataTableUI\Implementation\Column\Formatter\Actions;
 
 use srag\CustomInputGUIs\Waiter\Waiter;
 use srag\DataTableUI\Component\Column\Column;
+use srag\DataTableUI\Component\Column\Formatter\Actions\ActionsFormatter;
 use srag\DataTableUI\Component\Data\Row\RowData;
 use srag\DataTableUI\Component\Format\Format;
 use srag\DataTableUI\Component\Table;
+use srag\DataTableUI\Implementation\Column\Formatter\DefaultFormatter;
 
 /**
  * Class SortFormatter
@@ -15,38 +17,13 @@ use srag\DataTableUI\Component\Table;
  *
  * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
-class SortFormatter extends AbstractActionsFormatter
+class SortFormatter extends DefaultFormatter implements ActionsFormatter
 {
 
     /**
-     * @var string
-     */
-    protected $sort_up_action_url;
-    /**
-     * @var string
-     */
-    protected $sort_down_action_url;
-
-
-    /**
-     * @inheritDoc
-     *
-     * @param string $sort_up_action_url
-     * @param string $sort_down_action_url
-     */
-    public function __construct(string $sort_up_action_url, string $sort_down_action_url)
-    {
-        parent::__construct();
-
-        $this->sort_up_action_url = $sort_up_action_url;
-        $this->sort_down_action_url = $sort_down_action_url;
-    }
-
-
-    /**
      * @inheritDoc
      */
-    public function formatRowCell(Format $format, $value, Column $column, RowData $row, string $table_id) : string
+    public function formatRowCell(Format $format, $actions, Column $column, RowData $row, string $table_id) : string
     {
         if (self::version()->is60()) {
             $glyph_factory = self::dic()->ui()->factory()->symbol()->glyph();
@@ -55,7 +32,7 @@ class SortFormatter extends AbstractActionsFormatter
         }
 
         return self::output()->getHTML([
-            $glyph_factory->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($format, $row, $table_id): string {
+            $glyph_factory->sortAscending()->withAdditionalOnLoadCode(function (string $id) use ($format, $row, $column, $table_id): string {
                 Waiter::init(Waiter::TYPE_WAITER);
 
                 return '
@@ -63,7 +40,7 @@ class SortFormatter extends AbstractActionsFormatter
                 il.waiter.show();
                 var row = $(this).parent().parent();
                 $.ajax({
-                    url: ' . json_encode($format->getActionUrlWithParams($this->sort_up_action_url, [Table::ACTION_GET_VAR => $row->getRowId()], $table_id)) . ',
+                    url: ' . json_encode($format->getActionUrlWithParams($row($column->getKey() . "_up_action_url"), [Table::ACTION_GET_VAR => $row->getRowId()], $table_id)) . ',
                     type: "GET"
                  }).always(function () {
                     il.waiter.hide();
@@ -72,13 +49,13 @@ class SortFormatter extends AbstractActionsFormatter
                 });
             });';
             }),
-            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($format, $row, $table_id) : string {
+            $glyph_factory->sortDescending()->withAdditionalOnLoadCode(function (string $id) use ($format, $row, $column, $table_id) : string {
                 return '
             $("#' . $id . '").click(function () {
                 il.waiter.show();
                 var row = $(this).parent().parent();
                 $.ajax({
-                    url: ' . json_encode($format->getActionUrlWithParams($this->sort_down_action_url, [Table::ACTION_GET_VAR => $row->getRowId()], $table_id)) . ',
+                     url: ' . json_encode($format->getActionUrlWithParams($row($column->getKey() . "_down_action_url"), [Table::ACTION_GET_VAR => $row->getRowId()], $table_id)) . ',
                     type: "GET"
                 }).always(function () {
                     il.waiter.hide();
@@ -88,14 +65,5 @@ class SortFormatter extends AbstractActionsFormatter
         });';
             })
         ]);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    protected function getActions(RowData $row) : array
-    {
-        return [];
     }
 }
