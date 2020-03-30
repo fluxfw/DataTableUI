@@ -149,7 +149,7 @@ class HtmlFormat extends AbstractFormat
      */
     protected function handleNoDataText(?Data $data, Table $component) : void
     {
-        if ($data === null || $data->getDataCount() === 0) {
+        if ($data === null || empty($data->getDataCount())) {
             $this->tpl->setCurrentBlock("no_data");
 
             $this->tpl->setVariableEscaped("NO_DATA_TEXT", $component->getDataFetcher()->getNoDataText($component));

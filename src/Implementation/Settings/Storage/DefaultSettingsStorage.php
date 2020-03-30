@@ -3,6 +3,7 @@
 namespace srag\DataTableUI\Implementation\Settings\Storage;
 
 use ilTablePropertiesStorage;
+use srag\CustomInputGUIs\PropertyFormGUI\Items\Items;
 use srag\DataTableUI\Component\Settings\Settings;
 use srag\DataTableUI\Component\Settings\Sort\SortField;
 
@@ -57,9 +58,8 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
                         break;
 
                     default:
-                        if (method_exists($settings, $method = "with" . $this->strToCamelCase($property))) {
-                            $settings = $settings->{$method}($value);
-                        }
+                        $settings = Items::setter($settings, $property, $value);
+                        break;
                 }
             }
         }
@@ -74,14 +74,7 @@ class DefaultSettingsStorage extends AbstractSettingsStorage
     public function store(Settings $settings, string $table_id, int $user_id) : void
     {
         foreach (self::VARS as $property) {
-            $value = "";
-            if (method_exists($settings, $method = "get" . $this->strToCamelCase($property))) {
-                $value = $settings->{$method}();
-            } else {
-                if (method_exists($settings, $method = "is" . $this->strToCamelCase($property))) {
-                    $value = $settings->{$method}();
-                }
-            }
+            $value = Items::getter($settings, $property);
 
             $this->properties_storage->storeProperty($table_id, $user_id, $property, json_encode($value));
         }

@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.28.0]
+- Refactoring
+
 ## [0.27.0]
 - Refactoring
 - `AbstractTableBuilder`

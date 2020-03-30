@@ -56,15 +56,4 @@ abstract class AbstractSettingsStorage implements SettingsStorage
 
         return $settings;
     }
-
-
-    /**
-     * @param string $string
-     *
-     * @return string
-     */
-    protected function strToCamelCase(string $string) : string
-    {
-        return str_replace("_", "", ucwords($string, "_"));
-    }
 }

@@ -336,7 +336,7 @@ class DefaultBrowserFormat extends HtmlFormat implements BrowserFormat
      */
     protected function handleFilterForm(Table $component, Settings $settings) : void
     {
-        if (count($component->getFilterFields()) === 0) {
+        if (empty($component->getFilterFields())) {
             return;
         }
 
@@ -484,7 +484,7 @@ class DefaultBrowserFormat extends HtmlFormat implements BrowserFormat
      */
     protected function handleMultipleActions(Table $component) : void
     {
-        if (count($component->getMultipleActions()) === 0) {
+        if (empty($component->getMultipleActions())) {
             return;
         }
 

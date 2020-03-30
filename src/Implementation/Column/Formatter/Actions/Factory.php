@@ -50,8 +50,17 @@ class Factory implements FactoryInterface
     /**
      * @inheritDoc
      */
-    public function sort(string $sort_up_action_url, string $sort_down_action_url) : ActionsFormatter
+    public function actionsDropdown() : ActionsFormatter
     {
-        return new SortFormatter($sort_up_action_url, $sort_down_action_url);
+        return new ActionsDropdownFormatter();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function sort() : ActionsFormatter
+    {
+        return new SortFormatter();
     }
 }
