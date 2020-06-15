@@ -16,108 +16,49 @@ interface Column
 {
 
     /**
-     * @return string
+     * @return int
      */
-    public function getKey() : string;
-
-
-    /**
-     * @param string $key
-     *
-     * @return self
-     */
-    public function withKey(string $key) : self;
-
-
-    /**
-     * @return string
-     */
-    public function getTitle() : string;
-
-
-    /**
-     * @param string $title
-     *
-     * @return self
-     */
-    public function withTitle(string $title) : self;
-
+    public function getDefaultSortDirection() : int;
 
     /**
      * @return Formatter
      */
     public function getFormatter() : Formatter;
 
+    /**
+     * @return string
+     */
+    public function getKey() : string;
 
     /**
-     * @param Formatter $formatter
-     *
-     * @return self
+     * @return string
      */
-    public function withFormatter(Formatter $formatter) : self;
-
-
-    /**
-     * @return bool
-     */
-    public function isSortable() : bool;
-
-
-    /**
-     * @param bool $sortable
-     *
-     * @return self
-     */
-    public function withSortable(bool $sortable = true) : self;
-
-
-    /**
-     * @return bool
-     */
-    public function isDefaultSort() : bool;
-
-
-    /**
-     * @param bool $default_sort
-     *
-     * @return self
-     */
-    public function withDefaultSort(bool $default_sort = false) : self;
-
-
-    /**
-     * @return int
-     */
-    public function getDefaultSortDirection() : int;
-
-
-    /**
-     * @param int $default_sort_direction
-     *
-     * @return self
-     */
-    public function withDefaultSortDirection(int $default_sort_direction = SortField::SORT_DIRECTION_UP) : self;
-
-
-    /**
-     * @return bool
-     */
-    public function isSelectable() : bool;
-
-
-    /**
-     * @param bool $selectable
-     *
-     * @return self
-     */
-    public function withSelectable(bool $selectable = true) : self;
-
+    public function getTitle() : string;
 
     /**
      * @return bool
      */
     public function isDefaultSelected() : bool;
 
+    /**
+     * @return bool
+     */
+    public function isDefaultSort() : bool;
+
+    /**
+     * @return bool
+     */
+    public function isExportable() : bool;
+
+    /**
+     * @return bool
+     */
+    public function isSelectable() : bool;
+
+    /**
+     * @return bool
+     */
+    public function isSortable() : bool;
 
     /**
      * @param bool $default_selected
@@ -126,12 +67,19 @@ interface Column
      */
     public function withDefaultSelected(bool $default_selected = true) : self;
 
+    /**
+     * @param bool $default_sort
+     *
+     * @return self
+     */
+    public function withDefaultSort(bool $default_sort = false) : self;
 
     /**
-     * @return bool
+     * @param int $default_sort_direction
+     *
+     * @return self
      */
-    public function isExportable() : bool;
-
+    public function withDefaultSortDirection(int $default_sort_direction = SortField::SORT_DIRECTION_UP) : self;
 
     /**
      * @param bool $exportable
@@ -139,4 +87,39 @@ interface Column
      * @return self
      */
     public function withExportable(bool $exportable = true) : self;
+
+    /**
+     * @param Formatter $formatter
+     *
+     * @return self
+     */
+    public function withFormatter(Formatter $formatter) : self;
+
+    /**
+     * @param string $key
+     *
+     * @return self
+     */
+    public function withKey(string $key) : self;
+
+    /**
+     * @param bool $selectable
+     *
+     * @return self
+     */
+    public function withSelectable(bool $selectable = true) : self;
+
+    /**
+     * @param bool $sortable
+     *
+     * @return self
+     */
+    public function withSortable(bool $sortable = true) : self;
+
+    /**
+     * @param string $title
+     *
+     * @return self
+     */
+    public function withTitle(string $title) : self;
 }
