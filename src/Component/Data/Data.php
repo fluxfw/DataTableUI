@@ -19,15 +19,18 @@ interface Data
      */
     public function getData() : array;
 
+
     /**
      * @return int
      */
     public function getDataCount() : int;
 
+
     /**
      * @return int
      */
     public function getMaxCount() : int;
+
 
     /**
      * @param RowData[] $data
@@ -35,6 +38,7 @@ interface Data
      * @return self
      */
     public function withData(array $data) : self;
+
 
     /**
      * @param int $max_count

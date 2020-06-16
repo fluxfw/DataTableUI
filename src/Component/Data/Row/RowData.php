@@ -19,15 +19,18 @@ interface RowData
      */
     public function __invoke(string $key);
 
+
     /**
      * @return object
      */
     public function getOriginalData() : object;
 
+
     /**
      * @return string
      */
     public function getRowId() : string;
+
 
     /**
      * @param object $original_data
@@ -35,6 +38,7 @@ interface RowData
      * @return self
      */
     public function withOriginalData(object $original_data) : self;
+
 
     /**
      * @param string $row_id

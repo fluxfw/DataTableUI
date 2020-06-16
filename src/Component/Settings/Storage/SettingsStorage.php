@@ -75,6 +75,7 @@ interface SettingsStorage
      */
     const VAR_SORT_FIELD_DIRECTION = "sort_field_direction";
 
+
     /**
      * @param Settings $settings
      * @param Table    $component
@@ -83,6 +84,7 @@ interface SettingsStorage
      */
     public function handleDefaultSettings(Settings $settings, Table $component) : Settings;
 
+
     /**
      * @param string $table_id
      * @param int    $user_id
@@ -90,6 +92,7 @@ interface SettingsStorage
      * @return Settings
      */
     public function read(string $table_id, int $user_id) : Settings;
+
 
     /**
      * @param Settings $settings

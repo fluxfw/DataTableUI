@@ -45,11 +45,13 @@ interface Format
      */
     const OUTPUT_TYPE_PRINT = 1;
 
+
     /**
      * @param string $data
      * @param Table  $component
      */
     public function deliverDownload(string $data, Table $component) : void;
+
 
     /**
      * @param Table $component
@@ -58,20 +60,24 @@ interface Format
      */
     public function getDisplayTitle(Table $component) : string;
 
+
     /**
      * @return string
      */
     public function getFormatId() : string;
+
 
     /**
      * @return int
      */
     public function getOutputType() : int;
 
+
     /**
      * @return object
      */
     public function getTemplate() : object;
+
 
     /**
      * @param Table     $component

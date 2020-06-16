@@ -24,15 +24,18 @@ interface SortField extends JsonSerializable
      */
     const SORT_DIRECTION_UP = 1;
 
+
     /**
      * @return string
      */
     public function getSortField() : string;
 
+
     /**
      * @return int
      */
     public function getSortFieldDirection() : int;
+
 
     /**
      * @inheritDoc
@@ -41,12 +44,14 @@ interface SortField extends JsonSerializable
      */
     public function jsonSerialize() : stdClass;
 
+
     /**
      * @param string $sort_field
      *
      * @return self
      */
     public function withSortField(string $sort_field) : self;
+
 
     /**
      * @param int $sort_field_direction

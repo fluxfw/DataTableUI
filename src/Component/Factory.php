@@ -37,15 +37,18 @@ interface Factory
      */
     public function format() : FormatFactory;
 
+
     /**
      * @param PluginInterface $plugin
      */
     public function installLanguages(PluginInterface $plugin) : void;
 
+
     /**
      * @return SettingsFactory
      */
     public function settings() : SettingsFactory;
+
 
     /**
      * @param string      $table_id

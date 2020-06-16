@@ -24,12 +24,14 @@ interface BrowserFormat extends Format
      */
     public function actionParameter(string $key, string $table_id) : string;
 
+
     /**
      * @param string $table_id
      *
      * @return string
      */
     public function getActionRowId(string $table_id) : string;
+
 
     /**
      * @param string $action_url
@@ -40,6 +42,7 @@ interface BrowserFormat extends Format
      */
     public function getActionUrlWithParams(string $action_url, array $params, string $table_id) : string;
 
+
     /**
      * @param Table $component
      *
@@ -47,12 +50,14 @@ interface BrowserFormat extends Format
      */
     public function getInputFormatId(Table $component) : ?string;
 
+
     /**
      * @param string $table_id
      *
      * @return string[]
      */
     public function getMultipleActionRowIds(string $table_id) : array;
+
 
     /**
      * @param Table    $component

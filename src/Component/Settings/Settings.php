@@ -38,12 +38,14 @@ interface Settings
             800
         ];
 
+
     /**
      * @param SortField $sort_field
      *
      * @return self
      */
     public function addSortField(SortField $sort_field) : self;
+
 
     /**
      * @param string $selected_column
@@ -52,10 +54,12 @@ interface Settings
      */
     public function deselectColumn(string $selected_column) : self;
 
+
     /**
      * @return int
      */
     public function getCurrentPage() : int;
+
 
     /**
      * @param string $key
@@ -64,6 +68,7 @@ interface Settings
      */
     public function getFilterFieldValue(string $key);
 
+
     /**
      * @param mixed[] $key
      *
@@ -71,10 +76,12 @@ interface Settings
      */
     public function getFilterFieldValues() : array;
 
+
     /**
      * @return int
      */
     public function getOffset() : int;
+
 
     /**
      * @param Data|null $data
@@ -85,15 +92,18 @@ interface Settings
      */
     public function getPagination(?Data $data) : Pagination;
 
+
     /**
      * @return int
      */
     public function getRowsCount() : int;
 
+
     /**
      * @return string[]
      */
     public function getSelectedColumns() : array;
+
 
     /**
      * @param string $sort_field
@@ -102,15 +112,18 @@ interface Settings
      */
     public function getSortField(string $sort_field) : ?SortField;
 
+
     /**
      * @return SortField[]
      */
     public function getSortFields() : array;
 
+
     /**
      * @return bool
      */
     public function isFilterSet() : bool;
+
 
     /**
      * @param string $sort_field
@@ -119,12 +132,14 @@ interface Settings
      */
     public function removeSortField(string $sort_field) : self;
 
+
     /**
      * @param string $selected_column
      *
      * @return self
      */
     public function selectColumn(string $selected_column) : self;
+
 
     /**
      * @param int $current_page
@@ -133,12 +148,14 @@ interface Settings
      */
     public function withCurrentPage(int $current_page = 0) : self;
 
+
     /**
      * @param mixed[] $filter_field_values
      *
      * @return self
      */
     public function withFilterFieldValues(array $filter_field_values) : self;
+
 
     /**
      * @param bool $filter_set
@@ -147,6 +164,7 @@ interface Settings
      */
     public function withFilterSet(bool $filter_set = false) : self;
 
+
     /**
      * @param int $rows_count
      *
@@ -154,12 +172,14 @@ interface Settings
      */
     public function withRowsCount(int $rows_count = self::DEFAULT_ROWS_COUNT) : self;
 
+
     /**
      * @param string[] $selected_columns
      *
      * @return self
      */
     public function withSelectedColumns(array $selected_columns) : self;
+
 
     /**
      * @param SortField[] $sort_fields
