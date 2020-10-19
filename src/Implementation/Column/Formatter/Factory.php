@@ -98,6 +98,15 @@ class Factory implements FactoryInterface
     /**
      * @inheritDoc
      */
+    public function image() : Formatter
+    {
+        return new ImageFormatter();
+    }
+
+
+    /**
+     * @inheritDoc
+     */
     public function languageVariable(string $prefix) : Formatter
     {
         return new LanguageVariableFormatter($prefix);

@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.29.0]
+- `ImageFormatter`
+
 ## [0.28.5]
 - Fix double `<a>` in icons
 
