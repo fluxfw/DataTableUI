@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.29.1]
+- Responsive image
+
 ## [0.29.0]
 - `ImageFormatter`
 
