@@ -1,6 +1,7 @@
 {
   "name": "srag/datatable",
   "description": "ILIAS Data Table UI Component",
+  "version": "0.29.1",
   "type": "library",
   "keywords": [
     "ILIAS",
