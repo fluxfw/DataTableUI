@@ -16,7 +16,7 @@ use srag\DataTableUI\Implementation\Settings\Factory as SettingsFactory;
 use srag\DataTableUI\Implementation\Utils\DataTableUITrait;
 use srag\DIC\DICTrait;
 use srag\DIC\Plugin\PluginInterface;
-use srag\DIC\Util\LibraryLanguageInstaller;
+use srag\LibraryLanguageInstaller\LibraryLanguageInstaller;
 
 /**
  * Class Factory
