@@ -1,7 +1,7 @@
 {
   "name": "srag/datatable",
   "description": "ILIAS Data Table UI Component",
-  "version": "0.30.0",
+  "version": "0.30.1",
   "extra": {
     "ilias_plugin": {
       "ilias_min_version": "5.4.0",
@@ -48,7 +48,7 @@
     "sort-packages": true
   },
   "scripts": {
-    "pre-autoload-dump": [
+    "generate-plugin-readme": [
       "srag\\GeneratePluginInfosHelper\\GeneratePluginReadme::generatePluginReadme"
     ]
   }

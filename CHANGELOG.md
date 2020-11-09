@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.30.1]
+- Generate readme
+
 ## [0.30.0]
 - Generate readme
 
