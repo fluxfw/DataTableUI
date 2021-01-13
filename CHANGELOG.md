@@ -1,5 +1,8 @@
 # Changelog
 
+## [0.31.0]
+- `MultilineFormatter`
+
 ## [0.30.3]
 - Supports arrays and raw method name in `ChainGetterFormatter`
 
