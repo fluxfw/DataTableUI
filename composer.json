@@ -11,9 +11,9 @@
   },
   "type": "library",
   "keywords": [
-    "ILIAS",
-    "Table",
-    "UI"
+    "ilias",
+    "table",
+    "ui"
   ],
   "homepage": "https://github.com/studer-raimann/DataTableUI",
   "license": "GPL-3.0-only",
