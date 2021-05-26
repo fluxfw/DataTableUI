@@ -10,9 +10,6 @@ use srag\DataTableUI\Component\Format\Format;
  * Class LanguageVariableFormatter
  *
  * @package srag\DataTableUI\Implementation\Column\Formatter
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
- * @author  Theodor Truffer <tt@studer-raimann.ch>
  */
 class LanguageVariableFormatter extends DefaultFormatter
 {

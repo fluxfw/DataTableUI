@@ -17,8 +17,6 @@ use srag\DIC\DICTrait;
  * Class Renderer
  *
  * @package srag\DataTableUI\Implementation
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 class Renderer extends AbstractComponentRenderer
 {
