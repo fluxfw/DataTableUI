@@ -10,8 +10,6 @@ use srag\DataTableUI\Component\Settings\Storage\Factory as StorageFactory;
  * Interface Factory
  *
  * @package srag\DataTableUI\Component\Settings
- *
- * @author  studer + raimann ag - Team Custom 1 <support-custom1@studer-raimann.ch>
  */
 interface Factory
 {
